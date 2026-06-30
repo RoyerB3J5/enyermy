@@ -3,6 +3,7 @@ import { Merriweather, Figtree } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import CartDrawer from "@/components/shop/CartDrawer";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/fondo.png", 
+        url: "/images/fondo.png",
       },
     ],
     locale: "en_US",
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@EnyermyStudioPro",
-    images: ["/images/fondo.png"], 
+    images: ["/images/fondo.png"],
   },
   other: {
     "geo.region": "US-FL",
@@ -85,6 +86,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <CartDrawer />
       </body>
     </html>
   );

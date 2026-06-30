@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import ChangeLanguage from "@/components/ui/ChangeLanguage";
+import CartIconHeader from "../ui/CartIconHeader";
 
 // Multilingual content structure (to be populated/expanded later)
 const content = {
@@ -26,6 +27,12 @@ const content = {
     { label: "About Us", href: "/about-us" },
     { label: "Blog", href: "/blog" },
   ],
+  navBundles: [
+    { label: "Hair Salon Services", href: "/salon-experience/services" },
+    { label: "Our Stylists", href: "/salon-experience/stylists" },
+    { label: "About Us", href: "/about-us" },
+    { label: "Blog", href: "/blog" },
+  ],
   store: "Store Location",
 };
 
@@ -42,6 +49,8 @@ export default function Header() {
     pathname.replace(/^\/(en|es)/, "").replace(/\/$/, "") || "/";
   const match = pathname.match(/^\/(en|es)/);
   const lang = match ? match[1] : "en";
+  const isSalonExperience = normalized.startsWith("/salon-experience");
+  const currentNav = isSalonExperience ? content.navBundles : content.nav;
 
   useEffect(() => {
     const header = headerRef.current;
@@ -57,17 +66,6 @@ export default function Header() {
         ? (firstSection as HTMLElement).offsetHeight
         : window.innerHeight;
 
-      // Handle background color and top bar visibility
-      if (scrollY >= threshold) {
-        header.style.backgroundColor = "var(--color-primary-rgb)";
-        if (topBar) topBar.style.display = "none";
-      } else {
-        header.style.backgroundColor = "transparent";
-        if (topBar && window.innerWidth >= 768) {
-          topBar.style.display = "flex";
-        }
-      }
-
       // Handle hiding/showing on scroll direction (replaces GSAP ScrollTrigger)
       if (scrollY > lastScrollY.current && scrollY > 0) {
         header.style.transform = "translateY(-120%)";
@@ -80,9 +78,14 @@ export default function Header() {
 
     const updateHeaderHeight = () => {
       const height = header.offsetHeight;
+      const heightTopBar = topBar ? topBar.offsetHeight : 0;
       document.documentElement.style.setProperty(
         "--header-height",
         `${height}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--top-bar-height",
+        `${heightTopBar}px`,
       );
     };
 
@@ -113,12 +116,18 @@ export default function Header() {
 
   useEffect(() => {
     const headerElement = document.getElementById("main-header");
+    const topBarElement = document.getElementById("top-header");
     if (headerElement) {
       const height = headerElement.offsetHeight;
+      const heightTopBar = topBarElement ? topBarElement.offsetHeight : 0;
       // Guardamos el valor directamente en la raíz de la página como variable CSS
       document.documentElement.style.setProperty(
         "--header-height",
         `${height}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--top-bar-height",
+        `${heightTopBar}px`,
       );
     }
   }, []);
@@ -133,130 +142,150 @@ export default function Header() {
       >
         <div
           ref={topBarRef}
+          id="top-header"
           className="w-full flex justify-center items-center pt-2 bg-black"
         >
           <div className="container-full flex justify-start items-center">
-            {content.changePage.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className={`px-4 py-1 rounded-t-lg   ${item.href == "/" ? "bg-white text-primary" : "bg-transparent text-white"} transition-all duration-300 ease-in-out`}
-              >
-                <p className="paragraph-small">{item.label}</p>
-              </Link>
-            ))}
+            {content.changePage.map((item, index) => {
+              const isActive =
+                item.href === "/" ? !isSalonExperience : isSalonExperience;
+
+              return (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`px-4 py-1 rounded-t-lg transition-all duration-300 ease-in-out ${
+                    isActive
+                      ? "bg-white text-primary" 
+                      : "bg-transparent text-white" 
+                  }`}
+                >
+                  <p className="paragraph-small">{item.label}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
         {/* Main Navigation Bar */}
-        <div className="w-full flex justify-between items-center relative py-4 bg-white container-full">
-          <div className="relative bg-transparent flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out">
-            <nav>
-              <ul className="hidden relative lg:flex items-center flex-row justify-center w-auto">
-                {content.nav.map((item, index) => {
-                  const itemPathWithoutHash = item.href.split("#")[0];
-                  const isActive = normalized === itemPathWithoutHash;
-                  return (
-                    <li
-                      key={index}
-                      className={`flex flex-row items-center justify-center group  w-auto text-center px-4 py-2`}
-                    >
-                      <Link
-                        href={`${item.href}`}
-                        className="relative transition-colors duration-300 flex justify-center items-center"
+        <div
+          className={`w-full flex justify-center items-center transition-colors duration-300 ${
+            normalized === "/"
+              ? "bg-transparent text-white"
+              : "bg-white text-primary"
+          }`}
+        >
+          <div className="container-full flex justify-between items-center py-4">
+            <div className="relative bg-transparent flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out">
+              <nav>
+                <ul className="hidden relative lg:flex items-center flex-row justify-center w-auto">
+                  {currentNav.map((item, index) => {
+                    const itemPathWithoutHash = item.href.split("#")[0];
+                    const isActive = normalized === itemPathWithoutHash;
+                    return (
+                      <li
+                        key={index}
+                        className={`flex flex-row items-center justify-center group  w-auto text-center px-4 py-2`}
                       >
-                        <p
-                          className={`paragraph transition-all duration-300 ease-in-out text-primary`}
+                        <Link
+                          href={`${item.href}`}
+                          className="relative transition-colors duration-300 flex justify-center items-center"
                         >
-                          {item.label}
-                        </p>
-                        <span
-                          className={`absolute -bottom-2 left-1/2 h-0.5 bg-primary transition-all duration-300 ease-out -translate-x-1/2 ${
-                            isActive
-                              ? "w-8"
-                              : "w-0 group-hover:w-8 group-hover:bg-accent"
-                          }`}
-                        />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-          </div>
-          <Link
-            href={`/`}
-            aria-label="Ir a la página principal"
-            title="Enerymy Studio Pro - Init"
-          >
-            <Image
-              src={logo}
-              alt="Logo Enyermy Studio Pro"
-              width={158}
-              height={48}
-              className="w-[158px] h-auto block"
-              priority
-            />
-          </Link>
-          <div className="flex justify-center items-center ">
-            <div className="flex justify-center items-center p-2 gap-2.5">
-              <Image
-                src="/images/map-pin.svg"
-                alt="Map Pin"
-                width="16"
-                height="16"
-                className="w-4 h-auto block"
-              />
-              <Link href="/location">
-                <p>{content.store}</p>
-              </Link>
-            </div>
-            <div className="w-10.5 h-10.5 flex justify-center items-center cursor-pointer">
-              <Image
-                src="/images/search.svg"
-                alt="Buscar"
-                width="16"
-                height="16"
-                className="w-3 h-auto block"
-              />
+                          <p
+                            className={`paragraph transition-all duration-300 ease-in-out text-primary font-medium`}
+                          >
+                            {item.label}
+                          </p>
+                          <span
+                            className={`absolute -bottom-2 left-1/2 h-0.5 bg-primary transition-all duration-300 ease-out -translate-x-1/2 ${
+                              isActive
+                                ? "w-8"
+                                : "w-0 group-hover:w-8 group-hover:bg-accent"
+                            }`}
+                          />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
             </div>
             <Link
-              href="#"
-              className="w-10.5 h-10.5 flex justify-center items-center "
+              href={`/${isSalonExperience ? "salon-experience" : ""}`}
+              aria-label={
+                isSalonExperience
+                  ? "Ir a la página principal de Salon Experience"
+                  : "Ir a la página principal"
+              }
+              title={
+                isSalonExperience
+                  ? "Enyermy Studio Pro - Salon Experience"
+                  : "Enyermy Studio Pro - Init"
+              }
             >
               <Image
-                src="/images/user.svg"
-                alt="Usuario"
-                width="16"
-                height="16"
-                className="w-4 h-auto block"
+                src={logo}
+                alt="Logo Enyermy Studio Pro"
+                width={158}
+                height={48}
+                className="w-[158px] h-auto block"
+                priority
               />
             </Link>
-            <div className="w-10.5 h-10.5 flex justify-center items-center cursor-pointer">
-              <Image
-                src="/images/cart.svg"
-                alt="Carrito"
-                width="12"
-                height="14"
-                className="w-3 h-auto block"
-              />
+            <div className="flex justify-center items-center ">
+              <div className="flex justify-center items-center p-2 gap-2.5">
+                <Image
+                  src="/images/map-pin.svg"
+                  alt="Map Pin"
+                  width="16"
+                  height="16"
+                  className="w-4 h-auto block"
+                />
+                <Link href="/location">
+                  <p className="text-primary paragraph font-normal">
+                    {content.store}
+                  </p>
+                </Link>
+              </div>
+              <div className="w-10.5 h-10.5 flex justify-center items-center cursor-pointer">
+                <Image
+                  src="/images/search.svg"
+                  alt="Buscar"
+                  width="16"
+                  height="16"
+                  className="w-3 h-auto block"
+                />
+              </div>
+              <Link
+                href="#"
+                className="w-10.5 h-10.5 flex justify-center items-center "
+              >
+                <Image
+                  src="/images/user.svg"
+                  alt="Usuario"
+                  width="16"
+                  height="16"
+                  className="w-4 h-auto block"
+                />
+              </Link>
+              <CartIconHeader />
+              <button
+                type="button"
+                aria-label="Abrir menú de navegación"
+                title="Abrir menú"
+                className="flex lg:hidden items-center justify-center cursor-pointer w-8 h-8 bg-accent rounded-sm"
+                id="hamburger-btn"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <img
+                  src="/images/hamburger.svg"
+                  alt="Menú"
+                  width="18"
+                  height="12"
+                  className="w-3 h-auto block"
+                />
+              </button>
             </div>
-            <button
-              type="button"
-              aria-label="Abrir menú de navegación"
-              title="Abrir menú"
-              className="flex lg:hidden items-center justify-center cursor-pointer w-8 h-8 bg-accent rounded-sm"
-              id="hamburger-btn"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <img
-                src="/images/hamburger.svg"
-                alt="Menú"
-                width="18"
-                height="12"
-                className="w-3 h-auto block"
-              />
-            </button>
           </div>
         </div>
       </header>
@@ -327,9 +356,9 @@ export default function Header() {
           </ul>
         </nav>
 
-        <div className="flex flex-col justify-center items-center gap-5 w-full px-4">
+        {/*<div className="flex flex-col justify-center items-center gap-5 w-full px-4">
           <Button />
-        </div>
+        </div>*/}
       </div>
     </>
   );

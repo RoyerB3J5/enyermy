@@ -69,7 +69,7 @@ export default function Footer() {
                   <li key={index}>
                     <Link
                       href={`${item.href}`}
-                      className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out"
+                      className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                     >
                       {item.label}
                     </Link>
@@ -78,8 +78,8 @@ export default function Footer() {
               </ul>
             </div>
             <div className="flex justify-start items-center gap-4">
-              {socialMedia.map((item,index) => (
-                <Link href={item.href} key={index} >
+              {socialMedia.map((item, index) => (
+                <Link href={item.href} key={index}>
                   <Image
                     src={`/images/${item.icon}.svg`}
                     width={24}
@@ -104,7 +104,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={`${item.href}`}
-                    className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out"
+                    className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                   >
                     {item.label}
                   </Link>
@@ -123,7 +123,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={`/locations`}
-                    className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out"
+                    className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                   >
                     {item}
                   </Link>
@@ -138,7 +138,7 @@ export default function Footer() {
               <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
                 {content.aboutUs.title}
               </h3>
-              <p className="paragraph text-white">
+              <p className="paragraph text-white font-medium">
                 {content.aboutUs.description}
               </p>
             </div>
@@ -174,7 +174,7 @@ export default function Footer() {
               className="w-27.5 lg:w-34 h-auto block "
             />
           </Link>
-          <p className="text-[10px] lg:text-[12px] lg:text-[13px] leading-[170%] lg:leading-[120%] text-[#404040] dark:text-paragraph-dark font-normal text-center">
+          <p className="text-[10px] lg:text-[12px] lg:text-[13px] leading-[170%] lg:leading-[120%] text-[#404040]  font-normal text-center">
             Copyright © 2026 by{" "}
             <Link
               href="https://inkshapegroup.com"

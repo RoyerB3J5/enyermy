@@ -4,6 +4,7 @@
   --font-family: var(--font-figtree);
   --font-title: var(--font-merriweather);
   --color-primary: #151515;
+  --color-primary-light: #717171;
   --color-primary-rgb: 0, 37, 108;
   --color-secondary: #b8b8b8;
   --color-thirdary: #e7e7e7;
@@ -48,7 +49,6 @@ html {
 
 .paragraph {
   font-size: 17px;
-  font-weight: 400;
   line-height: 150%;
 }
 @media (max-width: 769px) {
@@ -65,5 +65,106 @@ html {
 @media (max-width: 769px) {
   .paragraph-xx-small {
     font-size: 12px;
+  }
+}
+
+.paragraph-x-small {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+@media (max-width: 769px) {
+  .paragraph-x-small {
+    font-size: 13px;
+  }
+}
+
+.paragraph-x-large {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 150%;
+  text-transform: uppercase;
+}
+@media (max-width: 769px) {
+  .paragraph-x-large {
+    font-size: 15px;
+  }
+}
+
+.title-h1 {
+  font-size: 66px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h1 {
+    font-size: 15px;
+  }
+}
+
+.title-h2 {
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h2 {
+    font-size: 15px;
+  }
+}
+.title-h3 {
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h3 {
+    font-size: 15px;
+  }
+}
+
+.title-h4 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h4 {
+    font-size: 24px;
+  }
+}
+
+.title-h5 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h5 {
+    font-size: 24px;
+  }
+}
+
+.title-h6 {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+}
+@media (max-width: 769px) {
+  .title-h6 {
+    font-size: 17px;
   }
 }

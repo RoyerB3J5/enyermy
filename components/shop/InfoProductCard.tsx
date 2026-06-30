@@ -1,0 +1,37 @@
+import Image from "next/image";
+import Button from "../ui/Button";
+interface InfoProductCardProps {
+  information: {
+    image: string;
+    title: string;
+    href: string;
+    position: string;
+    colorText: string;
+    labelButton: string;
+  };
+}
+
+export default function InfoProductCard({ information }: InfoProductCardProps) {
+  return (
+    <div
+      className={`relative w-full h-full rounded-2xl overflow-hidden flex flex-col justify-end gap-5 p-8 ${information.position === "left" ? "items-start" : "items-end"}`}
+    >
+      <Image
+        src={`/images/${information.image}.webp`}
+        alt={information.title}
+        width="326"
+        height="410"
+        className="w-full h-full object-cover absolute object-center inset-0 z-0"
+      />
+      <p
+        className={`text-${information.colorText} title-h4 z-1 ${information.position === "left" ? "text-left" : "text-right"}`}
+        dangerouslySetInnerHTML={{ __html: information.title }}
+      />
+      <Button
+        href={information.href}
+        label={information.labelButton}
+        styleButton="white"
+      />
+    </div>
+  );
+}
