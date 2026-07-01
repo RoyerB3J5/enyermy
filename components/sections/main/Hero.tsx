@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -32,15 +32,20 @@ export default function Hero({ content }: HeroProps) {
       />
       <div className="container-full flex justify-start items-center relative z-10">
         <div className="flex flex-col justify-center items-start  gap-6 max-w-200 translate-y-[20%]">
-          <div className="flex flex-col justify-center items-start gap-2 text-primary">
+          <div
+            className={`flex flex-col justify-center items-start gap-2 ${normalized === "/" ? "text-primary" : "text-white"}`}
+          >
             <p className="paragraph-x-large tracking-[-0.5px]">{content.tag}</p>
-            <h1 className="title-h1">{content.title}</h1>
+            <h1
+              className="title-h1"
+              dangerouslySetInnerHTML={{ __html: content.title }}
+            />
             <p className="paragraph font-normal">{content.description}</p>
           </div>
           <Button
             label={content.button.text}
             href={content.button.link}
-            styleButton="black"
+            styleButton={normalized === "/" ? "black" : "white"}
             paddingX="px-6"
           />
         </div>

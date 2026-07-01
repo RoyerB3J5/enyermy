@@ -24,7 +24,7 @@ const infoProductContent = [
   },
   {
     image: "info-product-3",
-    title: "Blonde and Brassy Hair",
+    title: "From Brassy <br/> to Blonde",
     href: "#",
     position: "right",
     colorText: "white",

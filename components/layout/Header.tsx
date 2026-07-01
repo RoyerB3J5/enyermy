@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import logo from "@/public/images/logo.svg";
+import logoWhite from "@/public/images/logo-white.svg";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import ChangeLanguage from "@/components/ui/ChangeLanguage";
 import CartIconHeader from "../ui/CartIconHeader";
+import { MapPin, Menu, Search, User } from "lucide-react";
 
 // Multilingual content structure (to be populated/expanded later)
 const content = {
@@ -47,6 +49,13 @@ export default function Header() {
   // Normalize: remove language prefix (en/es) and trailing slash
   const normalized =
     pathname.replace(/^\/(en|es)/, "").replace(/\/$/, "") || "/";
+  const headerClasses =
+    normalized === "/"
+      ? "bg-transparent text-primary"
+      : ["/salon-experience", "/about"].includes(normalized)
+        ? "bg-transparent text-white"
+        : "bg-white text-primary";
+
   const match = pathname.match(/^\/(en|es)/);
   const lang = match ? match[1] : "en";
   const isSalonExperience = normalized.startsWith("/salon-experience");
@@ -156,8 +165,8 @@ export default function Header() {
                   href={item.href}
                   className={`px-4 py-1 rounded-t-lg transition-all duration-300 ease-in-out ${
                     isActive
-                      ? "bg-white text-primary" 
-                      : "bg-transparent text-white" 
+                      ? "bg-white text-primary"
+                      : "bg-transparent text-white"
                   }`}
                 >
                   <p className="paragraph-small">{item.label}</p>
@@ -170,9 +179,7 @@ export default function Header() {
         {/* Main Navigation Bar */}
         <div
           className={`w-full flex justify-center items-center transition-colors duration-300 ${
-            normalized === "/"
-              ? "bg-transparent text-white"
-              : "bg-white text-primary"
+            headerClasses
           }`}
         >
           <div className="container-full flex justify-between items-center py-4">
@@ -192,12 +199,12 @@ export default function Header() {
                           className="relative transition-colors duration-300 flex justify-center items-center"
                         >
                           <p
-                            className={`paragraph transition-all duration-300 ease-in-out text-primary font-medium`}
+                            className={`paragraph transition-all duration-300 ease-in-out ${headerClasses.includes("text-white") ? "text-white" : "text-primary"} font-normal`}
                           >
                             {item.label}
                           </p>
                           <span
-                            className={`absolute -bottom-2 left-1/2 h-0.5 bg-primary transition-all duration-300 ease-out -translate-x-1/2 ${
+                            className={`absolute -bottom-2 left-1/2 h-0.5 ${headerClasses.includes("text-white") ? "bg-white" : "bg-primary"} transition-all duration-300 ease-out -translate-x-1/2 ${
                               isActive
                                 ? "w-8"
                                 : "w-0 group-hover:w-8 group-hover:bg-accent"
@@ -224,7 +231,7 @@ export default function Header() {
               }
             >
               <Image
-                src={logo}
+                src={headerClasses.includes("text-white") ? logoWhite : logo}
                 alt="Logo Enyermy Studio Pro"
                 width={158}
                 height={48}
@@ -234,41 +241,35 @@ export default function Header() {
             </Link>
             <div className="flex justify-center items-center ">
               <div className="flex justify-center items-center p-2 gap-2.5">
-                <Image
-                  src="/images/map-pin.svg"
-                  alt="Map Pin"
-                  width="16"
-                  height="16"
-                  className="w-4 h-auto block"
+                <MapPin
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
+
                 <Link href="/location">
-                  <p className="text-primary paragraph font-normal">
+                  <p
+                    className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  >
                     {content.store}
                   </p>
                 </Link>
               </div>
               <div className="w-10.5 h-10.5 flex justify-center items-center cursor-pointer">
-                <Image
-                  src="/images/search.svg"
-                  alt="Buscar"
-                  width="16"
-                  height="16"
-                  className="w-3 h-auto block"
+                <Search
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
               </div>
               <Link
                 href="#"
                 className="w-10.5 h-10.5 flex justify-center items-center "
               >
-                <Image
-                  src="/images/user.svg"
-                  alt="Usuario"
-                  width="16"
-                  height="16"
-                  className="w-4 h-auto block"
+                <User
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
               </Link>
-              <CartIconHeader />
+
+              <CartIconHeader
+                differentStyles={headerClasses.includes("text-white")}
+              />
               <button
                 type="button"
                 aria-label="Abrir menú de navegación"
@@ -277,12 +278,8 @@ export default function Header() {
                 id="hamburger-btn"
                 onClick={() => setIsMobileMenuOpen(true)}
               >
-                <img
-                  src="/images/hamburger.svg"
-                  alt="Menú"
-                  width="18"
-                  height="12"
-                  className="w-3 h-auto block"
+                <Menu
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
               </button>
             </div>

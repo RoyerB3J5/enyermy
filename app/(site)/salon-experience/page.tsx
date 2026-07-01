@@ -2,11 +2,12 @@ import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
 import Bundles from "@/components/sections/main/Bundles";
 import Hero from "@/components/sections/main/Hero";
+import StylistsItem from "@/components/sections/StylistsItem";
 const content = {
   hero: {
-    tag: "Personalized services. Stunning results.",
-    title: "Your Hair. Our Passion.",
-    description: "Color Correction And Hair Extention",
+    tag: "color correction and hair extention",
+    title: "Beauty Rooted <br/> in Purpose",
+    description: "Experts. Artistry. Experience.",
     button: {
       text: "BOOK APPOINTMENT",
       link: "#",
@@ -35,6 +36,24 @@ const content = {
     },
     image: "salon-experience/luxury-main",
   },
+  professional: {
+    title: "For Professionals",
+    info: {
+      image: "enyermy",
+      tag: "Personalized Consultation",
+      name: "Let's Create Your Signature Look",
+      description:
+        "Receive expert recommendations and a customized service plan designed to achieve your ideal hair transformation.",
+      list: [],
+      media: false,
+      button: {
+        label: "Book now",
+        href: "#",
+      },
+      bgColor: "bg-morado",
+      imageFirst: false,
+    },
+  },
 };
 export default function SalonExperience() {
   return (
@@ -43,6 +62,10 @@ export default function SalonExperience() {
       <Bundles content={content.tranformation} textWhite={true} />
       <CallEmail />
       <Bundles content={content.luxury} />
+      <section className="flex flex-col justify-center items-center pt-16 gap-8 w-full">
+        <h2 className="title-h4 text-primary">{content.professional.title}</h2>
+        <StylistsItem content={content.professional.info} />
+      </section>
       <CarouselReview />
     </main>
   );

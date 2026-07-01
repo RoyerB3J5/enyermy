@@ -8,6 +8,10 @@
   --color-primary-rgb: 0, 37, 108;
   --color-secondary: #b8b8b8;
   --color-thirdary: #e7e7e7;
+  --color-verde: #ecf5e9;
+  --color-morado: #e3daea;
+  --color-rojo: #faece6;
+  --color-azul: #e5f2ff;
   --breakpoint-xs: 400px;
   --breakpoint-3xl: 106rem;
 }
