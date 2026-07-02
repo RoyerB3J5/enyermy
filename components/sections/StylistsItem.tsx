@@ -17,23 +17,24 @@ interface StylistsItemProps {
     bgColor: string;
     imageFirst: boolean;
   };
+  changeAspectRatio?: boolean;
 }
 const linkContent = {
   text: "@enyermystudiopro →",
   href: "#",
 };
-export default function StylistsItem({ content }: StylistsItemProps) {
+export default function StylistsItem({ content, changeAspectRatio }: StylistsItemProps) {
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full">
       <Image
-        className={`w-full h-auto aspect-720/660 ${content.imageFirst ? "order-1" : "order-2"} object-cover`}
+        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500" : "aspect-720/660"} ${content.imageFirst ? "order-1" : "order-2"} object-cover`}
         src={`/images/salon-experience/stylists/${content.image}.webp`}
         alt={content.name}
         width={720}
         height={660}
       />
       <div
-        className={`w-full h-auto aspect-720/660 ${
+        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500" : "aspect-720/660"} ${
           content.imageFirst ? "order-2" : "order-1"
         } ${content.bgColor} flex items-center ${
           content.imageFirst
@@ -49,8 +50,8 @@ export default function StylistsItem({ content }: StylistsItemProps) {
               <p className="paragraph-x-large tracking-[-0.5px]">
                 {content.tag}
               </p>
-              <h2 className="title-h4">{content.name}</h2>
-              <p className="w-[85%] 3xl:w-[85%] paragraph font-normal tracking-[-0.5px]">
+              <h2 className="title-h4" dangerouslySetInnerHTML={{ __html: content.name }} />
+              <p className={` ${changeAspectRatio ? "w-[85%] 3xl:w-[82%]" : "w-[85%] 3xl:w-[85%]"} paragraph font-normal tracking-[-0.5px]`}>
                 {content.description}
               </p>
               {content.list.length > 0 && (

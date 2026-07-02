@@ -52,7 +52,7 @@ export default function Header() {
   const headerClasses =
     normalized === "/"
       ? "bg-transparent text-primary"
-      : ["/salon-experience", "/about"].includes(normalized)
+      : ["/salon-experience", "/about-us"].includes(normalized)
         ? "bg-transparent text-white"
         : "bg-white text-primary";
 
