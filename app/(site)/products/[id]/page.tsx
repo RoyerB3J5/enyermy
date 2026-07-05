@@ -4,7 +4,7 @@ import AddInfo from "@/components/sections/producstItem/AddInfo";
 import Banner from "@/components/sections/producstItem/Banner";
 import MainInfo from "@/components/sections/producstItem/MainInfo";
 import Recomendations from "@/components/sections/producstItem/Recomendations";
-import { getProcessedProductById } from "@/lib/catalog";
+import { getProcessedProductById, getProductTest } from "@/lib/catalog";
 
 import type { Metadata } from "next";
 
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 export default async function ProductsItem({ params }: Props) {
   const { id } = await params;
   //const content = await getProcessedProductById(id);
+  //const product = await getProductTest("RWWOD63LXUCDONR3E3M7KS6G");
   const content = {
     id: "RWWOD63LXUCDONR3E3M7KS6G",
     nombre: "Bonding Mask",
@@ -37,10 +38,12 @@ export default async function ProductsItem({ params }: Props) {
     ],
     variaciones: [
       {
+        id: "LAH5P56S2JYNN3RSXF77GSZK",
         nombre: "8 oz",
         precio: "45.00",
       },
       {
+        id: "5O4Y6FTTDMXDVF3V3BJFYIAQ",
         nombre: "32 oz",
         precio: "45.00",
       },
@@ -137,11 +140,6 @@ export default async function ProductsItem({ params }: Props) {
   return (
     <main className="w-full flex flex-col justify-center items-center">
       <MainInfo contentProduct={content} />
-      <AddInfo contentProduct={content} />
-      <Recomendations content={contentRecomendations} />
-      <Banner contentProduct={content} />
-      <CallEmail />
-      <CarouselReview />
       <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
         <code>
           {JSON.stringify(
@@ -152,6 +150,11 @@ export default async function ProductsItem({ params }: Props) {
           )}
         </code>
       </pre>
+      <AddInfo contentProduct={content} />
+      <Recomendations content={contentRecomendations} />
+      <Banner contentProduct={content} />
+      <CallEmail />
+      <CarouselReview />
     </main>
   );
 }

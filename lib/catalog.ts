@@ -80,9 +80,13 @@ export async function getProcessedProductById(
     }
 
     const itemData = product.itemData;
+    const customAttrRaw = product.customAttributeValues || {};
 
-    // A. Descripción -> Convertir a Array limpio separado por comas
-    const descripcionRaw = itemData.description || "";
+    // A. Descripción -> Obtener de los atributos personalizados y convertir a Array limpio separado por comas
+    const descriptionAttr = Object.values(customAttrRaw).find(
+      (attr) => attr.name?.toLowerCase().trim() === "lista",
+    );
+    const descripcionRaw = descriptionAttr?.stringValue || "";
     const descripcionArray = descripcionRaw
       ? descripcionRaw.split(",").map((texto) => texto.trim())
       : [];
@@ -109,6 +113,7 @@ export async function getProcessedProductById(
           const vData = v.itemVariationData;
           const priceAmount = vData.priceMoney?.amount;
           return {
+            id: v.id,
             nombre: vData.name || "Única",
             precio: priceAmount
               ? (Number(priceAmount) / 100).toFixed(2)
@@ -120,8 +125,6 @@ export async function getProcessedProductById(
       .filter((v): v is NonNullable<typeof v> => v !== null);
 
     // D. Separación Quirúrgica de Atributos (Table vs Raíz Dinámica)
-    const customAttrRaw = product.customAttributeValues || {};
-    
     const table: { nombre: string; valor: string }[] = [];
     const otrosAtributos: Record<string, string> = {};
 
@@ -132,9 +135,41 @@ export async function getProcessedProductById(
       "hero ingredient",
       "hair concerns",
       "technology",
-      "rich in"
+      "rich in",
     ];
 
+    // Procesar atributo "Table" si existe
+    const tableAttr = Object.values(customAttrRaw).find(
+      (attr) => attr.name?.toLowerCase().trim() === "table",
+    );
+    const tableAttrValue = tableAttr?.stringValue || "";
+
+    if (tableAttrValue) {
+      const parts = tableAttrValue.split(".").map((p) => p.trim());
+      targetTableKeys.forEach((key, index) => {
+        const valor = parts[index] || "";
+        if (valor) {
+          const nombre = key.charAt(0).toUpperCase() + key.slice(1);
+          table.push({ nombre, valor });
+        }
+      });
+    }
+
+    // Procesar atributo "Banner" si existe
+    const bannerAttr = Object.values(customAttrRaw).find(
+      (attr) => attr.name?.toLowerCase().trim() === "banner",
+    );
+    const bannerAttrValue = bannerAttr?.stringValue || "";
+
+    if (bannerAttrValue) {
+      const parts = bannerAttrValue.split(".");
+      const title = parts[0]?.trim() || "";
+      const description = parts.slice(1).join(".").trim() || "";
+      otrosAtributos["Banner Title"] = title;
+      otrosAtributos["Banner Description"] = description;
+    }
+
+    // Mapear el resto de los atributos
     Object.values(customAttrRaw).forEach((attr) => {
       const name = attr.name || "";
       const valor = attr.stringValue || "";
@@ -142,15 +177,19 @@ export async function getProcessedProductById(
       // Si no tiene valor real, lo ignoramos
       if (!valor) return;
 
-      // Verificamos si pertenece a los elegidos de la tabla (Case Insensitive)
-      const isTableAttribute = targetTableKeys.includes(name.toLowerCase().trim());
+      const normalizedName = name.toLowerCase().trim();
 
-      if (isTableAttribute) {
-        table.push({ nombre: name, valor });
-      } else {
-        // Si no va en la tabla, se vuelve una propiedad directa llave-valor
-        otrosAtributos[name] = valor;
+      // Ignoramos los atributos especiales que ya procesamos de forma separada
+      if (
+        normalizedName === "description" ||
+        normalizedName === "table" ||
+        normalizedName === "banner"
+      ) {
+        return;
       }
+
+      // Si no es un atributo especial, se vuelve una propiedad directa llave-valor
+      otrosAtributos[name] = valor;
     });
 
     // Unimos las propiedades base, el array 'table' y esparcimos los atributos planos
@@ -162,6 +201,24 @@ export async function getProcessedProductById(
       variaciones,
       table,
       ...otrosAtributos, // Agrega directamente "Brand": "...", "Description-2": "..." a la raíz
+    };
+  } catch (error) {
+    console.error(`Error obteniendo el producto ${id}:`, error);
+    return null;
+  }
+}
+
+export async function getProductTest(
+  id: string,
+): Promise<{ product: any } | null> {
+  try {
+    const response = await square.catalog.object.get({
+      objectId: id,
+      includeRelatedObjects: true,
+    });
+    const product = response.object;
+    return {
+      product,
     };
   } catch (error) {
     console.error(`Error obteniendo el producto ${id}:`, error);

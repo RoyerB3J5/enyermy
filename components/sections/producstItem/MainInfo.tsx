@@ -63,7 +63,7 @@ export default function MainInfo({
     const selectedVariation = contentProduct.variaciones[variationIndex];
     cartStore.addItem(
       {
-        id: `${contentProduct.id}-${selectedVariation.nombre}`,
+        id: `${selectedVariation.id}`,
         name: `${contentProduct.nombre} (${selectedVariation.nombre})`,
         price: selectedVariation.precio,
         image: contentProduct.imagenes[0] || "",

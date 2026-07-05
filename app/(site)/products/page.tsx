@@ -12,6 +12,14 @@ export const metadata: Metadata = {
   description: "Complete catalog of products",
 };
 
+const content = {
+  image: "hero-products",
+  tag: "Professional Hair Care For Every Need",
+  title: "Discover Every Solution",
+  description:
+    "Explore our complete collection of expertly crafted formulas designed to \n hydrate, repair, protect, and enhance every hair type.",
+};
+
 export default async function ProductsPage() {
   // const productos = await getLightProducts();
   const productos: LightProduct[] = [
@@ -35,7 +43,7 @@ export default async function ProductsPage() {
 
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height)">
-      <Hero />
+      <Hero content={content} />
       <GridProducts content={productos} />
       <CallEmail />
       <CarouselReview />

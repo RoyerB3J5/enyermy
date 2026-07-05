@@ -30,7 +30,7 @@ const content = {
     { label: "Blog", href: "/blog" },
   ],
   navBundles: [
-    { label: "Hair Salon Services", href: "/salon-experience/services" },
+    { label: "Our Locations", href: "/salon-experience/locations" },
     { label: "Our Stylists", href: "/salon-experience/stylists" },
     { label: "About Us", href: "/about-us" },
     { label: "Blog", href: "/blog" },

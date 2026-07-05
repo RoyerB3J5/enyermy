@@ -13,6 +13,7 @@ export interface FrontendProductDetail {
   descripcionArray: string[];
   imagenes: string[];
   variaciones: {
+    id:string
     nombre: string;
     precio: string;
   }[];

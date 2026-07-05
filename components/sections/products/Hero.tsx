@@ -1,15 +1,16 @@
 "use client";
 import Image from "next/image";
-const content = {
-  image: "hero-products",
-  tag: "Professional Hair Care For Every Need",
-  title: "Discover Every Solution",
-  description:
-    "Explore our complete collection of expertly crafted formulas designed to \n hydrate, repair, protect, and enhance every hair type.",
-};
-export default function Hero() {
+interface HeroProps {
+  content: {
+    image: string;
+    tag: string;
+    title: string;
+    description: string;
+  };
+}
+export default function Hero({ content }: HeroProps) {
   return (
-    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative overflow-hidden">
+    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative overflow-hidden ">
       <Image
         src={`/images/${content.image}.webp`}
         alt={content.title}

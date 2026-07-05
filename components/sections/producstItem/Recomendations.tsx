@@ -1,3 +1,4 @@
+//informacion de square productos recomendados
 import { LightProduct } from "@/types/square";
 import Link from "next/link";
 import CarouselProducts from "../CarouselProducst";

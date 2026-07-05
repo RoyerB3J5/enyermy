@@ -18,7 +18,7 @@ export default function AddInfo({
         height={589}
         className="w-full h-auto object-cover"
       />
-      <div className="bg-[#FAECE6] w-full h-full flex flex-col justify-center items-center gap-8 py-20 text-primary">
+      <div className="bg-[#FAFAFA] w-full h-full flex flex-col justify-center items-center gap-8 py-20 text-primary">
         <div className="flex flex-col justify-center items-center gap-4">
           <div className="flex justify-center items-center gap-2">
             <div className="flex justify-center items-center gap-0.5">
@@ -47,7 +47,7 @@ export default function AddInfo({
                   key={index}
                   style={{
                     backgroundColor:
-                      index % 2 === 0 ? "#F0D7CC" : "transparent",
+                      index % 2 === 0 ? "#EAEAEA" : "transparent",
                   }}
                 >
                   <td className="w-[40%] p-2 align-center">{item.nombre}</td>

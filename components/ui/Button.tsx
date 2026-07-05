@@ -21,10 +21,10 @@ export default function Button({
   paddingX = "px-6",
   wFull = false,
 }: ButtonProps) {
-  const baseClasses = `cursor-pointer flex justify-center items-center ${paddingX} py-4 rounded-full focus:outline-none transition-all duration-300 ease-in-out text-[14px] font-medium leading-[150%] uppercase tracking-[3px] text-center tokens-clase z-1 ${wFull ? "w-full" : "w-auto"}`;
+  const baseClasses = `cursor-pointer flex justify-center items-center ${paddingX} py-3 rounded-full focus:outline-none transition-all duration-300 ease-in-out text-[14px] font-medium leading-[150%] uppercase tracking-[3px] text-center tokens-clase z-1 ${wFull ? "w-full" : "w-auto"}`;
   const styleClasses =
     styleButton === "white"
-      ? "bg-white text-primary hover:bg-primary hover:text-white"
+      ? "bg-white text-primary hover:bg-primary hover:text-white border border-black/20 hover:border-black"
       : "bg-primary text-white hover:bg-[#2D2D2D] hover:text-white";
 
   const clasesFinales = `${baseClasses} ${styleClasses}`;

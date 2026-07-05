@@ -3,6 +3,8 @@ import CarouselReview from "@/components/sections/CarouselReview";
 import Bundles from "@/components/sections/main/Bundles";
 import Collections from "@/components/sections/main/Collections";
 import Hero from "@/components/sections/main/Hero";
+import ItemAlone from "@/components/sections/main/ItemAlone";
+import Professionals from "@/components/sections/main/Professionals";
 import Recomendations from "@/components/sections/producstItem/Recomendations";
 const content = {
   hero: {
@@ -72,6 +74,32 @@ const content = {
       },
     ],
   },
+  professionals: {
+    title: "For Professionals",
+    atributo: "From",
+    items: [
+      {
+        color: "bg-rojo",
+        slogan: "Enhances Hair Beauty!",
+        image: "color-1",
+      },
+      {
+        color: "bg-morado",
+        slogan: "Deeply Hydrates Hair!",
+        image: "color-2",
+      },
+      {
+        color: "bg-verde",
+        slogan: "Nourishes Every Strand!",
+        image: "color-3",
+      },
+      {
+        color: "bg-azul",
+        slogan: "Revitalizes the Hair!",
+        image: "color-4",
+      },
+    ],
+  },
 };
 const contentBestsellers = {
   title: "Best Sellers",
@@ -130,6 +158,40 @@ const contentBestsellers = {
     href: "/products",
   },
 };
+const contentAloneProduct = {
+  imageProduct: "/images/main/long-lasting.webp",
+  tag: "ENYERMY STUDIO PRO",
+  title: "10 minutes Express Long-Lasting Color & Shine",
+  button: "CHECK PRODUCT",
+  bgColor: "bg-rojo",
+  image: "back-alone",
+};
+const contentProfessionals = [
+  {
+    image: "/images/main/item-product-1.webp",
+    tag: "ENYERMY STUDIO PRO",
+    title: "Cream Developer",
+    price: "33.00",
+  },
+  {
+    image: "/images/main/item-product-2.webp",
+    tag: "ENYERMY STUDIO PRO",
+    title: "Bleach Ligtening PLEX-tech Violet Powder",
+    price: "42.00",
+  },
+  {
+    image: "/images/main/item-product-3.webp",
+    tag: "ENYERMY STUDIO PRO CURLYME MASK",
+    title: "Curls Definer Cream",
+    price: "42.00",
+  },
+  {
+    image: "/images/main/item-product-4.webp",
+    tag: "ENYERMY STUDIO PRO velvety sleek",
+    title: "Volume Reducer The Keratin Alternative Treatment.",
+    price: "180.00",
+  },
+];
 export default function Home() {
   return (
     <main className="w-full flex flex-col justify-center items-center ">
@@ -137,8 +199,13 @@ export default function Home() {
       <Recomendations content={contentBestsellers} />
       <Bundles content={content.bundles} />
       <Collections content={content.collection} />
+      <ItemAlone content={contentAloneProduct} />
       <CallEmail />
       <Bundles content={content.routine} />
+      <Professionals
+        content={content.professionals}
+        contentProducts={contentProfessionals}
+      />
       <CarouselReview />
     </main>
   );

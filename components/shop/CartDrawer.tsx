@@ -5,6 +5,7 @@ import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
 import { generateSlug } from "@/lib/slug";
+import { useState } from "react";
 const content = {
   cart: "Your cart",
   empty: "Your cart is empty",
@@ -15,9 +16,30 @@ const content = {
 };
 export default function CartDrawer() {
   const cartStore = useCart();
+  const [loading, setLoading] = useState(false);
   if (!cartStore) return null;
   const { cart, isOpen, closeCart, updateQuantity, removeItem, getTotalPrice } =
     cartStore;
+  async function handleClick() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart }),
+      });
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error(data.error);
+        alert("No se pudo generar el link de pago");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <section
       className={`fixed top-0 right-0 w-full h-screen bg-black/50 z-50 flex justify-end items-center transition-all duration-300 ease-in-out ${
@@ -129,6 +151,8 @@ export default function CartDrawer() {
               {content.shipping}
             </p>
             <Button
+              onClick={handleClick}
+              disabled={loading}
               label={content.checkout}
               styleButton="black"
               paddingX="px-6"

@@ -86,23 +86,28 @@ const content = {
         image: "ocoee",
         name: "Ocoee",
         direction: "1099 S Clarke Rd <br/> Ocoee",
+        href: "#",
       },
       {
         image: "orlando",
         name: "Orlando",
         direction: "4526 Curry Ford Rd <br/>Orlando",
+        href: "#",
       },
       {
         image: "waterford",
         name: "Waterford Lakes",
         direction: "12789 Waterford Lakes Pkwy Ste 11 <br/> Orlando",
+        href: "#",
       },
       {
         image: "petersburg",
         name: "St. Petersburg (Coming Soon)",
         direction: "6901 22nd Ave N Suite 6707 <br/> St.Petersburg",
+        href: "#",
       },
     ],
+    mainPage: false,
   },
   transformation: {
     image: "transformation",
