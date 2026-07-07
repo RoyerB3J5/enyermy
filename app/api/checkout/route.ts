@@ -34,7 +34,10 @@ export async function POST(req: Request) {
   );
 
   const data = await res.json();
-  if (!res.ok) return Response.json({ error: data }, { status: 400 });
+  if (!res.ok) {
+    console.error("Square error:", JSON.stringify(data, null, 2));
+    return Response.json({ error: data }, { status: 400 });
+  }
 
   return Response.json({ url: data.payment_link.url });
 }
