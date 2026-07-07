@@ -156,7 +156,7 @@ export default function MapSection({ content }: MapSectionProps) {
         <h2 className="title-h2">{content.title}</h2>
       </div>
       <div
-        className="w-full h-auto aspect-1376/630 relative flex justify-center items-end overflow-hidden cursor-grab active:cursor-grabbing"
+        className="w-full h-auto aspect-1376/630 relative flex justify-center items-end overflow-hidden cursor-grab active:cursor-grabbing bg-[#E8E8E8]"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
