@@ -34,13 +34,15 @@ export default function ItemAlone({ content }: ItemAloneProps) {
         </div>
         <Button label={content.button} styleButton="black" paddingX="px-6" />
       </div>
-      <Image
-        className={`w-full h-auto aspect-720/628 object-cover`}
-        src={`/images/main/${content.image}.webp`}
-        alt={content.title}
-        width={720}
-        height={660}
-      />
+      <div className="overflow-hidden">
+        <img
+          className={`w-full h-auto aspect-720/628 object-cover image-scale`}
+          src={`/images/main/${content.image}.webp`}
+          alt={content.title}
+          width={720}
+          height={660}
+        />
+      </div>
     </section>
   );
 }

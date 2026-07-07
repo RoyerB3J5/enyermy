@@ -1,5 +1,4 @@
 import ButtonLink from "@/components/ui/ButtonLink";
-import Image from "next/image";
 
 interface CollectionsProps {
   content: {
@@ -24,14 +23,16 @@ export default function Collections({ content }: CollectionsProps) {
         {content.items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col justify-center items-center gap-3 text-primary"
+            className="flex flex-col justify-center items-center gap-3 text-primary overflow-hidden"
           >
-            <Image
+            <img
               src={`/images/main/${item.image}.webp`}
               alt={item.title}
               width={448}
               height={448}
-              className="w-full h-full object-cover object-center rounded-2xl"
+              className="w-full h-full object-cover object-center rounded-2xl " 
+              decoding="async"
+              loading="lazy"
             />
             <h3 className="title-h5 text-center">{item.title}</h3>
             <p className="paragraph text-center font-normal">

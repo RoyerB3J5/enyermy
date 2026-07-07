@@ -45,15 +45,21 @@ export default function Header() {
   const lastScrollY = useRef(0);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isThresholdReached, setIsThresholdReached] = useState(false);
 
   // Normalize: remove language prefix (en/es) and trailing slash
   const normalized =
     pathname.replace(/^\/(en|es)/, "").replace(/\/$/, "") || "/";
+
   const headerClasses =
     normalized === "/"
-      ? "bg-transparent text-primary"
-      : ["/salon-experience", "/about-us"].includes(normalized)
-        ? "bg-transparent text-white"
+      ? isThresholdReached
+        ? "bg-white text-primary"
+        : "bg-transparent text-primary"
+      : ["/salon-experience", "/about", "/about-us"].includes(normalized)
+        ? isThresholdReached
+          ? "bg-black text-white"
+          : "bg-transparent text-white"
         : "bg-white text-primary";
 
   const match = pathname.match(/^\/(en|es)/);
@@ -81,6 +87,8 @@ export default function Header() {
       } else {
         header.style.transform = "translateY(0)";
       }
+
+      setIsThresholdReached(scrollY >= threshold);
 
       lastScrollY.current = scrollY;
     };
@@ -245,7 +253,7 @@ export default function Header() {
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
 
-                <Link href="/location">
+                <Link href="/store-locations">
                   <p
                     className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                   >

@@ -21,7 +21,7 @@ export default function InfoProductCard({ information }: InfoProductCardProps) {
         alt={information.title}
         width="326"
         height="410"
-        className="w-full h-full object-cover absolute object-center inset-0 z-0"
+        className="w-full h-full object-cover absolute object-center inset-0 z-0 image-scale"
       />
       <p
         className={`text-${information.colorText} title-h4 z-1 ${information.position === "left" ? "text-left" : "text-right"}`}

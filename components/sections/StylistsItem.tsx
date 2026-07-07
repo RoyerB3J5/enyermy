@@ -4,6 +4,7 @@ import Button from "../ui/Button";
 
 interface StylistsItemProps {
   content: {
+    location?: string;
     image: string;
     tag: string;
     name: string;
@@ -16,13 +17,14 @@ interface StylistsItemProps {
     };
     bgColor: string;
     imageFirst: boolean;
+    linkContent?: {
+      text: string;
+      href: string;
+    };
   };
   changeAspectRatio?: boolean;
 }
-const linkContent = {
-  text: "@enyermystudiopro →",
-  href: "#",
-};
+
 export default function StylistsItem({
   content,
   changeAspectRatio,
@@ -30,10 +32,10 @@ export default function StylistsItem({
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full">
       <div
-        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500" : "aspect-720/660"} ${content.imageFirst ? "order-1" : "order-2"} relative`}
+        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500" : "aspect-720/660"} ${content.imageFirst ? "order-1" : "order-2"} relative overflow-hidden`}
       >
         <img
-          className={`w-full h-full object-cover object-center absolute inset-0`}
+          className={`w-full h-full object-cover object-center absolute inset-0 image-scale`}
           src={`/images/salon-experience/stylists/${content.image}.webp`}
           decoding="async"
           loading="lazy"
@@ -83,7 +85,9 @@ export default function StylistsItem({
               )}
             </div>
 
-            {content.media && <ButtonLink content={linkContent} />}
+            {content.media && content.linkContent && (
+              <ButtonLink content={content.linkContent} />
+            )}
 
             <Button
               label={content.button.label}

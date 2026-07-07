@@ -20,7 +20,7 @@ const infoProductContent = [
     href: "#",
     position: "left",
     colorText: "black",
-    labelButton: "Shop Now",  
+    labelButton: "Shop Now",
   },
   {
     image: "info-product-3",
@@ -63,10 +63,13 @@ export default function GridProducts({ content }: GridProductsProps) {
         </div>
       </div>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {content.map((product) => (
+        {content.slice(0, 3).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
         <InfoProductCard information={infoProductContent[0]} />
+        {content.slice(3, 6).map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
         <InfoProductCard information={infoProductContent[1]} />
         <InfoProductCard information={infoProductContent[2]} />
       </div>

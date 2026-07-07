@@ -1,11 +1,15 @@
+"use client";
 import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
+import StylistsGroup from "@/components/sections/StylistsGroup";
 import StylistsItem from "@/components/sections/StylistsItem";
+import { useState } from "react";
 
 const content = {
   title: "Meet Our Experts",
   items: [
     {
+      location: "ocoee",
       image: "enyermy",
       tag: "Founder / cosmetology educator",
       name: "Enyermy Dominguez",
@@ -23,8 +27,13 @@ const content = {
       },
       bgColor: "bg-verde",
       imageFirst: true,
+      linkContent: {
+        text: "@enyermystudiopro →",
+        href: "#",
+      },
     },
     {
+      location: "ocoee",
       image: "ruth",
       tag: "Partner at enyermy studio pro Orlando",
       name: "Ruth Noboa",
@@ -42,8 +51,13 @@ const content = {
       },
       bgColor: "bg-morado",
       imageFirst: false,
+      linkContent: {
+        text: "@enyermystudiopro →",
+        href: "#",
+      },
     },
     {
+      location: "ocoee",
       image: "odeth",
       tag: "St peterburgs Manager",
       name: "Odeth Dominguez",
@@ -61,8 +75,13 @@ const content = {
       },
       bgColor: "bg-rojo",
       imageFirst: true,
+      linkContent: {
+        text: "@odethandhair →",
+        href: "#",
+      },
     },
     {
+      location: "waterford",
       image: "lourdes",
       tag: "Waterford Lakes Manager",
       name: "Lourdes Escabrisas",
@@ -80,8 +99,13 @@ const content = {
       },
       bgColor: "bg-azul",
       imageFirst: false,
+      linkContent: {
+        text: "@escabrisabeautystudio →",
+        href: "#",
+      },
     },
     {
+      location: "ocoee",
       image: "mecho",
       tag: "Ocoee Master Stylist",
       name: "Mecho Payano",
@@ -99,8 +123,13 @@ const content = {
       },
       bgColor: "bg-verde",
       imageFirst: true,
+      linkContent: {
+        text: "@mecho_stylist →",
+        href: "#",
+      },
     },
     {
+      location: "ocoee",
       image: "luisa",
       tag: "Customer Experince",
       name: "Luisa Payano",
@@ -118,6 +147,10 @@ const content = {
       },
       bgColor: "bg-white",
       imageFirst: false,
+      linkContent: {
+        text: "@enyermystudiopro →",
+        href: "#",
+      },
     },
   ],
 };
@@ -127,11 +160,7 @@ export default function Stylists() {
       <section className="flex justify-center items-center pt-16 pb-8">
         <h1 className="title-h4 text-primary">{content.title}</h1>
       </section>
-      <section className="flex flex-col justify-center items-center w-full">
-        {content.items.map((item, index) => (
-          <StylistsItem key={index} content={item} />
-        ))}
-      </section>
+      <StylistsGroup content={content.items} />
       <CallEmail />
       <CarouselReview />
     </main>

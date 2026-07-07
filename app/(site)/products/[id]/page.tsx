@@ -33,7 +33,6 @@ export default async function ProductsItem({ params }: Props) {
     imagenes: [
       "/images/argan-oil-1.webp",
       "/images/argan-oil-2.webp",
-      "/images/argan-oil-3.webp",
       "/images/argan-oil-4.webp",
     ],
     variaciones: [
@@ -140,7 +139,7 @@ export default async function ProductsItem({ params }: Props) {
   return (
     <main className="w-full flex flex-col justify-center items-center">
       <MainInfo contentProduct={content} />
-      <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
+      {/*<pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
         <code>
           {JSON.stringify(
             content,
@@ -149,7 +148,8 @@ export default async function ProductsItem({ params }: Props) {
             2,
           )}
         </code>
-      </pre>
+      </pre> */}
+
       <AddInfo contentProduct={content} />
       <Recomendations content={contentRecomendations} />
       <Banner contentProduct={content} />

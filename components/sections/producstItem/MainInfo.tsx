@@ -104,7 +104,7 @@ export default function MainInfo({
       <div className="w-full flex justify-center items-start gap-6">
         <div className="w-1/2 flex justify-center items-start gap-4">
           <div className="flex-none grid grid-cols-1 gap-4">
-            {contentProduct.imagenes.slice(0, -2).map((image, index) => (
+            {contentProduct.imagenes.slice(0, -1).map((image, index) => (
               <button
                 key={index}
                 onClick={() => setImageIndex(index)}

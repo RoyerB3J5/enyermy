@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import Image from "next/image";
 interface BundlesProps {
   content: {
     tag: string;
@@ -15,13 +14,13 @@ interface BundlesProps {
 }
 export default function Bundles({ content, textWhite }: BundlesProps) {
   return (
-    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative">
-      <Image
+    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative overflow-hidden">
+      <img
         src={`/images/${content.image}.webp`}
         alt={content.title}
         width={1440}
         height={500}
-        className="w-full h-full object-cover object-center absolute inset-0 z-0"
+        className="w-full h-full object-cover object-center absolute inset-0 z-0 image-scale"
         decoding="async"
         loading="lazy"
       />

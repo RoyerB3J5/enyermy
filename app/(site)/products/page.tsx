@@ -39,6 +39,22 @@ export default async function ProductsPage() {
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
     },
+    {
+      id: "3",
+      nombre: "Bonding Mask",
+      precio: "45.00",
+      imagen: "/images/argan-oil-1.webp",
+      marca: "ENYERMY STUDIO PRO",
+      tieneAtributos: true,
+    },
+    {
+      id: "4",
+      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+      precio: "50.00",
+      imagen: "/images/argan-oil-2.webp",
+      marca: "ENYERMY STUDIO PRO VELVETY SILK",
+      tieneAtributos: false,
+    },
   ];
 
   return (
