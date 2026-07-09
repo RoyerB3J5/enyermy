@@ -57,7 +57,14 @@ export default function Footer() {
   return (
     <footer className="flex flex-col justify-center items-center w-full">
       <div className="bg-primary w-full flex justify-center items-center py-14 text-white gap-10">
-        <div className="container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0">
+        <div className="container-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 justify-center items-center">
+          <img
+            src="/images/logo-white.svg"
+            alt="Logo"
+            className="w-[248px] h-auto mx-auto block md:hidden "
+            decoding="async"
+            loading="lazy"
+          />
           {/* Quick Links Section */}
           <div className="flex flex-col justify-between items-center lg:items-start gap-10 self-start w-full lg:w-auto pt-5 h-full">
             <div className="flex flex-col justify-center items-center lg:items-start gap-7">
@@ -138,7 +145,7 @@ export default function Footer() {
               <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
                 {content.aboutUs.title}
               </h3>
-              <p className="paragraph text-white font-medium">
+              <p className="paragraph text-white font-medium text-center md:text-start">
                 {content.aboutUs.description}
               </p>
             </div>

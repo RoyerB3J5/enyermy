@@ -11,27 +11,33 @@ interface BundlesProps {
     image: string;
   };
   textWhite?: boolean;
+  changeColor?: boolean;
 }
-export default function Bundles({ content, textWhite }: BundlesProps) {
+export default function Bundles({ content, textWhite,changeColor }: BundlesProps) {
   return (
-    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative overflow-hidden">
+    <section className="w-full h-auto aspect-auto md:aspect-1440/500 flex flex-col justify-center items-center relative overflow-hidden group">
       <img
         src={`/images/${content.image}.webp`}
         alt={content.title}
         width={1440}
         height={500}
-        className="w-full h-full object-cover object-center absolute inset-0 z-0 image-scale"
+        className="w-auto md:w-full h-[35vh] md:h-auto md:h-full object-cover object-[96%_50%] md:object-center relative md:absolute inset-0 z-0 group-hover:scale-105 transition-transform duration-300 ease-in-out"
         decoding="async"
         loading="lazy"
       />
-      <div className="container-full flex flex-col justify-center items-start gap-6 z-10">
-        <div className="flex flex-col justify-center items-start gap-2 ">
-          <p className="paragraph-x-large tracking-[-0.5px] text-primary">{content.tag}</p>
-          <h2 className={`title-h2 ${textWhite ? "text-white" : "text-primary"}`} dangerouslySetInnerHTML={{ __html: content.title }} />
+      <div className={`container-full flex flex-col justify-center items-center md:items-start gap-6 z-10 py-12 md:py-0 ${changeColor ? "bg-white" : "bg-rosado"} md:bg-transparent`}>
+        <div className="flex flex-col justify-center items-center md:items-start gap-4 md:gap-2 ">
+          <p className="paragraph-x-large tracking-[-0.5px] text-primary text-center">
+            {content.tag}
+          </p>
+          <h2
+            className={`title-h2 ${textWhite ? "text-white" : "text-primary"}`}
+            dangerouslySetInnerHTML={{ __html: content.title }}
+          />
           {content.descriptions.map((description, index) => (
             <p
               key={index}
-              className="paragraph font-normal text-primary"
+              className="paragraph font-normal text-primary text-center"
               dangerouslySetInnerHTML={{ __html: description }}
             ></p>
           ))}

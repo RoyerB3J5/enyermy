@@ -54,13 +54,13 @@ export default function Header() {
   const headerClasses =
     normalized === "/"
       ? isThresholdReached
-        ? "bg-white text-primary"
-        : "bg-transparent text-primary"
+        ? "lg:bg-white text-primary"
+        : "lg:bg-transparent text-primary"
       : ["/salon-experience", "/about", "/about-us"].includes(normalized)
         ? isThresholdReached
-          ? "bg-black text-white"
-          : "bg-transparent text-white"
-        : "bg-white text-primary";
+          ? "lg:bg-black text-white"
+          : "lg:bg-transparent text-white"
+        : "lg:bg-white text-primary";
 
   const match = pathname.match(/^\/(en|es)/);
   const lang = match ? match[1] : "en";
@@ -160,7 +160,7 @@ export default function Header() {
         <div
           ref={topBarRef}
           id="top-header"
-          className="w-full flex justify-center items-center pt-2 bg-black"
+          className="hidden w-full lg:flex justify-center items-center pt-2 bg-black"
         >
           <div className="container-full flex justify-start items-center">
             {content.changePage.map((item, index) => {
@@ -186,14 +186,14 @@ export default function Header() {
 
         {/* Main Navigation Bar */}
         <div
-          className={`w-full flex justify-center items-center transition-colors duration-300 ${
+          className={`w-full flex justify-center items-center transition-colors duration-300 bg-white ${
             headerClasses
           }`}
         >
           <div className="container-full flex justify-between items-center py-4">
-            <div className="relative bg-transparent flex flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out">
+            <div className="hidden relative lg:flex  bg-transparent  flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out">
               <nav>
-                <ul className="hidden relative lg:flex items-center flex-row justify-center w-auto">
+                <ul className=" relative flex items-center flex-row justify-center w-auto">
                   {currentNav.map((item, index) => {
                     const itemPathWithoutHash = item.href.split("#")[0];
                     const isActive = normalized === itemPathWithoutHash;
@@ -225,6 +225,25 @@ export default function Header() {
                 </ul>
               </nav>
             </div>
+            <div className=" flex justify-center items-center gap-3">
+              <button
+                type="button"
+                aria-label="Abrir menú de navegación"
+                title="Abrir menú"
+                className="flex items-center justify-center cursor-pointer w-8 h-8 bg-accent rounded-sm lg:hidden "
+                id="hamburger-btn"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <Menu
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                />
+              </button>
+              <div className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer md:hidden ">
+                <Search
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                />
+              </div>
+            </div>
             <Link
               href={`/${isSalonExperience ? "salon-experience" : ""}`}
               aria-label={
@@ -243,12 +262,12 @@ export default function Header() {
                 alt="Logo Enyermy Studio Pro"
                 width={158}
                 height={48}
-                className="w-[158px] h-auto block"
+                className="w-[89px] lg:w-[158px] h-auto block"
                 priority
               />
             </Link>
-            <div className="flex justify-center items-center ">
-              <div className="flex justify-center items-center p-2 gap-2.5">
+            <div className="flex justify-center items-center gap-4 md:gap-0">
+              <div className="md:flex justify-center items-center p-2 gap-2.5 hidden ">
                 <MapPin
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
@@ -261,35 +280,23 @@ export default function Header() {
                   </p>
                 </Link>
               </div>
-              <div className="w-10.5 h-10.5 flex justify-center items-center cursor-pointer">
+              <div className="w-10.5 h-10.5 hidden md:flex justify-center items-center cursor-pointer">
                 <Search
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
               </div>
               <Link
                 href="#"
-                className="w-10.5 h-10.5 flex justify-center items-center "
+                className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center "
               >
                 <User
-                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
                 />
               </Link>
 
               <CartIconHeader
                 differentStyles={headerClasses.includes("text-white")}
               />
-              <button
-                type="button"
-                aria-label="Abrir menú de navegación"
-                title="Abrir menú"
-                className="flex lg:hidden items-center justify-center cursor-pointer w-8 h-8 bg-accent rounded-sm"
-                id="hamburger-btn"
-                onClick={() => setIsMobileMenuOpen(true)}
-              >
-                <Menu
-                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
-                />
-              </button>
             </div>
           </div>
         </div>

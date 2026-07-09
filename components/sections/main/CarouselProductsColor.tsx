@@ -153,14 +153,14 @@ export default function CarouselProductsColor({
               key={index}
             >
               <div
-                className={`w-full h-auto aspect-720/651 ${expandedItems[index]?.color} flex flex-col items-center justify-center gap-4`}
+                className={`w-full h-auto aspect-auto md:aspect-720/651 ${expandedItems[index]?.color} flex flex-col items-center justify-center gap-4 order-2 md:order-1 pt-6 pb-14 md:py-0`}
               >
                 <Image
                   src={product.image}
                   alt={product.title}
                   width={420}
                   height={420}
-                  className="w-[50%] h-auto aspect-square object-cover"
+                  className="w-[70%] md:w-[50%] h-auto aspect-square object-cover"
                 />
                 <div className="flex flex-col items-center justify-center w-full">
                   <p className="paragraph-x-small text-primary-light">
@@ -174,7 +174,7 @@ export default function CarouselProductsColor({
                   </p>
                 </div>
               </div>
-              <div className="w-full h-auto aspect-720/651 relative flex items-center justify-center overflow-hidden">
+              <div className="w-full h-auto aspect-720/651 relative flex items-center justify-center overflow-hidden order-1 md:order-2">
                 <Image
                   src={`/images/main/${expandedItems[index]?.image}.webp`}
                   alt={expandedItems[index]?.slogan}
@@ -182,7 +182,7 @@ export default function CarouselProductsColor({
                   height={651}
                   className="object-cover w-full h-full object-center absolute inset-0 z-0"
                 />
-                <div className="w-full h-full flex justify-center items-end pb-10 px-4 z-10">
+                <div className="w-full h-full flex justify-center items-center md:items-end pb-10 px-4 z-10">
                   <p className="slogan-text text-center">
                     {expandedItems[index]?.slogan}
                   </p>
@@ -194,9 +194,9 @@ export default function CarouselProductsColor({
       </div>
 
       {/* Controls Overlay */}
-      <div className="absolute top-0 left-0 w-full md:w-1/2 h-1/2 md:h-full pointer-events-none z-20">
+      <div className="absolute bottom-0 md:top-0 left-0 w-full md:w-1/2 h-1/2 md:h-full pointer-events-none z-20">
         {/* Navigation Arrows */}
-        <div className="absolute left-10 right-10 top-1/2 -translate-y-1/2 flex justify-between">
+        <div className="absolute left-10 right-10 top-1/2 -translate-y-1/2 md:flex justify-between hidden ">
           <button
             onClick={handlePrev}
             className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-primary flex items-center justify-center transition-all duration-300 hover:scale-105 pointer-events-auto cursor-pointer"
@@ -228,7 +228,7 @@ export default function CarouselProductsColor({
             </p>
 
             {/* Dots */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 visible pointer-events-auto flex items-center justify-center gap-2 mt-4">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 visible pointer-events-auto flex items-center justify-center gap-2 mt-6 md:mt-4">
               {contentProducts.map((_, i) => (
                 <button
                   key={i}

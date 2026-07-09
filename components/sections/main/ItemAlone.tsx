@@ -15,10 +15,10 @@ export default function ItemAlone({ content }: ItemAloneProps) {
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full">
       <div
-        className={`w-full h-auto aspect-720/628  ${content.bgColor} flex flex-col items-center justify-center gap-4`}
+        className={`w-full h-auto aspect-720/628  ${content.bgColor} flex flex-col items-center justify-center gap-4 p-8 md:p-0`}
       >
         <Image
-          className={`w-[50%] h-auto aspect-square object-cover`}
+          className={`w-[90%] md:w-[45%] lg:w-[50%] h-auto aspect-square object-cover`}
           src={`${content.imageProduct}`}
           alt={content.title}
           width={420}
@@ -28,13 +28,13 @@ export default function ItemAlone({ content }: ItemAloneProps) {
           <p className="paragraph-x-small uppercase text-primary-light">
             {content.tag}
           </p>
-          <h2 className="w-[30%] paragraph text-primary font-normal text-center">
+          <h2 className="w-full xl:w-[30%] paragraph text-primary font-normal text-center">
             {content.title}
           </h2>
         </div>
         <Button label={content.button} styleButton="black" paddingX="px-6" />
       </div>
-      <div className="overflow-hidden">
+      <div className="overflow-hidden hidden md:block">
         <img
           className={`w-full h-auto aspect-720/628 object-cover image-scale`}
           src={`/images/main/${content.image}.webp`}

@@ -214,9 +214,17 @@ export default function CarouselReview() {
   const stepWidth = dimensions.itemWidth + dimensions.gap;
   const translateX = -currentIndex * stepWidth + dragOffset;
 
+  const handleDotClick = (i: number) => {
+    stopAutoplay();
+    setIsTransitioning(true);
+    setCurrentIndex(N + i);
+    startAutoplay();
+  };
+  const currentLogicalIndex = (((currentIndex - N) % N) + N) % N;
+
   return (
-    <section className="container-full flex flex-col justify-center items-center py-30 gap-8">
-      <div className="flex flex-col justify-center items-center gap-4">
+    <section className="container-full flex flex-col justify-center items-center py-20 lg:py-30 gap-8">
+      <div className="flex flex-col justify-center items-center gap-4 hidden md:block">
         <div className="flex justify-center items-center gap-2">
           <div className="flex justify-center items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, index) => (
@@ -258,13 +266,38 @@ export default function CarouselReview() {
           {expandedReviews.map((review, index) => (
             <div
               key={index}
-              className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-48px)/3)] shrink-0 flex flex-col justify-start items-start gap-4 p-6 border rounded-3xl border-[#E6E6E6] text-paragraph"
+              className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-48px)/3)] shrink-0 flex flex-col justify-start items-center md:items-start gap-4 p-0 md:p-6 border-0 md:border rounded-3xl border-[#E6E6E6] text-paragraph"
             >
+              <div className="flex flex-col justify-center items-center gap-2 md:hidden">
+                <div
+                  className={`w-18 md:w-8 h-18 md:h-8 rounded-full flex justify-center items-center ${review.color}`}
+                >
+                  <p className="paragraph font-bold text-white">
+                    {review.name[0]}
+                  </p>
+                </div>
+                <div className="flex flex-col justify-center items-start">
+                  <div className="flex justify-start items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
+                      <Image
+                        key={starIndex}
+                        src="/images/star-3.svg"
+                        alt="star"
+                        width={14}
+                        height={14}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
               <h3 className="title-h5">{review.title}</h3>
-              <p className="paragraph font-normal grow w-full">
+              <p className="paragraph font-normal grow w-full text-center md:text-start">
                 {review.description}
               </p>
-              <div className="flex justify-start items-center gap-2">
+              <p className="paragraph-x-small text-primary block md:hidden">
+                {review.name}
+              </p>
+              <div className="md:flex justify-start items-center gap-2 hidden">
                 <div
                   className={`w-8 h-8 rounded-full flex justify-center items-center ${review.color}`}
                 >
@@ -305,6 +338,20 @@ export default function CarouselReview() {
             </div>
           ))}
         </div>
+      </div>
+      <div className=" pointer-events-auto md:flex items-center justify-center gap-2 mt-6 md:mt-4 hidden ">
+        {content.reviews.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => handleDotClick(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+              i === currentLogicalIndex
+                ? "bg-[#2D2D2D] scale-110"
+                : "bg-[#2D2D2D]/20 hover:bg-[#2D2D2D]/50"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );

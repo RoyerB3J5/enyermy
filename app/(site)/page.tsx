@@ -9,7 +9,7 @@ import Recomendations from "@/components/sections/producstItem/Recomendations";
 const content = {
   hero: {
     tag: "Professional Care. Visible Results.",
-    title: "Healthy Hair. Elevated.",
+    title: "Healthy Hair. <br className='hidden lg:block xl:hidden'/> Elevated.",
     description: "Stronger, shinier, healthier hair starts here.",
     button: {
       text: "Shop Now",
@@ -34,7 +34,7 @@ const content = {
     tag: "Tailored Care For Every Hair Type",
     title: "Discover Your Routine",
     descriptions: [
-      "Build a personalized routine with professional solutions designed <br/> for lasting beauty and confidence.",
+      "Build a personalized routine with professional solutions designed <br class='hidden md:block'> for lasting beauty and confidence.",
     ],
     button: {
       text: "Find Your Hair Solution",
@@ -194,14 +194,14 @@ const contentProfessionals = [
 ];
 export default function Home() {
   return (
-    <main className="w-full flex flex-col justify-center items-center ">
+    <main className="w-full flex flex-col justify-center items-center pt-(--header-height) md:pt-0">
       <Hero content={content.hero} />
       <Recomendations content={contentBestsellers} />
       <Bundles content={content.bundles} />
       <Collections content={content.collection} />
       <ItemAlone content={contentAloneProduct} />
       <CallEmail />
-      <Bundles content={content.routine} />
+      <Bundles content={content.routine} changeColor ={true}/>
       <Professionals
         content={content.professionals}
         contentProducts={contentProfessionals}

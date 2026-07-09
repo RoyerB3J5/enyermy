@@ -82,7 +82,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://widgets.leadconnectorhq.com" />
       </head>
 
-      <body className="w-full font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center w-full">
+      <body className="w-full font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center ">
         <Header />
         {children}
         <Footer />
