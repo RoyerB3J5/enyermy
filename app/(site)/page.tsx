@@ -9,7 +9,8 @@ import Recomendations from "@/components/sections/producstItem/Recomendations";
 const content = {
   hero: {
     tag: "Professional Care. Visible Results.",
-    title: "Healthy Hair. <br className='hidden lg:block xl:hidden'/> Elevated.",
+    title:
+      "Healthy Hair. <br class='hidden lg:block xl:hidden'/> Elevated.",
     description: "Stronger, shinier, healthier hair starts here.",
     button: {
       text: "Shop Now",
@@ -163,7 +164,7 @@ const contentAloneProduct = {
   tag: "ENYERMY STUDIO PRO",
   title: "10 minutes Express Long-Lasting Color & Shine",
   button: "CHECK PRODUCT",
-  bgColor: "bg-rojo",
+  bgColor: "bg-accent",
   image: "back-alone",
 };
 const contentProfessionals = [
@@ -201,7 +202,7 @@ export default function Home() {
       <Collections content={content.collection} />
       <ItemAlone content={contentAloneProduct} />
       <CallEmail />
-      <Bundles content={content.routine} changeColor ={true}/>
+      <Bundles content={content.routine} changeColor={true} />
       <Professionals
         content={content.professionals}
         contentProducts={contentProfessionals}

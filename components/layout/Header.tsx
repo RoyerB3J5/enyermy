@@ -215,7 +215,7 @@ export default function Header() {
                             className={`absolute -bottom-2 left-1/2 h-0.5 ${headerClasses.includes("text-white") ? "bg-white" : "bg-primary"} transition-all duration-300 ease-out -translate-x-1/2 ${
                               isActive
                                 ? "w-8"
-                                : "w-0 group-hover:w-8 group-hover:bg-accent"
+                                : "w-0 group-hover:w-8 group-hover:bg-primary"
                             }`}
                           />
                         </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                 type="button"
                 aria-label="Abrir menú de navegación"
                 title="Abrir menú"
-                className="flex items-center justify-center cursor-pointer w-8 h-8 bg-accent rounded-sm lg:hidden "
+                className="flex items-center justify-center cursor-pointer w-8 h-8 rounded-sm lg:hidden "
                 id="hamburger-btn"
                 onClick={() => setIsMobileMenuOpen(true)}
               >

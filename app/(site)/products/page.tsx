@@ -17,7 +17,7 @@ const content = {
   tag: "Professional Hair Care For Every Need",
   title: "Discover Every Solution",
   description:
-    "Explore our complete collection of expertly crafted formulas designed to \n hydrate, repair, protect, and enhance every hair type.",
+    "Explore our complete collection of expertly crafted formulas designed to <br className='hidden lg:block'/> hydrate, repair, protect, and enhance every hair type.",
 };
 
 export default async function ProductsPage() {

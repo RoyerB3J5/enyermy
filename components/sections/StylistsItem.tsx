@@ -47,8 +47,8 @@ export default function StylistsItem({
 
       <div
         className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500" : "aspect-720/660"} ${
-          content.imageFirst ? "order-2" : "order-1"
-        } ${content.bgColor} flex items-center ${
+          content.imageFirst ? "order-2 bg-white" : "order-1 bg-accent"
+        }  flex items-center ${
           content.imageFirst
             ? "pr-[max(2rem,calc((100vw-1280px)/2))]"
             : "pl-[max(2rem,calc((100vw-1280px)/2))]"

@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { FrontendProductDetail } from "@/types/square";
 import Button from "@/components/ui/Button";
 import { useCart } from "@/hooks/useCart";
+import ButtonLink from "@/components/ui/ButtonLink";
 
 const content = {
   links: [
@@ -86,7 +87,7 @@ export default function MainInfo({
   };
 
   return (
-    <section className="container-full flex flex-col justify-center items-center pt-[var(--header-height)] pb-14">
+    <section className="container-full flex flex-col justify-center items-center pt-[var(--header-height)] pb-0 md:pb-14">
       <div className="w-full flex justify-start items-center gap-2 py-4">
         {content.links.map((link, index) => (
           <Link
@@ -101,9 +102,9 @@ export default function MainInfo({
           </Link>
         ))}
       </div>
-      <div className="w-full flex justify-center items-start gap-6">
-        <div className="w-1/2 flex justify-center items-start gap-4">
-          <div className="flex-none grid grid-cols-1 gap-4">
+      <div className="w-full flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
+        <div className="w-full md:w-1/2 flex justify-center items-start gap-4">
+          <div className="flex-none md:grid grid-cols-1 gap-4 hidden ">
             {contentProduct.imagenes.slice(0, -1).map((image, index) => (
               <button
                 key={index}
@@ -135,7 +136,7 @@ export default function MainInfo({
             />
           </div>
         </div>
-        <div className="w-1/2 flex flex-col justify-start items-start gap-8 ">
+        <div className="w-full md:w-1/2 flex flex-col justify-start items-start gap-8 ">
           <div className="w-full flex flex-col justify-start items-start gap-5.5">
             <div className="flex flex-col justify-start items-start gap-5.5">
               <div className="flex flex-col justify-start items-start gap-[3px]">
@@ -169,8 +170,8 @@ export default function MainInfo({
               ))}
             </div>
           </div>
-          <div className="w-full flex justify-start items-center gap-4">
-            <div className="flex jusitfy-center items-center px-3 py-[15px] gap-6 border border-[#B8B8B8] rounded-full">
+          <div className="w-full flex justify-center md:justify-start items-center gap-4">
+            <div className="flex justify-center items-center px-0 md:px-3 py-3 md:py-[15px] gap-6 border border-[#B8B8B8] rounded-full w-1/2 md:w-auto shrink-0">
               <button
                 onClick={() => setAmount(Math.max(1, amount - 1))}
                 className="cursor-pointer"
@@ -218,12 +219,12 @@ export default function MainInfo({
             <Button
               label={content.buttonLabel}
               styleButton="black"
-              paddingX="px-15"
+              paddingX="md:px-15"
               onClick={handleAddToCart}
             />
           </div>
-          <div className="w-full bg-[#ECF5E9] flex justify-center items-center py-4 px-6 rounded-2xl">
-            <p className="text-[14px] font-medium leading-[150%] tracking-[3px] uppercase text-primary">
+          <div className="w-full bg-[#ECF5E9] flex justify-center items-center py-4 px-4 md:px-6 rounded-2xl">
+            <p className="text-[14px] font-medium leading-[150%] tracking-[3px] uppercase text-primary text-center">
               {content.recomendation}
             </p>
           </div>
@@ -239,8 +240,8 @@ export default function MainInfo({
           </ul>
           <div className="w-full h-[1px] bg-[#D9D9D9]"></div>
           <p className="title-h6 text-primary">{content.also}</p>
-          <div className="w-full flex justify-between items-center gap-4">
-            <div className="flex jusitfy-center items-center">
+          <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex justify-center items-center">
               <Image
                 src={content.related.image}
                 alt={content.related.title}
@@ -258,12 +259,18 @@ export default function MainInfo({
                 <p className="paragraph font-medium text-primary">
                   ${content.related.price}
                 </p>
+                <button
+                  className="block md:hidden paragraph font-medium text-primary border-b border-primary pb-1"
+                  onClick={handleRelatedAddToCart}
+                >
+                  {content.relatedProduct.button}
+                </button>
               </div>
             </div>
             <Button
               label={content.relatedProduct.button}
               styleButton="white"
-              paddingX="px-[50px]"
+              paddingX="md:px-[50px] hidden md:block"
               onClick={handleRelatedAddToCart}
             />
           </div>

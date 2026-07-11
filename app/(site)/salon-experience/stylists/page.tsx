@@ -25,7 +25,7 @@ const content = {
         label: "book at enyermy studio pro",
         href: "#",
       },
-      bgColor: "bg-verde",
+      bgColor: "bg-white",
       imageFirst: true,
       linkContent: {
         text: "@enyermystudiopro →",
@@ -49,7 +49,7 @@ const content = {
         label: "bOOK WITH RUTH",
         href: "#",
       },
-      bgColor: "bg-morado",
+      bgColor: "bg-accent",
       imageFirst: false,
       linkContent: {
         text: "@enyermystudiopro →",
@@ -73,7 +73,7 @@ const content = {
         label: "bOOK WITH ODETH",
         href: "#",
       },
-      bgColor: "bg-rojo",
+      bgColor: "bg-white",
       imageFirst: true,
       linkContent: {
         text: "@odethandhair →",
@@ -97,7 +97,7 @@ const content = {
         label: "bOOK WITH lourdes",
         href: "#",
       },
-      bgColor: "bg-azul",
+      bgColor: "bg-accent",
       imageFirst: false,
       linkContent: {
         text: "@escabrisabeautystudio →",
@@ -121,7 +121,7 @@ const content = {
         label: "bOOK WITH MECO",
         href: "#",
       },
-      bgColor: "bg-verde",
+      bgColor: "bg-accent",
       imageFirst: true,
       linkContent: {
         text: "@mecho_stylist →",
@@ -145,7 +145,7 @@ const content = {
         label: "bOOK WITH LUISA",
         href: "#",
       },
-      bgColor: "bg-white",
+      bgColor: "bg-accent",
       imageFirst: false,
       linkContent: {
         text: "@enyermystudiopro →",

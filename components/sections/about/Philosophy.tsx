@@ -34,7 +34,7 @@ export default function Philosophy({ content }: PhilosophyProps) {
           const Icon = icons[item.icon as keyof typeof icons];
           return (
             <div
-              className="flex flex-col justify-center items-center gap-6 text-center bg-[#EDF5F4] rounded-2xl py-12 px-4.5"
+              className="flex flex-col justify-center items-center gap-6 text-center bg-[#F5F3F0] rounded-2xl py-12 px-4.5"
               key={index}
             >
               {item.icon === "leaf" ? (

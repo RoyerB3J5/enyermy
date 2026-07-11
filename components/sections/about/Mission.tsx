@@ -10,16 +10,7 @@ interface MissionProps {
 
 export default function Mission({ content }: MissionProps) {
   return (
-    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative">
-      <Image
-        src={`/images/about/mission-back.webp`}
-        alt={content.title}
-        width={1440}
-        height={500}
-        className="w-full h-full object-cover object-center absolute inset-0 z-0"
-        decoding="async"
-        loading="lazy"
-      />
+    <section className="w-full h-auto aspect-1440/500 flex justify-center items-center relative bg-accent">
       <div className="container-full flex justify-between items-center  gap-6 z-10">
         <div className="flex flex-col justify-center items-start gap-2 text-center w-[40%]">
           <p className="paragraph-x-large tracking-[-0.5px] uppercase">

@@ -8,7 +8,7 @@ export default function Banner({
   contentProduct: FrontendProductDetail;
 }) {
   return (
-    <section className="w-full h-auto relative flex flex-col justify-center items-center aspect-1440/580">
+    <section className="w-full h-auto relative md:flex flex-col justify-center items-center aspect-1440/580 hidden ">
       <Image
         src={contentProduct.imagenes.at(-1) ?? "/placeholder.jpg"}
         alt={contentProduct.nombre}

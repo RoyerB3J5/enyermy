@@ -10,7 +10,7 @@ export default function AddInfo({
   contentProduct: FrontendProductDetail;
 }) {
   return (
-    <section className="w-full grid grid-cols-2 justify-center items-center">
+    <section className="w-full grid grid-cols-1 lg:grid-cols-2 justify-center items-center">
       <Image
         src={contentProduct.imagenes.at(-2) ?? "/placeholder.jpg"}
         alt={contentProduct.nombre}
@@ -18,7 +18,7 @@ export default function AddInfo({
         height={589}
         className="w-full h-auto object-cover"
       />
-      <div className="bg-[#FAFAFA] w-full h-full flex flex-col justify-center items-center gap-8 py-20 text-primary">
+      <div className="bg-accent w-full h-full flex flex-col justify-center items-center gap-8 md:gap-2 xl:gap-8 py-20 md:py-10 xl:py-20 text-primary">
         <div className="flex flex-col justify-center items-center gap-4">
           <div className="flex justify-center items-center gap-2">
             <div className="flex justify-center items-center gap-0.5">
@@ -39,7 +39,7 @@ export default function AddInfo({
             {contentProduct["Description-2"]}
           </p>
         </div>
-        <div className="w-[85%] 3xl:w-[70%]">
+        <div className="px-4 md:px-0 w-full md:w-[95%] xl:w-[85%] 3xl:w-[70%]">
           <table className="w-full border-collapse">
             <tbody>
               {contentProduct.table.map((item, index) => (
@@ -47,7 +47,7 @@ export default function AddInfo({
                   key={index}
                   style={{
                     backgroundColor:
-                      index % 2 === 0 ? "#EAEAEA" : "transparent",
+                      index % 2 === 0 ? "#F5D5B7" : "transparent",
                   }}
                 >
                   <td className="w-[40%] p-2 align-center">{item.nombre}</td>

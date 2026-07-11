@@ -22,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         className="w-full h-auto object-cover rounded-2xl"
       />
       <div className="flex flex-col justify-center items-center ">
-        <p className="paragraph-x-small uppercase text-primary-light">
+        <p className="paragraph-x-small uppercase text-primary-light text-center">
           {product.marca}
         </p>
         <h3 className="paragraph text-primary font-normal text-center">

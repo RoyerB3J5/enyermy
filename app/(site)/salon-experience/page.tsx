@@ -81,7 +81,7 @@ const content = {
         label: "Book now",
         href: "#",
       },
-      bgColor: "bg-azul",
+      bgColor: "bg-accent",
       imageFirst: false,
     },
   },

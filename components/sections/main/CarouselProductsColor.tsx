@@ -153,7 +153,7 @@ export default function CarouselProductsColor({
               key={index}
             >
               <div
-                className={`w-full h-auto aspect-auto md:aspect-720/651 ${expandedItems[index]?.color} flex flex-col items-center justify-center gap-4 order-2 md:order-1 pt-6 pb-14 md:py-0`}
+                className={`w-full h-auto aspect-auto md:aspect-720/651 bg-accent flex flex-col items-center justify-center gap-4 order-2 md:order-1 pt-6 pb-14 md:py-0`}
               >
                 <Image
                   src={product.image}

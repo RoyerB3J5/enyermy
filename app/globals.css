@@ -8,11 +8,8 @@
   --color-primary-rgb: 0, 37, 108;
   --color-secondary: #b8b8b8;
   --color-thirdary: #e7e7e7;
-  --color-verde: #ecf5e9;
-  --color-morado: #e3daea;
-  --color-rojo: #faece6;
-  --color-azul: #e5f2ff;
-  --color-rosado: #faece6;
+  --color-rosado: #ffecda;
+  --color-accent: #ffecda;
   --breakpoint-xs: 400px;
   --breakpoint-3xl: 106rem;
 }
@@ -146,6 +143,11 @@ html {
     font-size: 48px;
   }
 }
+@media (max-width: 1024px) {
+  .title-h2 {
+    font-size: 36px;
+  }
+}
 
 @media (max-width: 769px) {
   .title-h2 {
@@ -161,7 +163,7 @@ html {
 }
 @media (max-width: 769px) {
   .title-h3 {
-    font-size: 15px;
+    font-size: 28px;
   }
 }
 
