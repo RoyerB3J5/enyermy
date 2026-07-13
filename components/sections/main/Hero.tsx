@@ -26,14 +26,14 @@ export default function Hero({ content }: HeroProps) {
         alt={content.title}
         width={1440}
         height={800}
-        className={`w-auto md:w-full h-[65%] md:h-full object-cover ${normalized === "/" ? "object-[92%_50%] md:object-top" : "object-center"} relative md:absolute inset-0 z-0`}
+        className={`w-auto md:w-full h-[65%] md:h-full object-cover ${normalized === "/" ? "object-[92%_50%] md:object-top" : "object-[50%_100%] md:object-center"} relative md:absolute inset-0 z-0`}
         decoding="async"
         loading="eager"
       />
       <div className="container-full flex justify-start items-center relative z-10 h-[35%] md:h-auto bg-rosado md:bg-transparent">
         <div className="flex flex-col justify-center items-center md:items-start  gap-6 w-full md:w-auto max-w-none md:max-w-200 translate-y-0 md:translate-y-[20%]">
           <div
-            className={`flex flex-col justify-center items-center md:items-start gap-2 ${normalized === "/" ? "text-primary" : "text-white"}`}
+            className={`flex flex-col justify-center  md:items-start gap-2 ${normalized === "/" ? "text-primary items-center" : "w-full md:w-auto items-start text-primary md:text-white"}`}
           >
             <p className="paragraph-x-large tracking-[-0.5px]">{content.tag}</p>
             <h1
@@ -46,7 +46,13 @@ export default function Hero({ content }: HeroProps) {
             label={content.button.text}
             href={content.button.link}
             styleButton={normalized === "/" ? "black" : "white"}
-            paddingX="px-6"
+            paddingX="px-6 hidden md:block"
+          />
+          <Button
+            label={content.button.text}
+            href={content.button.link}
+            styleButton={"black"}
+            paddingX="px-6 md:hidden block"
           />
         </div>
       </div>

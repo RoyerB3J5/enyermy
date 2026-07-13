@@ -2,8 +2,6 @@
 import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
 import StylistsGroup from "@/components/sections/StylistsGroup";
-import StylistsItem from "@/components/sections/StylistsItem";
-import { useState } from "react";
 
 const content = {
   title: "Meet Our Experts",
@@ -157,7 +155,7 @@ const content = {
 export default function Stylists() {
   return (
     <main className="flex flex-col justify-center items-center pt-(--header-height) w-full">
-      <section className="flex justify-center items-center pt-16 pb-8">
+      <section className="flex justify-center items-center  pt-12 md:pt-16 pb-8">
         <h1 className="title-h4 text-primary">{content.title}</h1>
       </section>
       <StylistsGroup content={content.items} />

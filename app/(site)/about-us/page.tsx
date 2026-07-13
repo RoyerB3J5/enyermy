@@ -7,8 +7,9 @@ import CarouselReview from "@/components/sections/CarouselReview";
 import StylistsItem from "@/components/sections/StylistsItem";
 const content = {
   hero: {
-    tag:"Professional Care. Visible Results.",
-    description2:'As for this temple you are building, if you follow my decrees, observe my laws and keep all my commands and obey them, I will fulfill through you the promise I give to David your father.',
+    tag: "Professional Care. Visible Results.",
+    description2:
+      "As for this temple you are building, if you follow my decrees, observe my laws and keep all my commands and obey them, I will fulfill through you the promise I give to David your father.",
     title: "Beauty Rooted in Purpose",
     description:
       "As for this temple you are building, if you follow my decrees, observe my laws and keep all my commands and obey them, I will fulfill through you the promise I give to David your father.",
@@ -52,7 +53,8 @@ const content = {
   },
   mision: {
     tag: "OUR MISSION",
-    title: "Beauty Rooted <br/> In Purpose",
+    title:
+      "Beauty Rooted <br class='hidden md:block'/> In  <br class='md:hidden block'/> Purpose",
     description:
       "At Enyermy Studio Pro, we believe beauty is more than what you see in the mirror. Our mission is not only to transform your hair but to inspire confidence, empower your spirit, and help you become the best version of yourself. Every service we provide is designed with excellence, care, and purpose-because true beauty begins from within.",
   },
@@ -129,7 +131,7 @@ const content = {
 };
 export default function AboutUs() {
   return (
-    <main className="w-full flex flex-col justify-center items-center pt-[var(--header-height)]">
+    <main className="w-full flex flex-col justify-center items-center pt-[var(--header-height)] md:pt-0">
       <Hero content={content.hero} />
       <Philosophy content={content.philosophy} />
       <Mission content={content.mision} />

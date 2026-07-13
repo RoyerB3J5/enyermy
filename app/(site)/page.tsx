@@ -9,8 +9,7 @@ import Recomendations from "@/components/sections/producstItem/Recomendations";
 const content = {
   hero: {
     tag: "Professional Care. Visible Results.",
-    title:
-      "Healthy Hair. <br class='hidden lg:block xl:hidden'/> Elevated.",
+    title: "Healthy Hair. <br class='hidden md:block xl:hidden'/> Elevated.",
     description: "Stronger, shinier, healthier hair starts here.",
     button: {
       text: "Shop Now",

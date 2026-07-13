@@ -7,7 +7,7 @@ import StylistsItem from "@/components/sections/StylistsItem";
 const content = {
   hero: {
     tag: "color correction and hair extention",
-    title: "Beauty Rooted <br/> in Purpose",
+    title: "Beauty Rooted <br class='hidden md:block'/> in Purpose",
     description: "Experts. Artistry. Experience.",
     button: {
       text: "BOOK APPOINTMENT",
@@ -88,10 +88,10 @@ const content = {
 };
 export default function SalonExperience() {
   return (
-    <main className="w-full flex flex-col justify-center items-center ">
+    <main className="w-full flex flex-col justify-center items-center pt-[var(--header-height)] md:pt-0">
       <Hero content={content.hero} />
       <Locations content={content.location} />
-      <Bundles content={content.tranformation} textWhite={true} />
+      <Bundles content={content.tranformation} />
       <CallEmail />
       <Bundles content={content.luxury} />
       <section className="flex flex-col justify-center items-center pt-16 gap-8 w-full">
@@ -99,6 +99,7 @@ export default function SalonExperience() {
         <StylistsItem
           content={content.professional.info}
           changeAspectRatio={true}
+          centerContent={true}
         />
       </section>
       <CarouselReview />

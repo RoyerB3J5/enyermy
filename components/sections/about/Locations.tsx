@@ -25,7 +25,7 @@ export default function Locations({
         className={
           differentDisplay
             ? "grid grid-cols-1 md:grid-cols-2  gap-x-6 gap-y-12 w-full"
-            : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full"
+            : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full items-start"
         }
       >
         {content.items.map((item, index) => (

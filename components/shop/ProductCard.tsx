@@ -14,12 +14,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       href={`/products/1`}
       className="flex flex-col justify-start items-center gap-3 hover:-translate-y-1 transition-transform duration-300 ease-in-out"
     >
-      <Image
+      <img
         src={product.imagen}
         alt={product.nombre}
         width="300"
         height="300"
         className="w-full h-auto object-cover rounded-2xl"
+        decoding="async"
+        loading="lazy"
       />
       <div className="flex flex-col justify-center items-center ">
         <p className="paragraph-x-small uppercase text-primary-light text-center">

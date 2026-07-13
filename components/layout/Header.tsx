@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import ChangeLanguage from "@/components/ui/ChangeLanguage";
 import CartIconHeader from "../ui/CartIconHeader";
-import { MapPin, Menu, Search, User } from "lucide-react";
+import { ChevronRight, MapPin, Menu, Search, User, X } from "lucide-react";
 
 // Multilingual content structure (to be populated/expanded later)
 const content = {
@@ -186,7 +186,7 @@ export default function Header() {
 
         {/* Main Navigation Bar */}
         <div
-          className={`w-full flex justify-center items-center transition-colors duration-300 bg-white ${
+          className={`w-full flex justify-center items-center transition-colors duration-300 bg-white  ${
             headerClasses
           }`}
         >
@@ -245,7 +245,7 @@ export default function Header() {
               </div>
             </div>
             <Link
-              className ='hidden lg:block'
+              className="hidden lg:block"
               href={`/${isSalonExperience ? "salon-experience" : ""}`}
               aria-label={
                 isSalonExperience
@@ -268,7 +268,7 @@ export default function Header() {
               />
             </Link>
             <Link
-              className ='lg:hidden block'
+              className="lg:hidden block"
               href={`/${isSalonExperience ? "salon-experience" : ""}`}
               aria-label={
                 isSalonExperience
@@ -328,52 +328,60 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-primary text-white flex-col justify-center h-[85%] z-[60] py-6 gap-12 transition-transform duration-300 ease-out w-full ${
+        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-white text-primary flex-col justify-center h-[85%] z-[60] py-6 gap-12 transition-transform duration-300 ease-out w-full ${
           isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
         id="mobile-menu"
       >
-        <Image
-          src="/images/equis.svg"
-          alt="Cerrar menú"
-          width="24"
-          height="24"
-          className="block absolute top-6 right-6 cursor-pointer z-20"
-          id="close-btn"
-          aria-label="Cerrar menú de navegación"
-          title="Cerrar menú"
-          role="button"
-          tabIndex={0}
-          onClick={() => setIsMobileMenuOpen(false)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              setIsMobileMenuOpen(false);
-            }
-          }}
-        />
-        <Link
-          href={`/`}
-          aria-label="Ir a la página principal"
-          title="Enerymy Studio Pro - Init"
-        >
-          <Image
-            src={logo}
-            alt="Logo Enyermy Studio Pro"
-            width={158}
-            height={48}
-            className="w-[158px] h-auto block"
-            priority
+        <div className="w-full flex justify-between items-center relative px-4">
+          <Link
+            href={`/`}
+            aria-label="Ir a la página principal"
+            title="Enerymy Studio Pro - Init"
+          >
+            <Image
+              src={logo}
+              alt="Logo Enyermy Studio Pro"
+              width={158}
+              height={48}
+              className="w-[158px] h-auto block"
+              priority
+            />
+          </Link>
+          <X
+            width="24"
+            height="24"
+            className="w-6 h-6 cursor-pointer text-primary"
+            id="close-btn"
+            aria-label="Cerrar menú de navegación"
+            role="button"
+            tabIndex={0}
+            onClick={() => setIsMobileMenuOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                setIsMobileMenuOpen(false);
+              }
+            }}
           />
-        </Link>
+        </div>
+
+        <div className="w-full flex justify-between items-center bg-primary px-4 py-5">
+          <p className="paragraph font-normal leading-[150%] text-white">
+            {isSalonExperience ? "Hair Care" : "Salon Experience"}
+          </p>
+          <div className="flex justify-center items-center bg-white rounded-full w-5 h-5">
+            <ChevronRight className="text-primary w-3.5 h-3.5" />
+          </div>
+        </div>
         <nav className="w-full px-4">
           <ul className="relative flex items-start flex-col justify-center w-full">
-            {content.nav.map((item, index) => {
+            {currentNav.map((item, index) => {
               const itemPathWithoutHash = item.href.split("#")[0];
               const isActive = normalized === itemPathWithoutHash;
               return (
                 <li
                   key={index}
-                  className={`flex flex-col items-start justify-center group gap-3.5 px-0 w-full py-5 text-start text-white ${isActive ? "bg-accent text-white uppercase px-4" : ""}`}
+                  className={`flex flex-col items-start justify-center group gap-3.5 px-0 w-full py-9 text-start border-t border-[#E7E7E7] text-primary ${isActive ? "bg-accent text-primary uppercase px-4" : ""}`}
                 >
                   <div className="w-full flex items-center justify-between">
                     <Link
@@ -391,7 +399,19 @@ export default function Header() {
             })}
           </ul>
         </nav>
+        <div className="flex justify-center items-center p-2 gap-2.5  ">
+          <MapPin
+            className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
+          />
 
+          <Link href="/store-locations">
+            <p
+              className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
+            >
+              {content.store}
+            </p>
+          </Link>
+        </div>
         {/*<div className="flex flex-col justify-center items-center gap-5 w-full px-4">
           <Button />
         </div>*/}

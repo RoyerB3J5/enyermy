@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 interface HeroProps {
   content: {
     image: string;
@@ -7,16 +6,17 @@ interface HeroProps {
     title: string;
     description: string;
   };
+  salon?: boolean;
 }
-export default function Hero({ content }: HeroProps) {
+export default function Hero({ content,salon }: HeroProps) {
   return (
     <section className="w-full h-[calc(100vh-var(--header-height))] md:h-[40vh] lg:h-auto aspect-auto lg:aspect-1440/500 flex flex-col justify-start md:justify-center items-center relative overflow-hidden ">
-      <Image
+      <img
         src={`/images/${content.image}.webp`}
         alt={content.title}
         width={1440}
         height={500}
-        className="object-cover w-auto md:w-full h-[65%] md:h-full relative md:absolute top-0 left-0 z-0 image-scale object-[74%_50%] md:object-[45%_50%] lg:object-center"
+        className={`object-cover w-auto md:w-full h-[65%] md:h-full relative md:absolute top-0 left-0 z-0 image-scale ${salon?'object-[77%_50%]':'object-[74%_50%]'}  md:object-[45%_50%] lg:object-center`}
         decoding="async"
         loading="eager"
       />

@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/ui/Button";
 import { Minus, Plus } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface MapSectionProps {
   content: {
@@ -10,6 +10,17 @@ interface MapSectionProps {
     button: string;
   };
 }
+
+const DESKTOP_MAP = {
+  width: 2184,
+  height: 1000,
+};
+
+const MOBILE_MAP = {
+  width: 2184,
+  height: 1000,
+};
+
 const locations = [
   {
     id: 1,
@@ -72,9 +83,9 @@ const locations = [
     },
   },
 ];
-const MAP_WIDTH = 1376;
-const MAP_HEIGHT = 630;
+
 export default function MapSection({ content }: MapSectionProps) {
+  const [mapSize, setMapSize] = useState(DESKTOP_MAP);
   const [currentLocation, setCurrentLocation] = useState(0);
   const DEFAULT_CAMERA = {
     x: 0,
@@ -90,7 +101,23 @@ export default function MapSection({ content }: MapSectionProps) {
   const MIN_ZOOM = 0.3;
   const MAX_ZOOM = 3;
   const ZOOM_STEP = 0.1;
+  const scaleX = mapSize.width / 1376;
+  const scaleY = mapSize.height / 630;
 
+  useEffect(() => {
+    const updateMapSize = () => {
+      if (window.innerWidth < 768) {
+        setMapSize(MOBILE_MAP);
+      } else {
+        setMapSize(DESKTOP_MAP);
+      }
+    };
+
+    updateMapSize();
+
+    window.addEventListener("resize", updateMapSize);
+    return () => window.removeEventListener("resize", updateMapSize);
+  }, []);
   const zoomIn = () => {
     setCamera((prev) => ({
       ...prev,
@@ -109,12 +136,20 @@ export default function MapSection({ content }: MapSectionProps) {
     if (index === currentLocation) return;
 
     const location = locations[index];
+    const isMobile = window.innerWidth < 768;
 
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (isMobile && location.id === 4) {
+      offsetX = 80; // derecha
+      offsetY = -50; // arriba
+    }
     setCurrentLocation(index);
 
     setCamera({
-      x: MAP_WIDTH / 2 - location.pin.x,
-      y: MAP_HEIGHT / 2 - location.pin.y,
+      x: mapSize.width / 2 - location.pin.x * scaleX + offsetX,
+      y: mapSize.height / 2 - location.pin.y * scaleY + offsetY,
       zoom: location.camera.zoom,
     });
   };
@@ -156,7 +191,7 @@ export default function MapSection({ content }: MapSectionProps) {
         <h2 className="title-h2">{content.title}</h2>
       </div>
       <div
-        className="w-full h-auto aspect-1376/630 relative flex justify-center items-end overflow-hidden cursor-grab active:cursor-grabbing bg-[#E8E8E8]"
+        className="w-full h-auto aspect-375/630 md:aspect-1376/800 lg:aspect-1376/630 relative flex justify-center items-end overflow-hidden cursor-grab active:cursor-grabbing bg-[#E8E8E8]"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -170,8 +205,8 @@ export default function MapSection({ content }: MapSectionProps) {
           duration-700
           ease-[cubic-bezier(.22,1,.36,1)]"
           style={{
-            width: `${MAP_WIDTH}px`,
-            height: `${MAP_HEIGHT}px`,
+            width: `${mapSize.width}px`,
+            height: `${mapSize.height}px`,
             transform: `
             translate(-50%, -50%)
             translate(${camera.x}px, ${camera.y}px)
@@ -186,6 +221,8 @@ export default function MapSection({ content }: MapSectionProps) {
             alt="Map"
             draggable={false}
             className="absolute inset-0 w-full h-full select-none pointer-events-none"
+            decoding="async"
+            loading="eager"
           />
 
           {locations.map((location, index) => (
@@ -203,14 +240,14 @@ export default function MapSection({ content }: MapSectionProps) {
                 ${currentLocation === index ? "bg-primary" : "bg-[#8D8D8D]"}
               `}
               style={{
-                left: `${location.pin.x}px`,
-                top: `${location.pin.y}px`,
+                left: `${location.pin.x * scaleX}px`,
+                top: `${location.pin.y * scaleY}px`,
               }}
             />
           ))}
         </div>
-        <div className="w-full h-auto flex justify-between items-end p-8 z-10">
-          <div className="flex justify-center items-center gap-4">
+        <div className="w-full h-auto flex justify-between items-end p-4 xl:p-8 z-10">
+          <div className="md:flex justify-center items-center gap-4 hidden">
             <button
               className="w-10 h-10 bg-primary flex justify-center items-center cursor-pointer"
               onClick={zoomOut}
@@ -224,8 +261,8 @@ export default function MapSection({ content }: MapSectionProps) {
               <Plus className="w-5 h-5 text-[#B8B8B8]" />
             </button>
           </div>
-          <div className="flex flex-col justify-center items-center gap-2.5">
-            <div className="relative w-[548px] h-[145px]">
+          <div className="flex flex-row md:flex-col justify-between md:justify-center items-end md:items-end lg:items-center gap-2.5 w-full md:w-auto ">
+            <div className="relative flex-1 md:flex-none w-full md:w-[448px] md:h-[145px] lg:w-[548px] lg:h-[145px] aspect-192/248 md:aspect-auto overflow-hidden">
               {locations.map((location, index) => (
                 <div
                   key={location.id}
@@ -247,8 +284,8 @@ export default function MapSection({ content }: MapSectionProps) {
                       currentLocation === index ? "200ms" : "0ms",
                   }}
                 >
-                  <div className="flex justify-start items-center gap-4 bg-white border border-[#E6E6E6] w-full h-full px-3.25 py-3.5">
-                    <div className="relative w-[198px] h-[116px] overflow-hidden">
+                  <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-4 bg-white border border-[#E6E6E6] w-full h-full px-3.25 py-3.5">
+                    <div className="relative md:w-[198px] md:h-[116px] w-full h-auto aspect-160/94 md:aspect-auto overflow-hidden">
                       <img
                         src={`/images/about/${location.image}.webp`}
                         alt={location.name}
@@ -256,8 +293,8 @@ export default function MapSection({ content }: MapSectionProps) {
                       />
                     </div>
 
-                    <div className="flex flex-col justify-between items-start self-stretch">
-                      <div>
+                    <div className="flex flex-col justify-between items-start self-auto md:self-stretch flex-1">
+                      <div className="flex flex-col justify-start items-start ">
                         <h3 className="font-title text-[14px] leading-[120%] tracking-[-0.5px]">
                           {location.title}
                         </h3>
@@ -277,7 +314,7 @@ export default function MapSection({ content }: MapSectionProps) {
                 </div>
               ))}
             </div>
-            <div className="flex justify-between items-center px-6 py-2.25 border border-[#E6E6E6] bg-white w-[548px]">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 md:px-6 py-2.25 border border-[#E6E6E6] bg-white w-auto md:w-[448px] lg:w-[548px] gap-4 md:gap-0">
               {locations.map((location) => (
                 <button
                   key={location.id}
@@ -290,7 +327,7 @@ export default function MapSection({ content }: MapSectionProps) {
                   <div
                     className={`w-1.5 h-1.5 bg-primary group-hover:scale-100 scale-0 transition-all duration-300 ease-in-out${currentLocation === location.id - 1 ? " hidden" : "block"}`}
                   ></div>
-                  <p className="text-[14px] font-normal leading-[130%] tracking-[-0.5px] text-primary ">
+                  <p className="text-[14px] font-normal leading-[130%] tracking-[-0.5px] text-primary whitespace-nowrap">
                     {location.name}
                   </p>
                 </button>

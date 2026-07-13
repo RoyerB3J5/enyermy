@@ -13,7 +13,11 @@ interface BundlesProps {
   textWhite?: boolean;
   changeColor?: boolean;
 }
-export default function Bundles({ content, textWhite,changeColor }: BundlesProps) {
+export default function Bundles({
+  content,
+  textWhite,
+  changeColor,
+}: BundlesProps) {
   return (
     <section className="w-full h-auto aspect-auto md:aspect-1440/500 flex flex-col justify-center items-center relative overflow-hidden group">
       <img
@@ -25,19 +29,21 @@ export default function Bundles({ content, textWhite,changeColor }: BundlesProps
         decoding="async"
         loading="lazy"
       />
-      <div className={`container-full flex flex-col justify-center items-center md:items-start gap-6 z-10 py-12 md:py-0 ${changeColor ? "bg-white" : "bg-rosado"} md:bg-transparent`}>
+      <div
+        className={`container-full flex flex-col justify-center items-center md:items-start gap-6 z-10 py-12 md:py-0 ${changeColor ? "bg-white" : "bg-rosado"} md:bg-transparent`}
+      >
         <div className="flex flex-col justify-center items-center md:items-start gap-4 md:gap-2 ">
           <p className="paragraph-x-large tracking-[-0.5px] text-primary text-center">
             {content.tag}
           </p>
           <h2
-            className={`title-h2 ${textWhite ? "text-white" : "text-primary"}`}
+            className={`title-h2 text-center md:text-start ${textWhite ? "text-primary md:text-white" : "text-primary"}`}
             dangerouslySetInnerHTML={{ __html: content.title }}
           />
           {content.descriptions.map((description, index) => (
             <p
               key={index}
-              className="paragraph font-normal text-primary text-center"
+              className="paragraph font-normal text-primary text-center md:text-start"
               dangerouslySetInnerHTML={{ __html: description }}
             ></p>
           ))}

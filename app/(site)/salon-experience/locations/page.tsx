@@ -45,7 +45,7 @@ const content = {
 export default function LocationsPage() {
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height)">
-      <Hero content={content.hero} />
+      <Hero content={content.hero} salon={true} />
       <Locations content={content.location} differentDisplay={true} />
       <CallEmail />
       <CarouselReview />
