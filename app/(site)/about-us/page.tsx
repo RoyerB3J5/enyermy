@@ -7,6 +7,8 @@ import CarouselReview from "@/components/sections/CarouselReview";
 import StylistsItem from "@/components/sections/StylistsItem";
 const content = {
   hero: {
+    tag:"Professional Care. Visible Results.",
+    description2:'As for this temple you are building, if you follow my decrees, observe my laws and keep all my commands and obey them, I will fulfill through you the promise I give to David your father.',
     title: "Beauty Rooted in Purpose",
     description:
       "As for this temple you are building, if you follow my decrees, observe my laws and keep all my commands and obey them, I will fulfill through you the promise I give to David your father.",
@@ -127,7 +129,7 @@ const content = {
 };
 export default function AboutUs() {
   return (
-    <main className="w-full flex flex-col justify-center items-center ">
+    <main className="w-full flex flex-col justify-center items-center pt-[var(--header-height)]">
       <Hero content={content.hero} />
       <Philosophy content={content.philosophy} />
       <Mission content={content.mision} />

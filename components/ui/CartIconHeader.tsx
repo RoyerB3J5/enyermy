@@ -19,7 +19,7 @@ export default function CartIconHeader({
       className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer relative"
     >
       <Handbag
-        className={`w-5.5 md:w-4 h-auto block ${differentStyles ? "text-white" : "text-primary"}`}
+        className={`w-5.5 md:w-4 h-auto block ${differentStyles ? "text-primary lg:text-white" : "text-primary"}`}
       />
       {totalItems > 0 && (
         <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">

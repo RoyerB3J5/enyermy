@@ -58,8 +58,8 @@ export default function Header() {
         : "lg:bg-transparent text-primary"
       : ["/salon-experience", "/about", "/about-us"].includes(normalized)
         ? isThresholdReached
-          ? "lg:bg-black text-white"
-          : "lg:bg-transparent text-white"
+          ? "lg:bg-black text-primary lg:text-white"
+          : "lg:bg-transparent text-primary lg:text-white"
         : "lg:bg-white text-primary";
 
   const match = pathname.match(/^\/(en|es)/);
@@ -207,7 +207,7 @@ export default function Header() {
                           className="relative transition-colors duration-300 flex justify-center items-center"
                         >
                           <p
-                            className={`paragraph transition-all duration-300 ease-in-out ${headerClasses.includes("text-white") ? "text-white" : "text-primary"} font-normal`}
+                            className={`paragraph transition-all duration-300 ease-in-out ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"} font-normal`}
                           >
                             {item.label}
                           </p>
@@ -235,16 +235,17 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Menu
-                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </button>
               <div className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer md:hidden ">
                 <Search
-                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </div>
             </div>
             <Link
+              className ='hidden lg:block'
               href={`/${isSalonExperience ? "salon-experience" : ""}`}
               aria-label={
                 isSalonExperience
@@ -266,15 +267,38 @@ export default function Header() {
                 priority
               />
             </Link>
+            <Link
+              className ='lg:hidden block'
+              href={`/${isSalonExperience ? "salon-experience" : ""}`}
+              aria-label={
+                isSalonExperience
+                  ? "Ir a la página principal de Salon Experience"
+                  : "Ir a la página principal"
+              }
+              title={
+                isSalonExperience
+                  ? "Enyermy Studio Pro - Salon Experience"
+                  : "Enyermy Studio Pro - Init"
+              }
+            >
+              <Image
+                src={logo}
+                alt="Logo Enyermy Studio Pro"
+                width={158}
+                height={48}
+                className="w-[89px] lg:w-[158px] h-auto block"
+                priority
+              />
+            </Link>
             <div className="flex justify-center items-center gap-4 md:gap-0">
               <div className="md:flex justify-center items-center p-2 gap-2.5 hidden ">
                 <MapPin
-                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
 
                 <Link href="/store-locations">
                   <p
-                    className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                    className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                   >
                     {content.store}
                   </p>
@@ -282,7 +306,7 @@ export default function Header() {
               </div>
               <div className="w-10.5 h-10.5 hidden md:flex justify-center items-center cursor-pointer">
                 <Search
-                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </div>
               <Link
@@ -290,7 +314,7 @@ export default function Header() {
                 className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center "
               >
                 <User
-                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-white" : "text-primary"}`}
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </Link>
 
