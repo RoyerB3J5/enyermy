@@ -25,15 +25,18 @@ export default function Collections({ content }: CollectionsProps) {
             key={index}
             className="flex flex-col justify-center items-center gap-2 md:gap-3 text-primary overflow-hidden"
           >
-            <img
-              src={`/images/main/${item.image}.webp`}
-              alt={item.title}
-              width={448}
-              height={448}
-              className="w-full h-full object-cover object-center rounded-2xl "
-              decoding="async"
-              loading="lazy"
-            />
+            <div className="overflow-hidden rounded-2xl">
+              <img
+                src={`/images/main/${item.image}.webp`}
+                alt={item.title}
+                width={448}
+                height={448}
+                className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300 ease-in-out"
+                decoding="async"
+                loading="lazy"
+              />
+            </div>
+
             <h3 className="title-h5 text-center">{item.title}</h3>
             <p className="paragraph text-center font-normal">
               {item.description}

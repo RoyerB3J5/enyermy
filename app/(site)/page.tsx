@@ -100,6 +100,7 @@ const content = {
       },
     ],
   },
+  button: "Add to BAG",
 };
 const contentBestsellers = {
   title: "Best Sellers",
@@ -109,6 +110,7 @@ const contentBestsellers = {
       nombre: "Bonding Mask",
       precio: "45.00",
       imagen: "/images/argan-oil-1.webp",
+      image2: "/images/argan-oil-2.webp",
       marca: "ENYERMY STUDIO PRO",
       tieneAtributos: true,
     },
@@ -117,6 +119,7 @@ const contentBestsellers = {
       nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
       precio: "50.00",
       imagen: "/images/argan-oil-2.webp",
+      image2: "/images/argan-oil-1.webp",
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
     },
@@ -125,6 +128,7 @@ const contentBestsellers = {
       nombre: "Bonding Mask",
       precio: "45.00",
       imagen: "/images/argan-oil-1.webp",
+      image2: "/images/argan-oil-2.webp",
       marca: "ENYERMY STUDIO PRO",
       tieneAtributos: true,
     },
@@ -133,6 +137,7 @@ const contentBestsellers = {
       nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
       precio: "50.00",
       imagen: "/images/argan-oil-2.webp",
+      image2: "/images/argan-oil-1.webp",
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
     },
@@ -141,6 +146,7 @@ const contentBestsellers = {
       nombre: "Bonding Mask",
       precio: "45.00",
       imagen: "/images/argan-oil-1.webp",
+      image2: "/images/argan-oil-2.webp",
       marca: "ENYERMY STUDIO PRO",
       tieneAtributos: true,
     },
@@ -149,6 +155,7 @@ const contentBestsellers = {
       nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
       precio: "50.00",
       imagen: "/images/argan-oil-2.webp",
+      image2: "/images/argan-oil-1.webp",
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
     },
@@ -196,7 +203,10 @@ export default function Home() {
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height) md:pt-0">
       <Hero content={content.hero} />
-      <Recomendations content={contentBestsellers} />
+      <Recomendations
+        content={contentBestsellers}
+        buttonLabel={content.button}
+      />
       <Bundles content={content.bundles} />
       <Collections content={content.collection} />
       <ItemAlone content={contentAloneProduct} />

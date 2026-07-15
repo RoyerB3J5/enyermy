@@ -6,15 +6,18 @@ import CarouselProducts from "../CarouselProducst";
 import ButtonLink from "@/components/ui/ButtonLink";
 import ProductCard from "@/components/shop/ProductCard";
 import { useCallback, useEffect, useRef, useState } from "react";
-
+interface ProductCardPropsWithImage extends LightProduct {
+  image2: string; // O usa `image2?: string;` si es opcional
+}
 interface RecomendationsProps {
   content: {
     title: string;
-    products: LightProduct[];
+    products: ProductCardPropsWithImage[];
     button: { text: string; href: string };
   };
+  buttonLabel: string;
 }
-export default function Recomendations({ content }: RecomendationsProps) {
+export default function Recomendations({ content, buttonLabel }: RecomendationsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
@@ -128,7 +131,7 @@ export default function Recomendations({ content }: RecomendationsProps) {
                 key={index}
                 className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-72px)/4)] shrink-0"
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} image2={product.image2} buttonLabel={buttonLabel} />
               </div>
             ))}
           </div>
