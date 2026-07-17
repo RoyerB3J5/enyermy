@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Merriweather, Figtree } from "next/font/google";
-import "../globals.css";
+import "../../../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/shop/CartDrawer";
@@ -18,15 +18,15 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   metadataBase: new URL("https://enyermystudio.com"),
 
-  title: "Enyermy Studio Pro",
+  title: "Enyermy Studio Pro - Salon Experience",
   description:
-    "Enyermy Studio Pro is a leading provider of tree services, offering a comprehensive growth system and marketing automation solutions to help tree companies generate better leads and grow their business.",
+    "Discover the ultimate salon experience with Enyermy Studio Pro.",
 
   keywords: [
-    "Tree Services",
-    "Lead Generation",
-    "Growth System",
-    "Marketing Automation",
+    "Salon Experience",
+    "Professional Hair Care",
+    "Hair Treatments",
+    "Hair Styling",
   ],
 
   authors: [{ name: "Enyermy Studio Pro" }],
@@ -73,21 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${merriweather.variable} ${figtree.variable} w-full h-full antialiased overflow-x-hidden`}
+    <div
+      // Aquí volvemos a inyectar las variables de tus fuentes
+      className={`${merriweather.variable} ${figtree.variable} font-family w-full h-full`}
     >
-      <head>
-        <link rel="preconnect" href="https://widgets.leadconnectorhq.com" />
-        <link rel="dns-prefetch" href="https://widgets.leadconnectorhq.com" />
-      </head>
-
-      <body className="w-full font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center ">
-        <Header />
-        {children}
-        <Footer />
-        <CartDrawer />
-      </body>
-    </html>
+      {children}
+    </div>
   );
 }

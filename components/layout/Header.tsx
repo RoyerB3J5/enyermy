@@ -10,35 +10,17 @@ import Button from "@/components/ui/Button";
 import ChangeLanguage from "@/components/ui/ChangeLanguage";
 import CartIconHeader from "../ui/CartIconHeader";
 import { ChevronRight, MapPin, Menu, Search, User, X } from "lucide-react";
+import type { Locale } from "@/i18n/config";
+import { getLocalizedPath } from "@/i18n/navigation";
+import type { HeaderContent } from "@/i18n/types";
 
-// Multilingual content structure (to be populated/expanded later)
-const content = {
-  changePage: [
-    {
-      label: "Hair Care",
-      href: "/",
-    },
-    {
-      label: "Salon Experience",
-      href: "/salon-experience",
-    },
-  ],
-  nav: [
-    { label: "All Products", href: "/products" },
-    { label: "Shop Bundles", href: "/bundles" },
-    { label: "About Us", href: "/about-us" },
-    { label: "Blog", href: "/blog" },
-  ],
-  navBundles: [
-    { label: "Our Locations", href: "/salon-experience/locations" },
-    { label: "Our Stylists", href: "/salon-experience/stylists" },
-    { label: "About Us", href: "/about-us" },
-    { label: "Blog", href: "/blog" },
-  ],
-  store: "Store Location",
-};
-
-export default function Header() {
+export default function Header({
+  locale,
+  content,
+}: {
+  locale: Locale;
+  content?: HeaderContent;
+}) {
   const pathname = usePathname() || "/";
   const headerRef = useRef<HTMLElement>(null);
   const topBarRef = useRef<HTMLDivElement>(null);
@@ -62,10 +44,9 @@ export default function Header() {
           : "lg:bg-transparent text-primary lg:text-white"
         : "lg:bg-white text-primary";
 
-  const match = pathname.match(/^\/(en|es)/);
-  const lang = match ? match[1] : "en";
   const isSalonExperience = normalized.startsWith("/salon-experience");
-  const currentNav = isSalonExperience ? content.navBundles : content.nav;
+  const currentNav = isSalonExperience ? content?.navBundles : content?.nav;
+  const localizedPath = (href: string) => getLocalizedPath(locale, href);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -163,14 +144,14 @@ export default function Header() {
           className="hidden w-full lg:flex justify-center items-center pt-2 bg-black"
         >
           <div className="container-full flex justify-start items-center">
-            {content.changePage.map((item, index) => {
+            {content?.changePage?.map((item, index) => {
               const isActive =
                 item.href === "/" ? !isSalonExperience : isSalonExperience;
 
               return (
                 <Link
                   key={index}
-                  href={item.href}
+                  href={localizedPath(item.href)}
                   className={`px-4 py-1 rounded-t-lg transition-all duration-300 ease-in-out ${
                     isActive
                       ? "bg-white text-primary"
@@ -194,7 +175,7 @@ export default function Header() {
             <div className="hidden relative lg:flex  bg-transparent  flex-row justify-center items-center h-auto w-auto z-10 transform translate-x-0 transition-transform duration-300 ease-out">
               <nav>
                 <ul className=" relative flex items-center flex-row justify-center w-auto">
-                  {currentNav.map((item, index) => {
+                  {currentNav?.map((item, index) => {
                     const itemPathWithoutHash = item.href.split("#")[0];
                     const isActive = normalized === itemPathWithoutHash;
                     return (
@@ -203,7 +184,7 @@ export default function Header() {
                         className={`flex flex-row items-center justify-center group  w-auto text-center px-4 py-2`}
                       >
                         <Link
-                          href={`${item.href}`}
+                          href={localizedPath(item.href)}
                           className="relative transition-colors duration-300 flex justify-center items-center"
                         >
                           <p
@@ -246,7 +227,9 @@ export default function Header() {
             </div>
             <Link
               className="hidden lg:block"
-              href={`/${isSalonExperience ? "salon-experience" : ""}`}
+              href={localizedPath(
+                isSalonExperience ? "/salon-experience" : "/",
+              )}
               aria-label={
                 isSalonExperience
                   ? "Ir a la página principal de Salon Experience"
@@ -269,7 +252,9 @@ export default function Header() {
             </Link>
             <Link
               className="lg:hidden block"
-              href={`/${isSalonExperience ? "salon-experience" : ""}`}
+              href={localizedPath(
+                isSalonExperience ? "/salon-experience" : "/",
+              )}
               aria-label={
                 isSalonExperience
                   ? "Ir a la página principal de Salon Experience"
@@ -296,11 +281,11 @@ export default function Header() {
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
 
-                <Link href="/store-locations">
+                <Link href={localizedPath("/store-locations")}>
                   <p
                     className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                   >
-                    {content.store}
+                    {content?.store}
                   </p>
                 </Link>
               </div>
@@ -335,7 +320,7 @@ export default function Header() {
       >
         <div className="w-full flex justify-between items-center relative px-4">
           <Link
-            href={`/`}
+            href={localizedPath("/")}
             aria-label="Ir a la página principal"
             title="Enerymy Studio Pro - Init"
           >
@@ -375,7 +360,7 @@ export default function Header() {
         </div>
         <nav className="w-full px-4">
           <ul className="relative flex items-start flex-col justify-center w-full">
-            {currentNav.map((item, index) => {
+            {currentNav?.map((item, index) => {
               const itemPathWithoutHash = item.href.split("#")[0];
               const isActive = normalized === itemPathWithoutHash;
               return (
@@ -385,7 +370,7 @@ export default function Header() {
                 >
                   <div className="w-full flex items-center justify-between">
                     <Link
-                      href={`${item.href}`}
+                      href={localizedPath(item.href)}
                       className="relative transition-colors duration-300 flex justify-center items-center"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -404,11 +389,11 @@ export default function Header() {
             className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
           />
 
-          <Link href="/store-locations">
+          <Link href={localizedPath("/store-locations")}>
             <p
               className={`paragraph font-normal ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
             >
-              {content.store}
+              {content?.store}
             </p>
           </Link>
         </div>

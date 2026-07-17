@@ -35,10 +35,10 @@ export default function StylistsItem({
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 justify-center items-center w-full">
       <div
-        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500 md:aspect-720/400 lg:aspect-720/500" : "aspect-720/660"} ${isParity ? "lg:order-1" : "lg:order-2"} relative overflow-hidden`}
+        className={`w-full h-auto ${changeAspectRatio ? "aspect-720/500 md:aspect-720/400 lg:aspect-720/500" : "aspect-720/660 xl:aspect-720/660"} ${isParity ? "lg:order-1 lg:aspect-auto lg:h-full xl:h-auto" : "lg:order-2 "} relative overflow-hidden`}
       >
         <img
-          className={`w-full h-full object-cover object-center absolute inset-0 image-scale`}
+          className={`w-full h-full object-cover  absolute inset-0 image-scale ${content.image == "enyermy" || content.image == "kamilla" || content.image == "lorena" ? "object-center" : "object-[50%_15%]"}`}
           src={`/images/salon-experience/stylists/${content.image}.webp`}
           decoding="async"
           loading="lazy"
@@ -49,8 +49,8 @@ export default function StylistsItem({
       </div>
 
       <div
-        className={`w-full py-12 lg:py-0 h-auto ${changeAspectRatio ? "lg:aspect-720/500" : "lg:aspect-720/660"} ${
-          isParity ? "lg:order-2 bg-white" : "lg:order-1 bg-accent"
+        className={`w-full py-12  h-auto ${changeAspectRatio ? "lg:aspect-720/500" : "lg:aspect-720/660"} ${
+          isParity ? "lg:order-2 bg-white lg:py-3 xl:py-0" : "lg:order-1 bg-accent lg:py-0"
         }  flex items-center ${
           isParity
             ? "xl:pr-[max(2rem,calc((100vw-1280px)/2))]"
@@ -58,7 +58,7 @@ export default function StylistsItem({
         }`}
       >
         <div
-          className={`w-full px-4 xl:px-0 lg:max-w-160 flex ${isParity ? "justify-end md:pl-6" : "justify-start"}`}
+          className={`w-full px-4 xl:px-0 lg:max-w-160 flex ${isParity ? "justify-end md:pl-6 " : "justify-start"}`}
         >
           <div
             className={`flex flex-col items-start text-primary gap-6 md:gap-4 xl:gap-8 w-full xl:w-[90%]`}
@@ -74,7 +74,7 @@ export default function StylistsItem({
                 dangerouslySetInnerHTML={{ __html: content.name }}
               />
               <p
-                className={` ${changeAspectRatio ? "w-full xl:w-[85%] 3xl:w-[82%]" : "w-full md:w-[85%] "} paragraph font-normal tracking-[-0.5px] ${centerContent ? "text-center md:text-start" : "text-start"}`}
+                className={` ${changeAspectRatio ? "w-full xl:w-[85%] 3xl:w-[82%]" : "w-full xl:w-[85%] "} paragraph font-normal tracking-[-0.5px] ${centerContent ? "text-center md:text-start" : "text-start"}`}
               >
                 {content.description}
               </p>

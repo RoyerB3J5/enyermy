@@ -6,102 +6,12 @@ import Hero from "@/components/sections/main/Hero";
 import ItemAlone from "@/components/sections/main/ItemAlone";
 import Professionals from "@/components/sections/main/Professionals";
 import Recomendations from "@/components/sections/producstItem/Recomendations";
-const content = {
-  hero: {
-    tag: "Professional Care. Visible Results.",
-    title: "Healthy Hair. <br class='hidden md:block xl:hidden'/> Elevated.",
-    description: "Stronger, shinier, healthier hair starts here.",
-    button: {
-      text: "Shop Now",
-      link: "/products",
-    },
-    image: "main/hero-main",
-  },
-  bundles: {
-    tag: "Save 25–30% on Expert-Curated Hair Care Bundles",
-    title: "Bundle & Save",
-    descriptions: [
-      "Professional formulas with premium botanical ingredients.",
-      "100% Vegan • Sulfate-Free • Paraben-Free",
-    ],
-    button: {
-      text: "Shop Bundles",
-      link: "/bundles",
-    },
-    image: "main/bundles-main",
-  },
-  routine: {
-    tag: "Tailored Care For Every Hair Type",
-    title: "Discover Your Routine",
-    descriptions: [
-      "Build a personalized routine with professional solutions designed <br class='hidden md:block'> for lasting beauty and confidence.",
-    ],
-    button: {
-      text: "Find Your Hair Solution",
-      link: "#",
-    },
-    image: "main/routine-main",
-  },
-  collection: {
-    title: "Signature Collections",
-    items: [
-      {
-        image: "repair-collection",
-        title: "Repair & Hydration",
-        description: "Restore Strength & Shine",
-        button: {
-          text: "Check Now",
-          href: "#",
-        },
-      },
-      {
-        image: "color-collection",
-        title: "Hair Color Solutions",
-        description: "Color That Lasts",
-        button: {
-          text: "Check Now",
-          href: "#",
-        },
-      },
-      {
-        image: "curl-collection",
-        title: "Curl Care",
-        description: "Specialized Hair Care",
-        button: {
-          text: "Check Now",
-          href: "#",
-        },
-      },
-    ],
-  },
-  professionals: {
-    title: "For Professionals",
-    atributo: "From",
-    items: [
-      {
-        color: "bg-rojo",
-        slogan: "Enhances Hair Beauty!",
-        image: "color-1",
-      },
-      {
-        color: "bg-morado",
-        slogan: "Deeply Hydrates Hair!",
-        image: "color-2",
-      },
-      {
-        color: "bg-verde",
-        slogan: "Nourishes Every Strand!",
-        image: "color-3",
-      },
-      {
-        color: "bg-azul",
-        slogan: "Revitalizes the Hair!",
-        image: "color-4",
-      },
-    ],
-  },
-  button: "Add to BAG",
-};
+import { getContent } from "@/i18n/content";
+import { hasLocale } from "@/i18n/config";
+import { notFound } from "next/navigation";
+
+type MainContent = (typeof import("@/content/en"))["default"]["main"];
+
 const contentBestsellers = {
   title: "Best Sellers",
   products: [
@@ -199,7 +109,17 @@ const contentProfessionals = [
     price: "180.00",
   },
 ];
-export default function Home() {
+export default async function Home({
+  params,
+}: PageProps<"/[locale]">) {
+  const { locale } = await params;
+
+  if (!hasLocale(locale)) {
+    notFound();
+  }
+
+  const { main: content } = await getContent<{ main: MainContent }>(locale);
+
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height) md:pt-0">
       <Hero content={content.hero} />

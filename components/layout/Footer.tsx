@@ -1,42 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import type { Locale } from "@/i18n/config";
+import { getLocalizedPath } from "@/i18n/navigation";
+import type { FooterContent } from "@/i18n/types";
 
 const cards = ["visa", "mastercard", "amex", "discover"];
-const content = {
-  quickLinks: {
-    title: "Quick Links",
-    links: [
-      { label: "Shop All", href: "/" },
-      { label: "Hair Salon Services", href: "/salon-services" },
-      { label: "Our Stylists", href: "/stylists" },
-      { label: "Blog", href: "/blog" },
-    ],
-  },
-  products: {
-    title: "Products",
-    links: [
-      { label: "All Products", href: "/products" },
-      { label: "Shop by Collections", href: "/shop-collections" },
-      { label: "Shop Bundles", href: "/bundles" },
-    ],
-  },
-  servicesArea: {
-    title: "Locations",
-    areas: [
-      "Ocoee",
-      "Orlando",
-      "Waterford Lakes",
-      "St. Petersburg (Coming soon)",
-    ],
-  },
-  aboutUs: {
-    title: "About Us",
-    description:
-      "Professional hair care designed to nourish,restore, and elevate every hair journey.",
-  },
-};
 
 const socialMedia = [
   {
@@ -49,10 +18,14 @@ const socialMedia = [
   },
 ];
 
-export default function Footer() {
-  const pathname = usePathname() || "/";
-  const match = pathname.match(/^\/(en|es)/);
-  const lang = match ? match[1] : "en";
+export default function Footer({
+  locale,
+  content,
+}: {
+  locale: Locale;
+  content?: FooterContent;
+}) {
+  const localizedPath = (href: string) => getLocalizedPath(locale, href);
 
   return (
     <footer className="flex flex-col justify-center items-center w-full">
@@ -69,13 +42,13 @@ export default function Footer() {
           <div className="flex flex-col justify-between items-center lg:items-start gap-10 self-start w-full lg:w-auto pt-5 h-full">
             <div className="flex flex-col justify-center items-center lg:items-start gap-7">
               <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
-                {content.quickLinks.title}
+                {content?.quickLinks.title}
               </h3>
               <ul className="flex flex-col justify-center items-center lg:items-start gap-2">
-                {content.quickLinks.links.map((item, index) => (
+                {content?.quickLinks.links.map((item, index) => (
                   <li key={index}>
                     <Link
-                      href={`${item.href}`}
+                      href={localizedPath(item.href)}
                       className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                     >
                       {item.label}
@@ -104,13 +77,13 @@ export default function Footer() {
           {/* Services Section */}
           <div className="flex flex-col justify-center items-center lg:items-start gap-7 self-start w-full lg:w-auto pt-5">
             <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
-              {content.products.title}
+              {content?.products.title}
             </h3>
             <ul className="flex flex-col justify-center items-center lg:items-start gap-2">
-              {content.products.links.map((item, index) => (
+              {content?.products.links.map((item, index) => (
                 <li key={index}>
                   <Link
-                    href={`${item.href}`}
+                    href={localizedPath(item.href)}
                     className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                   >
                     {item.label}
@@ -123,13 +96,13 @@ export default function Footer() {
           {/* Service Area Section */}
           <div className="flex flex-col justify-center items-center lg:items-start gap-7 self-start w-full lg:w-auto pt-5">
             <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
-              {content.servicesArea.title}
+              {content?.servicesArea.title}
             </h3>
             <ul className="flex flex-col justify-center items-center lg:items-start gap-2">
-              {content.servicesArea.areas.map((item, index) => (
+              {content?.servicesArea.areas.map((item, index) => (
                 <li key={index}>
                   <Link
-                    href={`/locations`}
+                    href={localizedPath("/locations")}
                     className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-medium"
                   >
                     {item}
@@ -143,10 +116,10 @@ export default function Footer() {
           <div className="flex flex-col justify-between items-center lg:items-start gap-10 self-start w-full lg:w-auto pt-5 h-full">
             <div className="flex flex-col justify-center items-center lg:items-start gap-7">
               <h3 className="text-[21.3px] font-normal leading-[119%] font-title">
-                {content.aboutUs.title}
+                {content?.aboutUs.title}
               </h3>
               <p className="paragraph text-white font-medium text-center md:text-start">
-                {content.aboutUs.description}
+                {content?.aboutUs.description}
               </p>
             </div>
             <div className="flex justify-start items-center gap-2">
@@ -190,8 +163,9 @@ export default function Footer() {
             >
               Inkshape Group
             </Link>{" "}
-            | Privacy | <Link href="/">Enyermy Studio Pro</Link> | Greenville &
-            Charlotte | Call Now:{" "}
+            | Privacy |{" "}
+            <Link href={localizedPath("/")}>Enyermy Studio Pro</Link> |
+            Greenville & Charlotte | Call Now:{" "}
             <Link href="tel:+19804679337">(980) 467-9337</Link>
           </p>
         </div>

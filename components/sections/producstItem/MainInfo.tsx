@@ -6,7 +6,15 @@ import type { FrontendProductDetail } from "@/types/square";
 import Button from "@/components/ui/Button";
 import { useCart } from "@/hooks/useCart";
 import ButtonLink from "@/components/ui/ButtonLink";
+import AccordeonProduct from "./AccordeonProduct";
 
+interface MainInfoProps {
+  contentProduct: FrontendProductDetail;
+  contentFixed?: {
+    header: string;
+    content: string;
+  }[];
+}
 const content = {
   links: [
     {
@@ -51,9 +59,8 @@ const content = {
 };
 export default function MainInfo({
   contentProduct,
-}: {
-  contentProduct: FrontendProductDetail;
-}) {
+  contentFixed,
+}: MainInfoProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [variationIndex, setVariationIndex] = useState(0);
   const [amount, setAmount] = useState(1);
@@ -274,6 +281,7 @@ export default function MainInfo({
               onClick={handleRelatedAddToCart}
             />
           </div>
+          <AccordeonProduct content={contentFixed ?? []} />
         </div>
       </div>
     </section>

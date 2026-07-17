@@ -106,7 +106,7 @@ const content = {
       },
       {
         image: "petersburg",
-        name: "St. Petersburg (Coming Soon)",
+        name: "St. Petersburg ",
         direction: "6901 22nd Ave N Suite 6707 <br/> St.Petersburg",
         href: "#",
       },
