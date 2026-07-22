@@ -226,7 +226,7 @@ export default function Header({
               </div>
             </div>
             <Link
-              className="hidden lg:block"
+              className="hidden lg:block translate-x-[-50%]"
               href={localizedPath(
                 isSalonExperience ? "/salon-experience" : "/",
               )}
@@ -303,10 +303,11 @@ export default function Header({
                 />
               </Link>
 
-              <CartIconHeader
-                differentStyles={headerClasses.includes("text-white")}
-              />
-            </div>
+               <CartIconHeader
+                 differentStyles={headerClasses.includes("text-white")}
+               />
+               <ChangeLanguage locale={locale} />
+             </div>
           </div>
         </div>
       </header>

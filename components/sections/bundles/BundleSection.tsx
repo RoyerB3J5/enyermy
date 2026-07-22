@@ -50,12 +50,12 @@ export default function BundleSection({
                 bundle.color
               } flex items-center ${
                 isPar
-                  ? "md:pr-[max(2rem,calc((100vw-1280px)/2))] order-2"
+                  ? "md:pr-[max(2rem,calc((100vw-1280px)/2))] order-2 "
                   : "md:pl-[max(2rem,calc((100vw-1280px)/2))] order-1"
               }`}
             >
               <div
-                className={`w-full md:max-w-160 flex ${isPar ? " px-0 md:px-4 xl:px-0 md:justify-end" : "md:justify-start"}`}
+                className={`w-full md:max-w-160 flex ${isPar ? " px-0 md:px-4 xl:pr-0 xl:pl-12 md:justify-end" : "md:justify-start"}`}
               >
                 <div className="flex flex-col items-start text-primary gap-6 md:gap-2 xl:gap-8 w-full">
                   <div className="flex flex-col justify-center items-start gap-4 md:gap-2 xl:gap-4">
