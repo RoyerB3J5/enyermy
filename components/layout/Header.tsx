@@ -303,11 +303,11 @@ export default function Header({
                 />
               </Link>
 
-               <CartIconHeader
-                 differentStyles={headerClasses.includes("text-white")}
-               />
-               <ChangeLanguage locale={locale} />
-             </div>
+              <CartIconHeader
+                differentStyles={headerClasses.includes("text-white")}
+              />
+              <ChangeLanguage locale={locale} />
+            </div>
           </div>
         </div>
       </header>
@@ -351,14 +351,17 @@ export default function Header({
           />
         </div>
 
-        <div className="w-full flex justify-between items-center bg-primary px-4 py-5">
-          <p className="paragraph font-normal leading-[150%] text-white">
+        <Link href={isSalonExperience ? "/en/" : "/en/salon-experience"} className="w-full flex justify-between items-center bg-primary px-4 py-5">
+          <p
+            
+            className="paragraph font-normal leading-[150%] text-white"
+          >
             {isSalonExperience ? "Hair Care" : "Salon Experience"}
           </p>
           <div className="flex justify-center items-center bg-white rounded-full w-5 h-5">
             <ChevronRight className="text-primary w-3.5 h-3.5" />
           </div>
-        </div>
+        </Link>
         <nav className="w-full px-4">
           <ul className="relative flex items-start flex-col justify-center w-full">
             {currentNav?.map((item, index) => {
