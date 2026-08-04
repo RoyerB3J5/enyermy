@@ -6,21 +6,25 @@ interface AccordeonProductProps {
     header: string;
     content: string;
   }[];
+  comoUsar: string;
+  ingredientsArray?: string[];
 }
 
 export default function AccordeonProduct({
   content = [],
+  comoUsar,
+  ingredientsArray = [],
 }: AccordeonProductProps) {
   // null significa que todos están cerrados por defecto
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleToggle = (index: number) => {
-    // Si se hace clic en el que ya está abierto se cierra, si no, se abre el nuevo y cierra el anterior
+    // Si se hace clic en el que ya está abierto se cierra, si no, se abre el nuevo
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   return (
-    <ul className="flex flex-col justify-center items-center w-full">
+    <ul className="flex flex-col justify-center items-center w-full fade-left">
       {content.map((item, index) => {
         const isOpen = openIndex === index;
 
@@ -53,11 +57,25 @@ export default function AccordeonProduct({
               }`}
             >
               <div className="overflow-hidden">
-                {/* pt-4 actúa como el gap/espaciado cuando se expande el contenido */}
                 <div className="pt-4">
-                  <p className="paragraph font-normal text-primary/80">
-                    {item.content}
-                  </p>
+                  {/* Validación para index 1 con contenido vacío */}
+                  {index === 1 && item.content === "" ? (
+                    <ul className="list-disc list-inside space-y-1 text-primary/80 paragraph font-normal">
+                      {ingredientsArray.map((ingredient, i) => (
+                        <li key={i}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      className="paragraph font-normal text-primary/80"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          index === 0 && item.content === ""
+                            ? comoUsar
+                            : item.content,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

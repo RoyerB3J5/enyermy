@@ -31,20 +31,20 @@ export default function Hero({ content }: HeroProps) {
           <div
             className={`flex flex-col justify-center items-start gap-2 text-primary md:text-white`}
           >
-            <p className="paragraph-x-large tracking-[-0.5px]block md:hidden">
+            <p className="paragraph-x-large tracking-[-0.5px]block md:hidden fade-right">
               {content.tag}
             </p>
             <h1
-              className="title-h1"
+              className="title-h1 fade-right"
               dangerouslySetInnerHTML={{ __html: content.title }}
             />
-            <p className="paragraph font-normal w-[60%] tracking-[-0.5px] hidden md:block">
+            <p className="paragraph font-normal w-[60%] tracking-[-0.5px] hidden md:block fade-right">
               {content.description}
             </p>
-            <p className="paragraph font-normal w-full tracking-[-0.5px] block md:hidden">
+            <p className="paragraph font-normal w-full tracking-[-0.5px] block md:hidden fade-right">
               {content.description2}
             </p>
-            <p className="paragraph italic font-extrabold tracking-[-0.5px] hidden md:block">
+            <p className="paragraph italic font-extrabold tracking-[-0.5px] hidden md:block fade-right">
               {content.bible}
             </p>
           </div>
@@ -52,13 +52,13 @@ export default function Hero({ content }: HeroProps) {
             label={content.button.text}
             href={content.button.link}
             styleButton="white"
-            paddingX="px-6 hidden md:block"
+            paddingX="px-6 hidden md:block fade-right"
           />
           <Button
             label={content.button.text}
             href={content.button.link}
             styleButton="black"
-            paddingX="px-6 md:hidden block"
+            paddingX="px-6 md:hidden block fade-right"
           />
         </div>
       </div>

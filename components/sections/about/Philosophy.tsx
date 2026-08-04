@@ -21,11 +21,11 @@ export default function Philosophy({ content }: PhilosophyProps) {
   return (
     <section className="container-full flex flex-col justify-center items-center py-12 md:py-15 gap-6">
       <div className="flex flex-col justify-center items-center gap-2 text-center">
-        <p className="paragraph-x-large tracking-[-0.5px] uppercase">
+        <p className="paragraph-x-large tracking-[-0.5px] uppercase fade-up">
           {content.tag}
         </p>
-        <h2 className="title-h2">{content.title}</h2>
-        <p className="w-full md:w-[60%] lg:w-[46%] paragraph font-normal tracking-[-0.5px]">
+        <h2 className="title-h2 fade-up">{content.title}</h2>
+        <p className="w-full md:w-[60%] lg:w-[46%] paragraph font-normal tracking-[-0.5px] fade-up">
           {content.description}
         </p>
       </div>
@@ -34,8 +34,9 @@ export default function Philosophy({ content }: PhilosophyProps) {
           const Icon = icons[item.icon as keyof typeof icons];
           return (
             <div
-              className="flex flex-col justify-center items-center gap-4 md:gap-6 text-center bg-[#F5F3F0] rounded-2xl py-6 md:py-12 px-4.5"
+              className="flex flex-col justify-center items-center gap-4 md:gap-6 text-center bg-[#F5F3F0] rounded-2xl py-6 md:py-12 px-4.5 fade-up"
               key={index}
+              style={{ transitionDelay: `${index * 0.2}s` }}
             >
               {item.icon === "leaf" ? (
                 <img

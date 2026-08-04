@@ -35,24 +35,28 @@ export default function Hero({ content }: HeroProps) {
           <div
             className={`flex flex-col justify-center  md:items-start gap-2 ${normalized === "/" ? "text-primary items-center" : "w-full md:w-auto items-start text-primary md:text-white"}`}
           >
-            <p className="paragraph-x-large tracking-[-0.5px]">{content.tag}</p>
+            <p className="paragraph-x-large tracking-[-0.5px] hero-fade-right">
+              {content.tag}
+            </p>
             <h1
-              className="title-h1"
+              className="title-h1 hero-fade-right"
               dangerouslySetInnerHTML={{ __html: content.title }}
             />
-            <p className="paragraph font-normal">{content.description}</p>
+            <p className="paragraph font-normal hero-fade-right">
+              {content.description}
+            </p>
           </div>
           <Button
             label={content.button.text}
             href={content.button.link}
             styleButton={normalized === "/" ? "black" : "white"}
-            paddingX="px-6 hidden md:block"
+            paddingX="px-6 hidden md:block hero-fade-right"
           />
           <Button
             label={content.button.text}
             href={content.button.link}
             styleButton={"black"}
-            paddingX="px-6 md:hidden block"
+            paddingX="px-6 md:hidden block hero-fade-right"
           />
         </div>
       </div>

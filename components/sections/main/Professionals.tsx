@@ -23,7 +23,7 @@ export default function Professionals({
 }: ProfessionalsProps) {
   return (
     <section className="w-full flex flex-col justify-center items-center pt-16 gap-8">
-      <h2 className="title-h4 text-primary">{content.title}</h2>
+      <h2 className="title-h4 text-primary fade-up">{content.title}</h2>
       <CarouselProductsColor
         atributo={content.atributo}
         items={content.items}

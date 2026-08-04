@@ -9,72 +9,67 @@ import Recomendations from "@/components/sections/producstItem/Recomendations";
 import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import { getBestSellerProductCardProps } from "@/lib/bestSeller";
+import { getAllProducts, getAllProductsTest } from "@/lib/catalog";
 
 type MainContent = (typeof import("@/content/en"))["default"]["main"];
 
-const contentBestsellers = {
-  title: "Best Sellers",
-  products: [
-    {
-      id: "1",
-      nombre: "Bonding Mask",
-      precio: "45.00",
-      imagen: "/images/argan-oil-1.webp",
-      image2: "/images/argan-oil-2.webp",
-      marca: "ENYERMY STUDIO PRO",
-      tieneAtributos: true,
-    },
-    {
-      id: "2",
-      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-      precio: "50.00",
-      imagen: "/images/argan-oil-2.webp",
-      image2: "/images/argan-oil-1.webp",
-      marca: "ENYERMY STUDIO PRO VELVETY SILK",
-      tieneAtributos: false,
-    },
-    {
-      id: "3",
-      nombre: "Bonding Mask",
-      precio: "45.00",
-      imagen: "/images/argan-oil-1.webp",
-      image2: "/images/argan-oil-2.webp",
-      marca: "ENYERMY STUDIO PRO",
-      tieneAtributos: true,
-    },
-    {
-      id: "4",
-      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-      precio: "50.00",
-      imagen: "/images/argan-oil-2.webp",
-      image2: "/images/argan-oil-1.webp",
-      marca: "ENYERMY STUDIO PRO VELVETY SILK",
-      tieneAtributos: false,
-    },
-    {
-      id: "5",
-      nombre: "Bonding Mask",
-      precio: "45.00",
-      imagen: "/images/argan-oil-1.webp",
-      image2: "/images/argan-oil-2.webp",
-      marca: "ENYERMY STUDIO PRO",
-      tieneAtributos: true,
-    },
-    {
-      id: "6",
-      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-      precio: "50.00",
-      imagen: "/images/argan-oil-2.webp",
-      image2: "/images/argan-oil-1.webp",
-      marca: "ENYERMY STUDIO PRO VELVETY SILK",
-      tieneAtributos: false,
-    },
-  ],
-  button: {
-    text: "View All",
-    href: "/products",
+const bestSellersProducts = [
+  {
+    id: "1",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
   },
-};
+  {
+    id: "2",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+  {
+    id: "3",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
+  },
+  {
+    id: "4",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+  {
+    id: "5",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
+  },
+  {
+    id: "6",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+];
 const contentAloneProduct = {
   imageProduct: "/images/main/long-lasting.webp",
   tag: "ENYERMY STUDIO PRO",
@@ -109,23 +104,33 @@ const contentProfessionals = [
     price: "180.00",
   },
 ];
-export default async function Home({
-  params,
-}: PageProps<"/[locale]">) {
+export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
-
+  //const bestSellersProducts = await getBestSellerProductCardProps();
+  //const products = await getAllProductsTest();
   if (!hasLocale(locale)) {
     notFound();
   }
-
   const { main: content } = await getContent<{ main: MainContent }>(locale);
 
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height) md:pt-0">
       <Hero content={content.hero} />
+      {/*<pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
+        <code>
+          {JSON.stringify(
+            bestSellersProducts,
+            (key, value) =>
+              typeof value === "bigint" ? value.toString() : value,
+            2,
+          )}
+        </code>
+      </pre>*/}
+      
       <Recomendations
-        content={contentBestsellers}
+        content={content.bestSellers}
         buttonLabel={content.button}
+        bestSellers={bestSellersProducts}
       />
       <Bundles content={content.bundles} />
       <Collections content={content.collection} />

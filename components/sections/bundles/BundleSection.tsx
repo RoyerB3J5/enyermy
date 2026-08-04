@@ -1,12 +1,9 @@
+"use client";
 import Button from "@/components/ui/Button";
+import { useCart } from "@/hooks/useCart";
+import { useParams } from "next/navigation";
 
 interface BundleSectionProps {
-  content: {
-    get: string;
-    PerfectFor: string;
-    results: string;
-    button: string;
-  };
   itemsBundles: {
     id: string;
     image: string;
@@ -15,13 +12,26 @@ interface BundleSectionProps {
     list: string[];
     perfectFor: string;
     results: string;
-    color: string;
+    precio: string;
   }[];
 }
-export default function BundleSection({
-  content,
-  itemsBundles,
-}: BundleSectionProps) {
+export default function BundleSection({ itemsBundles }: BundleSectionProps) {
+  const cartStore = useCart();
+  const params = useParams();
+  const locale = params.locale as string;
+
+  const handleAddToCart = (bundle: BundleSectionProps["itemsBundles"][number]) => {
+    if (!cartStore) return;
+    cartStore.addItem({
+      id: bundle.id,
+      name: bundle.title,
+      price: bundle.precio,
+      image: bundle.image,
+      href: `/${locale}/bundles`,
+    });
+    cartStore.openCart();
+  };
+
   return (
     <section className="w-full grid grid-cols-1 justify-center items-center">
       {itemsBundles.map((bundle, index) => {
@@ -32,10 +42,10 @@ export default function BundleSection({
             key={index}
           >
             <div
-              className={`w-auto max-w-none md:max-w-full xl:max-w-none xl:w-full h-full xl:h-auto aspect-720/660 relative ${isPar ? "md:order-1" : "md:order-2"}`}
+              className={`w-auto max-w-none md:max-w-full xl:max-w-none xl:w-full h-full xl:h-auto aspect-720/660 relative ${isPar ? "md:order-1" : "md:order-2"} overflow-hidden`}
             >
               <img
-                className={`w-full h-full object-cover object-center absolute inset-0`}
+                className={`w-full h-full object-cover object-center absolute inset-0 hover:scale-105 transition-transform duration-300 ease-in-out`}
                 src={bundle.image}
                 decoding="async"
                 loading="lazy"
@@ -46,12 +56,10 @@ export default function BundleSection({
             </div>
 
             <div
-              className={`w-full py-12 md:py-4 xl:py-0 px-4 md:px-0 h-auto aspect-720/660 ${
-                bundle.color
-              } flex items-center ${
+              className={`w-full py-12 md:py-4 xl:py-0 px-4 md:px-0 h-auto aspect-720/660 flex items-center ${
                 isPar
-                  ? "md:pr-[max(2rem,calc((100vw-1280px)/2))] order-2 "
-                  : "md:pl-[max(2rem,calc((100vw-1280px)/2))] order-1"
+                  ? "md:pr-[max(2rem,calc((100vw-1280px)/2))] order-2 fade-left"
+                  : "md:pl-[max(2rem,calc((100vw-1280px)/2))] order-1 fade-right"
               }`}
             >
               <div
@@ -68,7 +76,7 @@ export default function BundleSection({
                     />
                     <div className="flex flex-col justify-center items-start gap-2">
                       <p className="paragraph tracking-[-0.5px] font-normal">
-                        {content.get}
+                        What You Get:
                       </p>
                       <ul className="flex flex-col justify-center items-start gap-1 list-disc pl-4">
                         {bundle.list.map((item, index) => (
@@ -82,17 +90,17 @@ export default function BundleSection({
                       </ul>
                     </div>
                     <p className="paragraph tracking-[-0.5px] font-normal">
-                      {content.PerfectFor} {bundle.perfectFor}
+                      Perfect For: {bundle.perfectFor}
                     </p>
                     <p className="paragraph tracking-[-0.5px] font-normal">
-                      {content.results} {bundle.results}
+                      Results: {bundle.results}
                     </p>
                   </div>
                   <Button
-                    label={content.button}
-                    href="#"
+                    label="Shop Now"
                     styleButton="black"
                     paddingX="px-6"
+                    onClick={() => handleAddToCart(bundle)}
                   />
                 </div>
               </div>

@@ -1,8 +1,11 @@
-import { generateSlug } from "@/lib/slug";
+"use client";
 import { LightProduct } from "@/types/square";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../ui/Button";
+import { useCart } from "@/hooks/useCart";
+import { useParams } from "next/navigation";
+import { generarSlug } from "@/lib/slug";
 
 interface ProductCardProps {
   product: LightProduct;
@@ -15,15 +18,33 @@ export default function ProductCard({
   image2,
   buttonLabel,
 }: ProductCardProps) {
-  const productSlug = generateSlug(product.nombre);
+  const cartStore = useCart();
+  const params = useParams();
+  const locale = params.locale as string;
+  const productSlug = generarSlug(product.nombre);
+  const href = `/${locale}/products/${productSlug}-${product.id}`;
+
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!cartStore) return;
+    cartStore.addItem({
+      id: product.idVariant || "",
+      name: product.nombre,
+      price: product.precio,
+      image: product.imagen,
+      href,
+    });
+    cartStore.openCart();
+  };
+
   return (
     <Link
-      href={`/products/1`}
-      // "group" nos permite disparar animaciones en los hijos cuando se hace hover en el Link
-      className="group flex flex-col justify-start gap-3 w-full"
+      href={href}
+      className="group flex flex-col justify-start gap-3 w-full "
     >
       {/* 1. CONTENEDOR DE IMÁGENES (Aquí ocurre toda la magia del hover) */}
-      <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-gray-100">
+      <div className="relative w-full aspect-square overflow-hidden rounded-2xl ">
         {/* Imagen Principal (Por defecto) */}
         <img
           src={product.imagen as string}
@@ -50,9 +71,14 @@ export default function ProductCard({
             />
 
             {/* BOTÓN ENCIMA */}
-            {buttonLabel && (
+            {buttonLabel && !product.tieneAtributos && (
               <div className="absolute inset-0 flex items-end justify-center p-4">
-                <Button label={buttonLabel} styleButton="white" wFull />
+                <Button
+                  label={buttonLabel}
+                  styleButton="white"
+                  wFull
+                  onClick={handleAddToCart}
+                />
               </div>
             )}
           </div>
@@ -71,9 +97,14 @@ export default function ProductCard({
           {product.tieneAtributos && `From `} ${product.precio}
         </p>
       </div>
-      {buttonLabel && (
+      {buttonLabel && !product.tieneAtributos && (
         <div className=" flex items-center justify-center p-4 md:hidden">
-          <Button label={buttonLabel} styleButton="white" wFull />
+          <Button
+            label={buttonLabel}
+            styleButton="white"
+            wFull
+            onClick={handleAddToCart}
+          />
         </div>
       )}
     </Link>

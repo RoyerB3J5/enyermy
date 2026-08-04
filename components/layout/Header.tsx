@@ -14,6 +14,8 @@ import type { Locale } from "@/i18n/config";
 import { getLocalizedPath } from "@/i18n/navigation";
 import type { HeaderContent } from "@/i18n/types";
 
+import SearchModal from "@/components/shop/SearchModal";
+
 export default function Header({
   locale,
   content,
@@ -27,6 +29,7 @@ export default function Header({
   const lastScrollY = useRef(0);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isThresholdReached, setIsThresholdReached] = useState(false);
 
   // Normalize: remove language prefix (en/es) and trailing slash
@@ -219,14 +222,19 @@ export default function Header({
                   className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </button>
-              <div className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer md:hidden ">
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search products"
+                className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer md:hidden "
+              >
                 <Search
                   className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
-              </div>
+              </button>
             </div>
             <Link
-              className="hidden lg:block translate-x-[-50%]"
+              className="hidden lg:block xl:translate-x-[-50%]"
               href={localizedPath(
                 isSalonExperience ? "/salon-experience" : "/",
               )}
@@ -289,11 +297,16 @@ export default function Header({
                   </p>
                 </Link>
               </div>
-              <div className="w-10.5 h-10.5 hidden md:flex justify-center items-center cursor-pointer">
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search products"
+                className="w-10.5 h-10.5 hidden md:flex justify-center items-center cursor-pointer"
+              >
                 <Search
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
-              </div>
+              </button>
               <Link
                 href="#"
                 className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center "
@@ -351,11 +364,11 @@ export default function Header({
           />
         </div>
 
-        <Link href={isSalonExperience ? "/en/" : "/en/salon-experience"} className="w-full flex justify-between items-center bg-primary px-4 py-5">
-          <p
-            
-            className="paragraph font-normal leading-[150%] text-white"
-          >
+        <Link
+          href={localizedPath(isSalonExperience ? "/" : "/salon-experience")}
+          className="w-full flex justify-between items-center bg-primary px-4 py-5"
+        >
+          <p className="paragraph font-normal leading-[150%] text-white">
             {isSalonExperience ? "Hair Care" : "Salon Experience"}
           </p>
           <div className="flex justify-center items-center bg-white rounded-full w-5 h-5">
@@ -405,6 +418,14 @@ export default function Header({
           <Button />
         </div>*/}
       </div>
+
+      {/* Interactive Product Search Overlay Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        locale={locale}
+      />
     </>
   );
 }
+

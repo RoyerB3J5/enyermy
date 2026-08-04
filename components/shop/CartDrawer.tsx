@@ -4,7 +4,6 @@ import { Minus, Plus, Trash, X } from "lucide-react";
 import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
-import { generateSlug } from "@/lib/slug";
 import { useState } from "react";
 const content = {
   cart: "Your cart",
@@ -76,14 +75,17 @@ export default function CartDrawer() {
                 const cleanedName = item.name
                   .replace(/\s*\([^)]*\)/g, "")
                   .trim();
-                const productSlug = generateSlug(cleanedName);
+                //const productSlug = generateSlug(cleanedName);
                 return (
                   <div
                     key={item.id}
                     className="w-full flex justify-start items-stretch py-6 border-b border-[#E7E7E7] gap-6"
                   >
                     {/* cambiar el href */}
-                    <Link href={`/products/1`} className="cursor-pointer">
+                    <Link
+                      href={`${item.href}`}
+                      className="cursor-pointer shrink-0"
+                    >
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -95,7 +97,7 @@ export default function CartDrawer() {
 
                     <div className="flex flex-col justify-between items-start w-full grow">
                       {/* cambiar el href */}
-                      <Link href={`/products/1`} className="cursor-pointer">
+                      <Link href={`${item.href}`} className="cursor-pointer">
                         <h3 className="paragraph text-primary font-normal">
                           {item.name}
                         </h3>

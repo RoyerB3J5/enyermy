@@ -1,3 +1,5 @@
+import "server-only";
+
 import { SquareClient, SquareEnvironment } from "square";
 
 if (!process.env.SQUARE_ACCESS_TOKEN) {

@@ -1,91 +1,146 @@
 import type { Metadata } from "next";
-import { getLightProducts } from "@/lib/catalog";
-import type { LightProduct } from "@/types/square";
+import { getAllProducts, getAllProductsTest } from "@/lib/catalog";
+import type { getAllProductsType } from "@/types/square";
 import Hero from "@/components/sections/products/Hero";
 import GridProducts from "@/components/sections/products/GridProducts";
 import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
-export const revalidate = 3600;
-interface ProductCardPropsWithImage extends LightProduct {
-  image2: string; // O usa `image2?: string;` si es opcional
-}
+import { hasLocale } from "@/i18n/config";
+import { notFound } from "next/navigation";
+import { getContent } from "@/i18n/content";
+
 export const metadata: Metadata = {
   title: "Products | Enyermy Studio Pro",
   description: "Complete catalog of products",
 };
+type AllProductsContent =
+  (typeof import("@/content/en"))["default"]["productsAll"];
 
-const content = {
-  image: "hero-products",
-  tag: "Professional Hair Care For Every Need",
-  title: "Discover Every Solution",
-  description:
-    "Explore our complete collection of expertly crafted formulas designed to <br class='hidden lg:block'/> hydrate, repair, protect, and enhance every hair type.",
-  products: {
-    products: "products",
-    filtro: "Filter",
-    sortBy: "Sort by:",
-    items: [
-      { id: "1", label: "Todos" },
-      { id: "2", label: "Mayor a menor precio" },
-      { id: "3", label: "Menor a mayor precio" },
-      { id: "4", label: "Novedad" },
-      { id: "5", label: "Los más vendidos" },
-    ],
-  },
-  button: "ADD to BAG",
-};
+export default async function ProductsPage({ params }: PageProps<"/[locale]">) {
+  //const allProducts = await getAllProducts();
+  //
+  // const allProductsTest = await getAllProductsTest();
+  //const categoriasTodas = await getCategoryIdByName();
+  const { locale } = await params;
 
-export default async function ProductsPage() {
-  // const productos = await getLightProducts();
-  const productos: ProductCardPropsWithImage[] = [
+  if (!hasLocale(locale)) {
+    notFound();
+  }
+
+  const { productsAll: content } = await getContent<{
+    productsAll: AllProductsContent;
+  }>(locale);
+
+  const productos: getAllProductsType[] = [
     {
       id: "1",
       nombre: "Bonding Mask",
       precio: "45.00",
-      imagen: "/images/argan-oil-1.webp",
+      imagenes: ["/images/argan-oil-1.webp", "/images/argan-oil-2.webp"],
       marca: "ENYERMY STUDIO PRO",
       tieneAtributos: true,
-      image2: "/images/argan-oil-2.webp",
+      bestSeller: "Si",
+      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
+      categoriaNombre: "Pro",
+      cabelloTipo: "rizado",
+      createdAt: "2026-06-20T06:10:25.534Z",
     },
     {
       id: "2",
       nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
       precio: "50.00",
-      imagen: "/images/argan-oil-2.webp",
+      imagenes: ["/images/argan-oil-2.webp", "/images/argan-oil-1.webp"],
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
-      image2: "/images/argan-oil-1.webp",
+      bestSeller: "No",
+      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
+      categoriaNombre: "Velvety Silk",
+      createdAt: "2026-06-22T06:10:25.534Z",
+      cabelloTipo: "teñido",
     },
     {
       id: "3",
       nombre: "Bonding Mask",
       precio: "45.00",
-      imagen: "/images/argan-oil-1.webp",
+      imagenes: ["/images/argan-oil-1.webp", "/images/argan-oil-2.webp"],
       marca: "ENYERMY STUDIO PRO",
       tieneAtributos: true,
-      image2: "/images/argan-oil-2.webp",
+      bestSeller: "Si",
+      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
+      categoriaNombre: "Curlyme",
+      createdAt: "2026-06-20T06:10:25.534Z",
+      cabelloTipo: "seco",
     },
     {
       id: "4",
       nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
       precio: "50.00",
-      imagen: "/images/argan-oil-2.webp",
+      imagenes: ["/images/argan-oil-2.webp", "/images/argan-oil-1.webp"],
       marca: "ENYERMY STUDIO PRO VELVETY SILK",
       tieneAtributos: false,
-      image2: "/images/argan-oil-1.webp",
+      bestSeller: "No",
+      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
+      categoriaNombre: "Vivify",
+      createdAt: "2026-06-22T06:10:25.534Z",
+      cabelloTipo: "seco",
     },
   ];
 
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height)">
       <Hero content={content} />
+      {/* <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
+        <code>
+          {JSON.stringify(
+            allProductsTest,
+            (key, value) =>
+              typeof value === "bigint" ? value.toString() : value,
+            2,
+          )}
+        </code>
+      </pre>*/}
       <GridProducts
         content={productos}
         contentFixed={content.products}
         buttonLabel={content.button}
+        productContent={content.productContent}
       />
       <CallEmail />
       <CarouselReview />
+      {/*
+        [
+          {
+            "id": "JQN5KL57MWQMQRZZPVN6MCZJ",
+            "nombre": "Blonde Perfection Bundle",
+            "precio": "90.00",
+            "imagenes": [
+              "https://items-images-sandbox.s3.us-west-2.amazonaws.com/files/b7abbe723225331a67b7e6edd17599a1cca48987/original.png"
+            ],
+            "marca": "Sin marca",
+            "tieneAtributos": false,
+            "bestSeller": null,
+            "categoriaId": "KW6QIGBQLR7PWWGEI3JLAK6O",
+            "categoriaNombre": "Bundles",
+            "createdAt": "2026-07-28T06:23:16.375Z"
+          },
+          {
+            "id": "RWWOD63LXUCDONR3E3M7KS6G",
+            "nombre": "Bonding Mask",
+            "precio": "45.00",
+            "imagenes": [
+              "https://items-images-sandbox.s3.us-west-2.amazonaws.com/files/1529ac42f273d20d5f4d0d438fc09a3aa234a6d1/original.png",
+              "https://items-images-sandbox.s3.us-west-2.amazonaws.com/files/48c68f19d80ebe28ccc770bb933d7570cfd894a6/original.png"
+            ],
+            "marca": "ENYERMY STUDIO PRO",
+            "tieneAtributos": true,
+            "bestSeller": "Si",
+            "categoriaId": "ZJERRWRTMOF3YNIWQBLYDRST",
+            "categoriaNombre": "Pro",
+            "cabelloTipo": "rizado",
+            "createdAt": "2026-06-24T06:10:25.534Z"
+          }
+        ]
+      */}
     </main>
   );
 }

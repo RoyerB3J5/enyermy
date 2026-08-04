@@ -1,8 +1,9 @@
 export interface Product {
   id: string;
   name: string;
-  price: string; // O number, según lo manejes (recuerda que Square lo da en cents o string)
+  price: string;
   image: string;
+  href?: string;
   [key: string]: any;
 }
 

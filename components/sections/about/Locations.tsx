@@ -20,7 +20,7 @@ export default function Locations({
 }: LocationsProps) {
   return (
     <section className="container-full flex flex-col justify-center items-center pt-16 pb-14 gap-8 text-primary">
-      <h2 className="title-h4">{content.title}</h2>
+      <h2 className="title-h4 fade-up">{content.title}</h2>
       <div
         className={
           differentDisplay
@@ -30,8 +30,9 @@ export default function Locations({
       >
         {content.items.map((item, index) => (
           <div
-            className="flex flex-col justify-center items-center gap-2"
+            className="flex flex-col justify-center items-center gap-2 fade-up"
             key={index}
+            style={{ transitionDelay: `${index * 0.2}s` }}
           >
             <div
               className={`relative w-full h-auto ${differentDisplay ? "aspect-676/428" : "aspect-square"} rounded-2xl overflow-hidden`}
@@ -59,9 +60,13 @@ export default function Locations({
                 styleButton="white"
                 wFull={true}
                 href={item.href}
+                openInNewTab={true}
               />
             ) : (
-              <ButtonLink content={{ text: "Book Now", href: item.href }} />
+              <ButtonLink
+                content={{ text: "Book Now", href: item.href }}
+                openInNewTab={true}
+              />
             )}
           </div>
         ))}

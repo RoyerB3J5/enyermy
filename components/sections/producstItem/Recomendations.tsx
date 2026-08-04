@@ -1,7 +1,6 @@
 "use client";
 //informacion de square productos recomendados
 import { LightProduct } from "@/types/square";
-import Link from "next/link";
 import CarouselProducts from "../CarouselProducst";
 import ButtonLink from "@/components/ui/ButtonLink";
 import ProductCard from "@/components/shop/ProductCard";
@@ -12,12 +11,17 @@ interface ProductCardPropsWithImage extends LightProduct {
 interface RecomendationsProps {
   content: {
     title: string;
-    products: ProductCardPropsWithImage[];
+
     button: { text: string; href: string };
   };
+  bestSellers: ProductCardPropsWithImage[];
   buttonLabel: string;
 }
-export default function Recomendations({ content, buttonLabel }: RecomendationsProps) {
+export default function Recomendations({
+  content,
+  buttonLabel,
+  bestSellers,
+}: RecomendationsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
@@ -119,19 +123,24 @@ export default function Recomendations({ content, buttonLabel }: RecomendationsP
   };
   return (
     <section className="container-full flex flex-col justify-center items-center gap-4 md:gap-6 py-12 md:py-14">
-      <h2 className="title-h4 text-primary">{content.title}</h2>
+      <h2 className="title-h4 text-primary fade-up">{content.title}</h2>
       <div className="w-full flex flex-col gap-4 md:gap-6">
         <div className="w-full overflow-hidden select-none ">
           <div
             ref={scrollRef}
             className="flex justify-start items-stretch gap-6 overflow-x-auto hide-scrollbar py-3"
           >
-            {content.products.map((product, index) => (
+            {bestSellers.map((product, index) => (
               <div
                 key={index}
-                className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-72px)/4)] shrink-0"
+                className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-72px)/4)] shrink-0 fade-up"
+                style={{ transitionDelay: `${index * 200}ms` }}
               >
-                <ProductCard product={product} image2={product.image2} buttonLabel={buttonLabel} />
+                <ProductCard
+                  product={product}
+                  image2={product.image2}
+                  buttonLabel={buttonLabel}
+                />
               </div>
             ))}
           </div>

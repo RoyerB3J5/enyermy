@@ -4,6 +4,7 @@ import "../../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/shop/CartDrawer";
+import ScrollAnimations from "@/components/ui/ScrollAnimations";
 import { hasLocale, locales } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
 import { notFound } from "next/navigation";
@@ -100,6 +101,7 @@ export default async function RootLayout({
       </head>
 
       <body className="w-full font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center ">
+        <ScrollAnimations />
         <Header locale={locale} content={content.header} />
         {children}
         <Footer locale={locale} content={content.footer} />

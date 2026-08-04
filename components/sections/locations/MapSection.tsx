@@ -8,6 +8,21 @@ interface MapSectionProps {
     tag: string;
     title: string;
     button: string;
+    locations: {
+      id: number;
+      name: string;
+      title: string;
+      description: string;
+      href: string;
+      image: string;
+      pin: {
+        x: number;
+        y: number;
+      };
+      camera: {
+        zoom: number;
+      };
+    }[];
   };
 }
 
@@ -20,69 +35,6 @@ const MOBILE_MAP = {
   width: 2184,
   height: 1000,
 };
-
-const locations = [
-  {
-    id: 1,
-    name: "Clarke",
-    title: "Enyermy at Ocoee",
-    description: "1099 S Clarke Rd · Ocoee",
-    href: "#",
-    image: "ocoee",
-    pin: {
-      x: 730,
-      y: 155,
-    },
-    camera: {
-      zoom: 1.15,
-    },
-  },
-  {
-    id: 2,
-    name: "Curry Ford",
-    title: "Enyermy at Orlando",
-    description: "4526 Curry Ford Rd · Orlando",
-    href: "#",
-    image: "orlando",
-    pin: {
-      x: 840,
-      y: 175,
-    },
-    camera: {
-      zoom: 1.15,
-    },
-  },
-  {
-    id: 3,
-    name: "Waterford Lakes",
-    title: "Enyermy at Waterford Lakes",
-    description: "12789 Waterford Lakes Pkwy Ste 11 · Orlando",
-    href: "#",
-    image: "waterford-2",
-    pin: {
-      x: 900,
-      y: 155,
-    },
-    camera: {
-      zoom: 1.15,
-    },
-  },
-  {
-    id: 4,
-    name: "St.Petersburg",
-    title: "Enyermy at St. Petersburg",
-    description: "6901 22nd Ave N Suite 6707 St. Petersburg",
-    href: "#",
-    image: "petersburg-2",
-    pin: {
-      x: 210,
-      y: 520,
-    },
-    camera: {
-      zoom: 1.15,
-    },
-  },
-];
 
 export default function MapSection({ content }: MapSectionProps) {
   const [mapSize, setMapSize] = useState(DESKTOP_MAP);
@@ -135,7 +87,7 @@ export default function MapSection({ content }: MapSectionProps) {
   const handleLocationChange = (index: number) => {
     if (index === currentLocation) return;
 
-    const location = locations[index];
+    const location = content.locations[index];
     const isMobile = window.innerWidth < 768;
 
     let offsetX = 0;
@@ -154,6 +106,7 @@ export default function MapSection({ content }: MapSectionProps) {
     });
   };
   const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
     dragging.current = true;
 
     lastMouse.current = {
@@ -185,10 +138,10 @@ export default function MapSection({ content }: MapSectionProps) {
     dragging.current = false;
   };
   return (
-    <section className="container-full flex flex-col justify-center items-center gap-6 py-14">
+    <section className="container-full flex flex-col justify-center items-center gap-6 py-14 ">
       <div className="flex flex-col justify-center items-center gap-4 text-primary">
-        <p className="paragraph-x-small uppercase">{content.tag}</p>
-        <h2 className="title-h2">{content.title}</h2>
+        <p className="paragraph-x-small uppercase fade-up">{content.tag}</p>
+        <h2 className="title-h2 fade-up">{content.title}</h2>
       </div>
       <div
         className="w-full h-auto aspect-375/630 md:aspect-1376/800 lg:aspect-1376/630 relative flex justify-center items-end overflow-hidden cursor-grab active:cursor-grabbing bg-[#E8E8E8]"
@@ -196,6 +149,7 @@ export default function MapSection({ content }: MapSectionProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
+        onDragStart={(e) => e.preventDefault()}
       >
         <div
           className="absolute
@@ -225,7 +179,7 @@ export default function MapSection({ content }: MapSectionProps) {
             loading="eager"
           />
 
-          {locations.map((location, index) => (
+          {content.locations.map((location, index) => (
             <button
               key={location.id}
               onClick={() => handleLocationChange(index)}
@@ -263,7 +217,7 @@ export default function MapSection({ content }: MapSectionProps) {
           </div>
           <div className="flex flex-row md:flex-col justify-between md:justify-center items-end md:items-end lg:items-center gap-2.5 w-full md:w-auto ">
             <div className="relative flex-1 md:flex-none w-full md:w-[448px] md:h-[145px] lg:w-[548px] lg:h-[145px] aspect-192/248 md:aspect-auto overflow-hidden">
-              {locations.map((location, index) => (
+              {content.locations.map((location, index) => (
                 <div
                   key={location.id}
                   className="
@@ -315,7 +269,7 @@ export default function MapSection({ content }: MapSectionProps) {
               ))}
             </div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 md:px-6 py-2.25 border border-[#E6E6E6] bg-white w-auto md:w-[448px] lg:w-[548px] gap-4 md:gap-0">
-              {locations.map((location) => (
+              {content.locations.map((location) => (
                 <button
                   key={location.id}
                   className="flex justify-center items-center gap-1.5 cursor-pointer group"

@@ -1,43 +1,20 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useParams } from "next/navigation";
+import enContent from "@/content/en";
+import esContent from "@/content/es";
 
-const content = {
-  rated: "Rated 5 stars by ou customers",
-  title: "Real Results, Real Reviews",
-  reviews: [
-    {
-      title: "Love it!",
-      description:
-        "I received a sample at a women's conference.. and it totally changed me! My hair is so much more managable, I had to purchase it!",
-      name: "Liz P.",
-      color: "bg-[#E33E7A]",
-    },
-    {
-      title: "Very good",
-      description:
-        "The best product ever I’ve used. It is amazing to detangle. The first time that my hair looked so gorgeous! SO in love!!!",
-      name: "Perla P.",
-      color: "bg-[#FBBC05]",
-    },
-    {
-      title: "Great",
-      description:
-        "Excellent There’s is nothing better than this for my hair 🙌",
-      name: "Lourdes G.",
-      color: "bg-[#2F89D4]",
-    },
-    {
-      title: "Great",
-      description:
-        "Tried it today for the first time for my bleached and damaged hair. Felt so soft and smooth afterwards. Definitely a fan!",
-      name: "Mahvesh O.",
-      color: "bg-[#435260]",
-    },
-  ],
+const contentMap = {
+  en: enContent.reviewCarousel,
+  es: esContent.reviewCarousel,
 };
 
 export default function CarouselReview() {
+  const params = useParams();
+  const locale = (params.locale as string) || "en";
+  const content =
+    contentMap[locale as keyof typeof contentMap] || contentMap.en;
   const N = content.reviews.length;
   const expandedReviews = [
     ...content.reviews,
@@ -225,7 +202,7 @@ export default function CarouselReview() {
   return (
     <section className="container-full flex flex-col justify-center items-center py-20 lg:py-30 gap-8">
       <div className="flex flex-col justify-center items-center gap-4 hidden md:block">
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-2 fade-up">
           <div className="flex justify-center items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, index) => (
               <Image
@@ -239,12 +216,12 @@ export default function CarouselReview() {
           </div>
           <p className="paragraph-x-small">{content.rated}</p>
         </div>
-        <h2 className="title-h4">{content.title}</h2>
+        <h2 className="title-h4 fade-up">{content.title}</h2>
       </div>
 
       <div
         ref={containerRef}
-        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none px-1"
+        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none px-1 fade-up"
         style={{ touchAction: "pan-y" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}

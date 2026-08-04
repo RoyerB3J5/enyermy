@@ -1,10 +1,37 @@
+import "server-only";
+
 import { square } from "@/lib/square";
-import type { FrontendProductDetail, LightProduct } from "@/types/square";
+import type {
+  CategoryProduct,
+  FrontendProductDetail,
+  LightProduct,
+  getAllProductsType,
+} from "@/types/square";
+import type { Square as SquareTypes } from "square";
+import { getCategoryIdByName } from "./categoryCache";
+import { getMergedCustomAttributes } from "./helper";
+
+interface ProductCardPropsWithImage extends LightProduct {
+  image2: string;
+}
+
+type SquareCustomAttributeMap = Record<
+  string,
+  SquareTypes.CatalogCustomAttributeValue
+>;
+
+function getCustomAttributeMap(product: {
+  customAttributeValues?: unknown;
+}): SquareCustomAttributeMap {
+  return (product.customAttributeValues ?? {}) as SquareCustomAttributeMap;
+}
 
 /**
- * Fetches products from the Square Catalog API and maps them to a simplified LightProduct format.
+ * Fetches products from the Square Catalog API and maps them to a simplified ProductCardPropsWithImage format.
  */
-export async function getLightProducts(): Promise<LightProduct[]> {
+export async function getProductCardPropsWithImages(): Promise<
+  ProductCardPropsWithImage[]
+> {
   const response = await square.catalog.search({
     objectTypes: ["ITEM"],
     includeRelatedObjects: true,
@@ -18,7 +45,7 @@ export async function getLightProducts(): Promise<LightProduct[]> {
       if (product.type !== "ITEM" || !product.itemData) return null;
       const itemData = product.itemData;
 
-      const customAttributes = product.customAttributeValues || {};
+      const customAttributes = getCustomAttributeMap(product);
 
       const tieneAtributos = Object.keys(customAttributes).length > 0;
 
@@ -55,6 +82,7 @@ export async function getLightProducts(): Promise<LightProduct[]> {
         nombre: itemData.name || "Producto sin nombre",
         precio: precio.toFixed(2),
         imagen: urlImagen,
+        image2: urlImagen,
         marca: marca,
         tieneAtributos: tieneAtributos,
       };
@@ -62,166 +90,385 @@ export async function getLightProducts(): Promise<LightProduct[]> {
     .filter((prod): prod is NonNullable<typeof prod> => prod !== null);
 }
 
-export async function getProcessedProductById(
-  id: string,
-): Promise<FrontendProductDetail | null> {
-  try {
-    // Usamos retrieve para traer el objeto específico y sus imágenes relacionadas
-    const response = await square.catalog.object.get({
-      objectId: id,
-      includeRelatedObjects: true,
+export async function getAllProducts(): Promise<getAllProductsType[]> {
+  const response = await square.catalog.searchItems({
+    productTypes: ["REGULAR"],
+  });
+
+  const objects = response.items || [];
+
+  // 1. Recolectar imageIds, definitionIds y categoryIds
+  const imageIdsSet = new Set<string>();
+  const definitionIdsSet = new Set<string>();
+  const categoryIdsSet = new Set<string>();
+
+  objects.forEach((product) => {
+    if (product.type !== "ITEM" || !product.itemData) return;
+
+    (product.itemData.imageIds || [])
+      .slice(0, 2)
+      .forEach((id) => imageIdsSet.add(id));
+
+    const categoriaId =
+      product.itemData.reportingCategory?.id ||
+      product.itemData.categories?.[0]?.id;
+    if (categoriaId) categoryIdsSet.add(categoriaId);
+
+    // Combinamos atributos de ITEM y de la primera ITEM_VARIATION, ya que
+    // Square puede guardarlos en cualquiera de los dos niveles.
+    const mergedAttrs = getMergedCustomAttributes(product);
+
+    Object.values(mergedAttrs).forEach((attr) => {
+      if (attr.type === "SELECTION" && attr.customAttributeDefinitionId) {
+        definitionIdsSet.add(attr.customAttributeDefinitionId);
+      }
+    });
+  });
+
+  // 2. Un único batchGet para imágenes + definiciones de selección + categorías
+  const allIds = [...imageIdsSet, ...definitionIdsSet, ...categoryIdsSet];
+  const imageMap = new Map<string, string>();
+  const selectionLabelMap = new Map<string, string>();
+  const categoryNameMap = new Map<string, string>();
+
+  if (allIds.length > 0) {
+    const { objects: relatedObjects = [] } = await square.catalog.batchGet({
+      objectIds: allIds,
     });
 
-    const product = response.object;
-    const related = response.relatedObjects || [];
+    relatedObjects.forEach((obj) => {
+      if (obj.type === "IMAGE" && obj.imageData?.url) {
+        imageMap.set(obj.id, obj.imageData.url);
+      }
+      if (obj.type === "CATEGORY" && obj.categoryData?.name) {
+        categoryNameMap.set(obj.id || "", obj.categoryData.name);
+      }
+      if (
+        obj.type === "CUSTOM_ATTRIBUTE_DEFINITION" &&
+        obj.customAttributeDefinitionData?.selectionConfig
+      ) {
+        obj.customAttributeDefinitionData.selectionConfig.allowedSelections?.forEach(
+          (sel) => {
+            if (sel.uid && sel.name) selectionLabelMap.set(sel.uid, sel.name);
+          },
+        );
+      }
+    });
+  }
 
-    if (!product || product.type !== "ITEM" || !product.itemData) {
-      return null;
+  // 3. Armar el resultado
+  return objects
+    .map((product) => {
+      if (product.type !== "ITEM" || !product.itemData) return null;
+      const itemData = product.itemData;
+
+      // Mismo merge aquí para no perder atributos de productos con una sola
+      // variación cuyos custom attributes viven a nivel de ITEM_VARIATION.
+      // Se usa para resolver marca, bestSeller y cabelloTipo más abajo.
+      const customAttributes = getMergedCustomAttributes(product);
+
+      // true solo si el producto tiene más de una variación (no depende de
+      // los custom attributes)
+      const tieneAtributos = (itemData.variations?.length || 0) > 1;
+
+      const atributoMarca = Object.values(customAttributes).find(
+        (attr) => attr.name === "Brand",
+      );
+      const marca = atributoMarca?.stringValue || "Sin marca";
+
+      const atributoBestSeller = Object.values(customAttributes).find(
+        (attr) => attr.name === "Best-Seller",
+      );
+      const bestSellerLabels = (atributoBestSeller?.selectionUidValues || [])
+        .map((uid: string) => selectionLabelMap.get(uid))
+        .filter((label: string | undefined): label is string => !!label);
+
+      const atributoCabello = Object.values(customAttributes).find(
+        (attr) => attr.name === "Cabello",
+      );
+      const cabelloLabels = (atributoCabello?.selectionUidValues || [])
+        .map((uid: string) => selectionLabelMap.get(uid))
+        .filter((label: string | undefined): label is string => !!label);
+      const cabelloTipo = cabelloLabels[0] ?? undefined;
+
+      const primeraVariacionObj = itemData.variations?.[0];
+      let precio = 0;
+
+      if (
+        primeraVariacionObj &&
+        primeraVariacionObj.type === "ITEM_VARIATION" &&
+        primeraVariacionObj.itemVariationData
+      ) {
+        const priceMoney = primeraVariacionObj.itemVariationData.priceMoney;
+        precio = priceMoney ? Number(priceMoney.amount) / 100 : 0;
+      }
+
+      // id de la primera variación (independientemente de cuántas tenga el producto)
+      const idVariant = primeraVariacionObj?.id;
+
+      const imagenes = (itemData.imageIds || [])
+        .slice(0, 2)
+        .map((id) => imageMap.get(id) || "/placeholder.jpg");
+
+      const categoriaId =
+        itemData.reportingCategory?.id || itemData.categories?.[0]?.id || null;
+      const categoriaNombre = categoriaId
+        ? (categoryNameMap.get(categoriaId) ?? null)
+        : null;
+
+      // Excluir productos de la categoría Bundles, sin llamada extra a Square
+      if (categoriaNombre?.toLowerCase().trim() === "bundles") return null;
+
+      return {
+        id: product.id,
+        idVariant,
+        nombre: itemData.name || "Producto sin nombre",
+        precio: precio.toFixed(2),
+        imagenes,
+        marca,
+        tieneAtributos,
+        bestSeller: bestSellerLabels[0] ?? null,
+        categoriaId,
+        categoriaNombre,
+        cabelloTipo,
+        createdAt:
+          (product as { created_at?: string }).created_at ??
+          product.updatedAt ??
+          null,
+      };
+    })
+    .filter((prod): prod is NonNullable<typeof prod> => prod !== null);
+}
+
+export async function getAllProductsTest(): Promise<{ products: any[] }> {
+  const response = await square.catalog.searchItems({
+    productTypes: ["REGULAR"],
+  });
+  return { products: response.items || [] };
+}
+
+export async function getRecommendedProducts(
+  nameCategory: string,
+): Promise<ProductCardPropsWithImage[]> {
+  try {
+    const id_category = await getCategoryIdByName(nameCategory);
+    if (!id_category) {
+      console.warn(`No se encontró la categoría "${nameCategory}" en Square`);
+      return [];
     }
 
-    const itemData = product.itemData;
-    const customAttrRaw = product.customAttributeValues || {};
+    const response = await square.catalog.searchItems({
+      categoryIds: [id_category],
+      limit: 7,
+    });
 
-    // A. Descripción -> Obtener de los atributos personalizados y convertir a Array limpio separado por comas
-    const descriptionAttr = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "lista",
-    );
-    const descripcionRaw = descriptionAttr?.stringValue || "";
-    const descripcionArray = descripcionRaw
-      ? descripcionRaw.split(",").map((texto) => texto.trim())
-      : [];
+    const items = response.items || [];
 
-    // B. Mapear todas las imágenes cruzando con 'relatedObjects'
-    const imageIds = itemData.imageIds || [];
-    const imagenes = imageIds
-      .map((imageId) => {
-        const imgObj = related.find((obj) => obj.id === imageId);
-        if (imgObj && imgObj.type === "IMAGE" && imgObj.imageData) {
-          return imgObj.imageData.url || "/placeholder.jpg";
-        }
-        return null;
-      })
-      .filter((url): url is string => url !== null);
+    // 1. Recolectar todos los imageIds de todos los productos
+    const imageIdsSet = new Set<string>();
+    items.forEach((product) => {
+      if (product.type !== "ITEM" || !product.itemData) return;
+      product.itemData.imageIds?.forEach((id) => imageIdsSet.add(id));
+    });
 
-    if (imagenes.length === 0) imagenes.push("/placeholder.jpg");
+    // 2. Resolver esos IDs a URLs reales en una sola llamada
+    const imageMap = new Map<string, string>();
+    if (imageIdsSet.size > 0) {
+      const { objects: relatedObjects = [] } = await square.catalog.batchGet({
+        objectIds: [...imageIdsSet],
+      });
 
-    // C. Mapear las Variaciones (nombre y precio corregido)
-    const variationsRaw = itemData.variations || [];
-    const variaciones = variationsRaw
-      .map((v) => {
-        if (v.type === "ITEM_VARIATION" && v.itemVariationData) {
-          const vData = v.itemVariationData;
-          const priceAmount = vData.priceMoney?.amount;
-          return {
-            id: v.id,
-            nombre: vData.name || "Única",
-            precio: priceAmount
-              ? (Number(priceAmount) / 100).toFixed(2)
-              : "0.00",
-          };
-        }
-        return null;
-      })
-      .filter((v): v is NonNullable<typeof v> => v !== null);
-
-    // D. Separación Quirúrgica de Atributos (Table vs Raíz Dinámica)
-    const table: { nombre: string; valor: string }[] = [];
-    const otrosAtributos: Record<string, string> = {};
-
-    // Lista de nombres objetivo para la tabla (en minúsculas para evitar fallos de tipeo)
-    const targetTableKeys = [
-      "best for",
-      "key benefits",
-      "hero ingredient",
-      "hair concerns",
-      "technology",
-      "rich in",
-    ];
-
-    // Procesar atributo "Table" si existe
-    const tableAttr = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "table",
-    );
-    const tableAttrValue = tableAttr?.stringValue || "";
-
-    if (tableAttrValue) {
-      const parts = tableAttrValue.split(".").map((p) => p.trim());
-      targetTableKeys.forEach((key, index) => {
-        const valor = parts[index] || "";
-        if (valor) {
-          const nombre = key.charAt(0).toUpperCase() + key.slice(1);
-          table.push({ nombre, valor });
+      relatedObjects.forEach((obj) => {
+        if (obj.type === "IMAGE" && obj.imageData?.url) {
+          imageMap.set(obj.id, obj.imageData.url);
         }
       });
     }
 
-    // Procesar atributo "Banner" si existe
-    const bannerAttr = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "banner",
-    );
-    const bannerAttrValue = bannerAttr?.stringValue || "";
+    // 3. Mapear productos pasando el imageMap
+    const productos: ProductCardPropsWithImage[] = items
+      .map((product) => mapToProductCardPropsWithImage(product, imageMap))
+      .filter((p): p is ProductCardPropsWithImage => p !== null);
 
-    if (bannerAttrValue) {
-      const parts = bannerAttrValue.split(".");
-      const title = parts[0]?.trim() || "";
-      const description = parts.slice(1).join(".").trim() || "";
-      otrosAtributos["Banner Title"] = title;
-      otrosAtributos["Banner Description"] = description;
-    }
-
-    // Mapear el resto de los atributos
-    Object.values(customAttrRaw).forEach((attr) => {
-      const name = attr.name || "";
-      const valor = attr.stringValue || "";
-
-      // Si no tiene valor real, lo ignoramos
-      if (!valor) return;
-
-      const normalizedName = name.toLowerCase().trim();
-
-      // Ignoramos los atributos especiales que ya procesamos de forma separada
-      if (
-        normalizedName === "description" ||
-        normalizedName === "table" ||
-        normalizedName === "banner"
-      ) {
-        return;
-      }
-
-      // Si no es un atributo especial, se vuelve una propiedad directa llave-valor
-      otrosAtributos[name] = valor;
-    });
-
-    // Unimos las propiedades base, el array 'table' y esparcimos los atributos planos
-    return {
-      id: product.id,
-      nombre: itemData.name || "Producto sin nombre",
-      descripcionArray,
-      imagenes,
-      variaciones,
-      table,
-      ...otrosAtributos, // Agrega directamente "Brand": "...", "Description-2": "..." a la raíz
-    };
+    return productos;
   } catch (error) {
-    console.error(`Error obteniendo el producto ${id}:`, error);
-    return null;
+    console.error("Error obteniendo productos recomendados:", error);
+    return [];
   }
 }
 
-export async function getProductTest(
-  id: string,
-): Promise<{ product: any } | null> {
-  try {
-    const response = await square.catalog.object.get({
-      objectId: id,
-      includeRelatedObjects: true,
-    });
-    const product = response.object;
-    return {
-      product,
-    };
-  } catch (error) {
-    console.error(`Error obteniendo el producto ${id}:`, error);
+function mapToProductCardPropsWithImage(
+  product: any,
+  imageMap: Map<string, string>,
+): ProductCardPropsWithImage | null {
+  if (!product || product.type !== "ITEM" || !product.itemData) {
     return null;
   }
+
+  const itemData = product.itemData;
+
+  // Combinamos atributos de ITEM y de la primera ITEM_VARIATION, ya que
+  // Square puede guardarlos en cualquiera de los dos niveles (mismo criterio
+  // usado en getAllProducts y getProcessedProductById).
+  const customAttrRaw = getMergedCustomAttributes(product);
+
+  const primeraVariacion = itemData.variations?.[0];
+  const priceAmount =
+    primeraVariacion?.type === "ITEM_VARIATION"
+      ? primeraVariacion.itemVariationData?.priceMoney?.amount
+      : undefined;
+  const precio = priceAmount ? (Number(priceAmount) / 100).toFixed(2) : "0.00";
+
+  // id de la primera variación (independientemente de cuántas tenga el producto)
+  const idVariant = primeraVariacion?.id;
+
+  const marcaAttr = Object.values(customAttrRaw).find(
+    (attr) =>
+      attr.name?.toLowerCase().trim() === "brand" ||
+      attr.name?.toLowerCase().trim() === "marca",
+  );
+  const marca = marcaAttr?.stringValue || "";
+
+  // true solo si el producto tiene más de una variación (no depende de
+  // los custom attributes)
+  const tieneAtributos = (itemData.variations?.length || 0) > 1;
+
+  // Resolver imágenes desde el imageMap, usando imageIds (no ecomImageUris)
+  const [firstImageId, secondImageId] = itemData.imageIds || [];
+  const imagen = firstImageId
+    ? imageMap.get(firstImageId) || "/placeholder.jpg"
+    : "/placeholder.jpg";
+  const image2 = secondImageId ? imageMap.get(secondImageId) || imagen : imagen;
+
+  return {
+    id: product.id,
+    idVariant,
+    nombre: itemData.name || "Producto sin nombre",
+    precio,
+    imagen,
+    image2,
+    marca,
+    tieneAtributos,
+  };
+}
+
+// llamada a los bundles de productos, para mostrar en la pagina de bundles
+export async function getBundleProducts(
+  categoryName: string,
+): Promise<CategoryProduct[]> {
+  const categoryId = await getCategoryIdByName(categoryName);
+  if (!categoryId) {
+    // Puedes lanzar error, devolver [], o loguear que la categoría no existe
+    console.warn(`No se encontró la categoría "${categoryName}" en Square`);
+    return [];
+  }
+  const response = await square.catalog.searchItems({
+    categoryIds: [categoryId],
+    productTypes: ["REGULAR"],
+  });
+
+  const objects = response.items || [];
+
+  const imageIdsSet = new Set<string>();
+  objects.forEach((product) => {
+    if (product.type !== "ITEM" || !product.itemData) return;
+    const firstImageId = product.itemData.imageIds?.[0];
+    if (firstImageId) imageIdsSet.add(firstImageId);
+  });
+
+  const imageMap = new Map<string, string>();
+  if (imageIdsSet.size > 0) {
+    const { objects: relatedObjects = [] } = await square.catalog.batchGet({
+      objectIds: [...imageIdsSet],
+    });
+
+    relatedObjects.forEach((obj) => {
+      if (obj.type === "IMAGE" && obj.imageData?.url) {
+        imageMap.set(obj.id, obj.imageData.url);
+      }
+    });
+  }
+
+  return objects
+    .map((product) => {
+      if (product.type !== "ITEM" || !product.itemData) return null;
+      const itemData = product.itemData;
+
+      const primeraVariacion = itemData.variations?.[0] || null;
+
+      // Los custom attributes están en la variación, no en el item
+      const customAttrRaw =
+        (primeraVariacion?.type === "ITEM_VARIATION" &&
+          primeraVariacion.customAttributeValues) ||
+        {};
+
+      const brandAttr = Object.values(customAttrRaw).find(
+        (attr) => attr.name?.toLowerCase().trim() === "brand",
+      );
+      const tag = brandAttr?.stringValue || "";
+
+      const descripcionRaw = itemData.description || "";
+      const list = descripcionRaw
+        ? descripcionRaw
+            .split(",")
+            .map((texto) => texto.trim())
+            .filter((texto) => texto !== "")
+        : [];
+
+      const desc2Attr = Object.values(customAttrRaw).find(
+        (attr) => attr.name?.toLowerCase().trim() === "description-2",
+      );
+      const perfectFor = desc2Attr?.stringValue || "";
+
+      const resultadosAttr = Object.values(customAttrRaw).find(
+        (attr) => attr.name?.toLowerCase().trim() === "resultados",
+      );
+      const results = resultadosAttr?.stringValue || "";
+
+      const firstImageId = itemData.imageIds?.[0];
+      const image = firstImageId
+        ? imageMap.get(firstImageId) || "/placeholder.jpg"
+        : "/placeholder.jpg";
+
+      // precio: extracción segura, sin asumir que exista variación
+      const primeraVariacionPrecio = itemData.variations?.[0];
+      let precio = "0.00";
+
+      if (
+        primeraVariacionPrecio &&
+        primeraVariacionPrecio.type === "ITEM_VARIATION" &&
+        primeraVariacionPrecio.itemVariationData?.priceMoney?.amount
+      ) {
+        precio = (
+          Number(primeraVariacionPrecio.itemVariationData.priceMoney.amount) /
+          100
+        ).toFixed(2);
+      }
+
+      return {
+        id: product.id,
+        image,
+        tag,
+        title: itemData.name || "Producto sin nombre",
+        list,
+        perfectFor,
+        results,
+        precio,
+      };
+    })
+    .filter((p): p is CategoryProduct => p !== null);
+}
+
+//Para sacar el id de bundle
+export async function getBundleProductsTest(
+  categoryId: string,
+): Promise<{ objects: any[] }> {
+  const response = await square.catalog.searchItems({
+    categoryIds: [categoryId],
+    productTypes: ["REGULAR"],
+  });
+
+  const objects = response.items || [];
+
+  return { objects };
 }

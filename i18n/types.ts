@@ -11,6 +11,8 @@ export type HeaderContent = {
 };
 
 export type FooterContent = {
+  description: string;
+  button: string;
   quickLinks: {
     title: string;
     links: LocalizedLink[];

@@ -22,10 +22,10 @@ export default function Hero({ content,salon }: HeroProps) {
       />
       <div className="container-full flex justify-center md:justify-start items-center z-10 h-[35%] md:h-auto bg-rosado md:bg-transparent">
         <div className="flex flex-col justify-center items-center md:items-start gap-2 text-primary w-full md:w-[60%] lg:w-full">
-          <p className="paragraph-x-large tracking-[-0.5px] ">{content.tag}</p>
-          <h1 className="title-h2 ">{content.title}</h1>
+          <p className="paragraph-x-large tracking-[-0.5px] fade-right">{content.tag}</p>
+          <h1 className="title-h2 fade-right">{content.title}</h1>
           <p
-            className="paragraph tracking-[-0.5px] whitespace-pre-line font-medium text-center md:text-start"
+            className="paragraph tracking-[-0.5px] whitespace-pre-line fade-right font-medium text-center md:text-start"
             dangerouslySetInnerHTML={{ __html: content.description }}
           ></p>
         </div>

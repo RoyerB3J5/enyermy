@@ -18,21 +18,21 @@ export default function ItemAlone({ content }: ItemAloneProps) {
         className={`w-full h-auto aspect-720/628  ${content.bgColor} flex flex-col items-center justify-center gap-4 p-8 md:p-0`}
       >
         <Image
-          className={`w-[90%] md:w-[45%] lg:w-[50%] h-auto aspect-square object-cover`}
+          className={`w-[90%] md:w-[45%] lg:w-[50%] h-auto aspect-square object-cover fade-right`}
           src={`${content.imageProduct}`}
           alt={content.title}
           width={420}
           height={420}
         />
         <div className="flex flex-col items-center justify-center w-full">
-          <p className="paragraph-x-small uppercase text-primary-light">
+          <p className="paragraph-x-small uppercase text-primary-light fade-right">
             {content.tag}
           </p>
-          <h2 className="w-full xl:w-[30%] paragraph text-primary font-normal text-center">
+          <h2 className="w-full xl:w-[30%] paragraph text-primary font-normal text-center fade-right">
             {content.title}
           </h2>
         </div>
-        <Button label={content.button} styleButton="black" paddingX="px-6" />
+        <Button label={content.button} styleButton="black" paddingX="px-6 fade-right" />
       </div>
       <div className="overflow-hidden hidden md:block">
         <img

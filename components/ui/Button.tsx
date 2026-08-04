@@ -2,13 +2,14 @@ import Link from "next/link"; // 1. Importamos el Link de Next.js
 
 interface ButtonProps {
   label: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   styleButton: "white" | "black";
   href?: string;
   paddingX?: string;
   wFull?: boolean;
+  openInNewTab?: boolean;
 }
 
 export default function Button({
@@ -20,6 +21,7 @@ export default function Button({
   href,
   paddingX = "px-2 md:px-6",
   wFull = false,
+  openInNewTab = false,
 }: ButtonProps) {
   const baseClasses = `cursor-pointer flex justify-center items-center ${paddingX} md:py-3 rounded-full focus:outline-none transition-all duration-300 ease-in-out text-[14px] font-medium leading-[150%] uppercase tracking-[3px] text-center tokens-clase z-1 w-full ${wFull ? "md:w-full" : "md:w-auto"}`;
   const styleClasses =
@@ -31,7 +33,12 @@ export default function Button({
 
   if (href) {
     return (
-      <Link href={href} className={clasesFinales}>
+      <Link
+        href={href}
+        className={clasesFinales}
+        target={openInNewTab ? "_blank" : undefined}
+        rel={openInNewTab ? "noopener noreferrer" : undefined}
+      >
         {label}
       </Link>
     );

@@ -26,7 +26,7 @@ export default function ChangeLanguage({ locale }: { locale: Locale }) {
             }
             scroll={false}
             aria-current={option === locale ? "page" : undefined}
-            className={`block px-3 py-2 paragraph-small transition-colors hover:bg-accent ${
+            className={`block px-3 py-2 paragraph-small transition-colors hover:bg-accent text-primary ${
               option === locale ? "font-semibold" : ""
             }`}
           >

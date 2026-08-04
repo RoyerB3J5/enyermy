@@ -1,18 +1,17 @@
 // src/utils/slug.ts
 
 /**
- * Transforma un texto largo (como el nombre de un producto) en un slug amigable para SEO.
+ * Transforma un texto largo (como el name:string de un producto) en un slug amigable para SEO.
  * Ejemplo: "Polera Oversized Negra - Colección 2026" -> "polera-oversized-negra-coleccion-2026"
  */
-export function generateSlug(name: string): string {
-  if (!name) return "";
-  
+export function generarSlug(name: string, maxPalabras = 4) {
   return name
     .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remueve acentos
+    .replace(/[^a-z0-9\s]/g, "") // Remueve caracteres especiales
     .trim()
-    .replace(/[^\w\s-]/g, '') // Elimina caracteres especiales
-    .replace(/[\s_-]+/g, '-') // Cambia espacios y guiones bajos por un solo guion
-    .split('-')
-    .slice(0, 5)              // Se queda SOLO con las primeras 5 palabras para que no sea larguísimo
-    .join('-');
+    .split(/\s+/) // Separa por palabras
+    .slice(0, maxPalabras) // Toma solo las primeras N palabras
+    .join("-"); // Une con guiones
 }

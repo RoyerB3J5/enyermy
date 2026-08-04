@@ -4,7 +4,8 @@ import AddInfo from "@/components/sections/producstItem/AddInfo";
 import Banner from "@/components/sections/producstItem/Banner";
 import MainInfo from "@/components/sections/producstItem/MainInfo";
 import Recomendations from "@/components/sections/producstItem/Recomendations";
-import { getProcessedProductById, getProductTest } from "@/lib/catalog";
+import { getRecommendedProducts } from "@/lib/catalog";
+import { getProcessedProductById } from "@/lib/productById";
 
 import type { Metadata } from "next";
 
@@ -16,10 +17,71 @@ export const metadata: Metadata = {
   title: "Products | Enyermy Studio Pro",
   description: "Complete catalog of products",
 };
+const bestSellersProducts = [
+  {
+    id: "1",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
+  },
+  {
+    id: "2",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+  {
+    id: "3",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
+  },
+  {
+    id: "4",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+  {
+    id: "5",
+    nombre: "Bonding Mask",
+    precio: "45.00",
+    imagen: "/images/argan-oil-1.webp",
+    image2: "/images/argan-oil-2.webp",
+    marca: "ENYERMY STUDIO PRO",
+    tieneAtributos: true,
+  },
+  {
+    id: "6",
+    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
+    precio: "50.00",
+    imagen: "/images/argan-oil-2.webp",
+    image2: "/images/argan-oil-1.webp",
+    marca: "ENYERMY STUDIO PRO VELVETY SILK",
+    tieneAtributos: false,
+  },
+];
+
 export default async function ProductsItem({ params }: Props) {
   const { id } = await params;
-  //const content = await getProcessedProductById(id);
-  //const product = await getProductTest("RWWOD63LXUCDONR3E3M7KS6G");
+  //const idTrue = id.split("-").pop() || id
+  const idTrue = "RWWOD63LXUCDONR3E3M7KS6G";
+  //const [content, bestSellersProducts] = await Promise.all([ getProcessedProductById(idTrue), getRecommendedProducts("Recomendados"),]);
+  //const content = await getProcessedProductById(idTrue);
+  //const product = await getProcessedProductById("RWWOD63LXUCDONR3E3M7KS6G");
+  //const recommendedProducts = await getRecommendedProducts("Recomendados");
   const content = {
     id: "RWWOD63LXUCDONR3E3M7KS6G",
     nombre: "Bonding Mask",
@@ -78,116 +140,43 @@ export default async function ProductsItem({ params }: Props) {
     Brand: "ENYERMY STUDIO PRO",
     "Banner Title": "Botanical-Powered Formula",
     "Banner Description": "Natural Care, Professional Performance",
+    ComoUsar:
+      "Apply to damp hair after shampooing. Leave on for 2-3 minutes then rinse thoroughly.",
+    ingredientsArray: [
+      "Amino Keratin",
+      "Strengthening Proteins",
+      "Botanical Extracts",
+    ],
   };
   const contentRecomendations = {
     title: "Our Recommended Products",
-    products: [
-      {
-        id: "1",
-        nombre: "Bonding Mask",
-        precio: "45.00",
-        imagen: "/images/argan-oil-1.webp",
-        image2: "/images/argan-oil-2.webp",
-        marca: "ENYERMY STUDIO PRO",
-        tieneAtributos: true,
-      },
-      {
-        id: "2",
-        nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-        precio: "50.00",
-        imagen: "/images/argan-oil-2.webp",
-        image2: "/images/argan-oil-1.webp",
-        marca: "ENYERMY STUDIO PRO VELVETY SILK",
-        tieneAtributos: false,
-      },
-      {
-        id: "3",
-        nombre: "Bonding Mask",
-        precio: "45.00",
-        imagen: "/images/argan-oil-1.webp",
-        image2: "/images/argan-oil-2.webp",
-        marca: "ENYERMY STUDIO PRO",
-        tieneAtributos: true,
-      },
-      {
-        id: "4",
-        nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-        precio: "50.00",
-        imagen: "/images/argan-oil-2.webp",
-        image2: "/images/argan-oil-1.webp",
-        marca: "ENYERMY STUDIO PRO VELVETY SILK",
-        tieneAtributos: false,
-      },
-      {
-        id: "5",
-        nombre: "Bonding Mask",
-        precio: "45.00",
-        imagen: "/images/argan-oil-1.webp",
-        image2: "/images/argan-oil-2.webp",
-        marca: "ENYERMY STUDIO PRO",
-        tieneAtributos: true,
-      },
-      {
-        id: "6",
-        nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-        precio: "50.00",
-        imagen: "/images/argan-oil-2.webp",
-        image2: "/images/argan-oil-1.webp",
-        marca: "ENYERMY STUDIO PRO VELVETY SILK",
-        tieneAtributos: false,
-      },
-    ],
     button: {
       text: "View All",
       href: "/products",
     },
   };
-  const contentFixed = {
-    buttonLabel: "ADD to bag",
-    accordeon: [
-      {
-        header: "How to use",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      },
-      {
-        header: "Ingredients",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      },
-      {
-        header: "Return Policy",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      },
-      {
-        header: "Shipping",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      },
-    ],
-  };
   return (
     <main className="w-full flex flex-col justify-center items-center">
       <MainInfo
         contentProduct={content}
-        contentFixed={contentFixed.accordeon}
+        comoUsar={content.ComoUsar}
+        ingredientsArray={content.ingredientsArray}
       />
       {/*<pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
         <code>
           {JSON.stringify(
-            content,
+            product,
             (key, value) =>
               typeof value === "bigint" ? value.toString() : value,
             2,
           )}
         </code>
       </pre> */}
-
       <AddInfo contentProduct={content} />
       <Recomendations
         content={contentRecomendations}
-        buttonLabel={contentFixed.buttonLabel}
+        buttonLabel="Add to cart"
+        bestSellers={bestSellersProducts}
       />
       <Banner contentProduct={content} />
       <CallEmail />

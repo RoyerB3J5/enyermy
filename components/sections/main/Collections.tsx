@@ -18,12 +18,13 @@ interface CollectionsProps {
 export default function Collections({ content }: CollectionsProps) {
   return (
     <section className="container-full flex flex-col justify-center items-center gap-6 md:gap-8 py-12 md:py-14">
-      <h2 className="title-h4 text-center">{content.title}</h2>
+      <h2 className="title-h4 text-center fade-up">{content.title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 w-full">
         {content.items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col justify-center items-center gap-2 md:gap-3 text-primary overflow-hidden"
+            className="flex flex-col justify-center items-center gap-2 md:gap-3 text-primary overflow-hidden fade-up"
+            style={{ transitionDelay: `${index * 150}ms` }}
           >
             <div className="overflow-hidden rounded-2xl">
               <img

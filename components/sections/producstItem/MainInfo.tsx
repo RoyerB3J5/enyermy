@@ -8,22 +8,45 @@ import { useCart } from "@/hooks/useCart";
 import ButtonLink from "@/components/ui/ButtonLink";
 import AccordeonProduct from "./AccordeonProduct";
 
+import { useParams } from "next/navigation";
+import { generarSlug } from "@/lib/slug";
+
 interface MainInfoProps {
   contentProduct: FrontendProductDetail;
-  contentFixed?: {
-    header: string;
-    content: string;
-  }[];
+  comoUsar: string;
+  ingredientsArray?: string[];
 }
 const content = {
+  buttonLabel: "ADD to Cart",
+  reserva: "SCHEDULE INSTALLATION",
   links: [
     {
       label: "Home",
       href: "/",
     },
     {
-      label: "Argan Oil",
-      href: "/argan-oil",
+      label: "",
+      href: "#",
+    },
+  ],
+  accordeon: [
+    {
+      header: "How to use",
+      content: "",
+    },
+    {
+      header: "Ingredients",
+      content: "",
+    },
+    {
+      header: "Return Policy",
+      content:
+        "What if my order arrived damaged? we will gladly replace any products ordered on enyermyhairsolutions.shop that were delivered to you damaged. Please email enyermyhairsolution@gmail.com with images of your package and your order information. Any inquiries sent after 7 business days will be ineligible for replacement. <br/> What if my package is lost? If your product shipment tracking via UPS or USPS displays no movement or displays delivered and has not been delivered, please reach out directly to the shipment company to start a claim under the tracking number for your order. for any other questions, please reach out to our team at enyermyhairsolution@gmail.com with your order information.",
+    },
+    {
+      header: "Shipping",
+      content:
+        "We do our best to process orders placed by noon Eastern Time, Monday through Friday, on the same day. Orders received after that time or on the weekend will be processed the next business day, except for holiday or high-volume timeframes. Once an order has been processed and shipped, it typically takes 5-7 business days to arrive using UPS Ground shipping, depending on the destination. <br/> Severe weather may cause shipping delays. We regret that we are not able to guarantee express delivery in the event of severe weather. We currently only accept orders being sent to the 48 contiguous United States. We are not able to ship to Hawaii, Alaska, U.S. territories, PO boxes, or APO/FPO addresses. We do not offer shipping to international addresses currently.",
     },
   ],
   relatedProduct: {
@@ -41,76 +64,84 @@ const content = {
     price: "47.00",
   },
   recomendation: "More than 1K customers recommend it!",
-  buttonLabel: "ADD TO CART",
-  accordeon: [
-    {
-      label: "How to use",
-    },
-    {
-      label: "Ingredients",
-    },
-    {
-      label: "Return Policy",
-    },
-    {
-      label: "Shipping",
-    },
-  ],
 };
 export default function MainInfo({
   contentProduct,
-  contentFixed,
+  comoUsar,
+  ingredientsArray,
 }: MainInfoProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [variationIndex, setVariationIndex] = useState(0);
   const [amount, setAmount] = useState(1);
   const cartStore = useCart();
+  const params = useParams();
+  const locale = (params?.locale as string) || "en";
 
   const handleAddToCart = () => {
     if (!cartStore) return;
     const selectedVariation = contentProduct.variaciones[variationIndex];
+    const productSlug = generarSlug(contentProduct.nombre);
+    const href = `/${locale}/products/${productSlug}-${contentProduct.id}`;
+
     cartStore.addItem(
       {
-        id: `${selectedVariation.id}`,
+        id: selectedVariation.id,
         name: `${contentProduct.nombre} (${selectedVariation.nombre})`,
         price: selectedVariation.precio,
         image: contentProduct.imagenes[0] || "",
+        href,
       },
       amount,
     );
+    cartStore.openCart();
   };
 
   const handleRelatedAddToCart = () => {
     if (!cartStore) return;
+    const relatedSlug = generarSlug(content.related.title);
+    const relatedHref = `/${locale}/products/${relatedSlug}`;
+
     cartStore.addItem(
       {
         id: "related-shampoo",
         name: content.related.title,
         price: content.related.price,
         image: content.related.image,
+        href: relatedHref,
       },
       1,
     );
+    cartStore.openCart();
   };
+
+  const productName = (contentProduct.nombre || "").toLowerCase();
+  const isExtension = productName.includes("extension");
 
   return (
     <section className="container-full flex flex-col justify-center items-center pt-[var(--header-height)] pb-0 md:pb-14">
-      <div className="w-full flex justify-start items-center gap-2 py-4">
-        {content.links.map((link, index) => (
-          <Link
-            key={index}
-            href={link.href}
-            className="text-primary paragraph-xx-small hover:-translate-y-1 transition-all duration-300 ease-in-out"
-          >
-            {link.label}
-            {index < content.links.length - 1 && (
-              <span className="mx-2 text-primary">/</span>
-            )}
-          </Link>
-        ))}
+      <div className="w-full flex justify-start items-center gap-2 py-4 fade-up">
+        {content.links.map((link, index) => {
+          const isLast = index === content.links.length - 1;
+          // Si es el último elemento, usamos el nombre del producto. Si no, us el label del link.
+          const labelText = isLast ? contentProduct.nombre : link.label;
+
+          return (
+            <div key={index} className="flex items-center">
+              <Link
+                href={link.href}
+                className="text-primary paragraph-x-small hover:-translate-y-1 transition-all duration-300 ease-in-out"
+              >
+                {labelText}
+              </Link>
+
+              {/* El separador se renderiza fuera del <Link> sólo si no es el último elemento */}
+              {!isLast && <span className="mx-2 text-primary">/</span>}
+            </div>
+          );
+        })}
       </div>
       <div className="w-full flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
-        <div className="w-full md:w-1/2 flex justify-center items-start gap-4">
+        <div className="w-full md:w-1/2 flex justify-center items-start gap-4 fade-right">
           <div className="flex-none md:grid grid-cols-1 gap-4 hidden ">
             {contentProduct.imagenes.slice(0, -1).map((image, index) => (
               <button
@@ -144,7 +175,7 @@ export default function MainInfo({
           </div>
         </div>
         <div className="w-full md:w-1/2 flex flex-col justify-start items-start gap-8 ">
-          <div className="w-full flex flex-col justify-start items-start gap-5.5">
+          <div className="w-full flex flex-col justify-start items-start gap-5.5 fade-left">
             <div className="flex flex-col justify-start items-start gap-5.5">
               <div className="flex flex-col justify-start items-start gap-[3px]">
                 <p className="paragraph-x-small uppercase text-primary-light">
@@ -159,7 +190,7 @@ export default function MainInfo({
               </p>
             </div>
           </div>
-          <div className="w-full flex justify-start items-center gap-4">
+          <div className="w-full flex justify-start items-center gap-4 fade-left">
             <p className="paragraph font-medium text-primary">Size:</p>
             <div className="flex justify-start items-center gap-4">
               {contentProduct.variaciones.map((variation, index) => (
@@ -177,7 +208,7 @@ export default function MainInfo({
               ))}
             </div>
           </div>
-          <div className="w-full flex justify-center md:justify-start items-center gap-4">
+          <div className="w-full flex justify-center md:justify-start items-center gap-4 fade-left">
             <div className="flex justify-center items-center px-0 md:px-3 py-3 md:py-[15px] gap-6 border border-[#B8B8B8] rounded-full w-1/2 md:w-auto shrink-0">
               <button
                 onClick={() => setAmount(Math.max(1, amount - 1))}
@@ -230,12 +261,17 @@ export default function MainInfo({
               onClick={handleAddToCart}
             />
           </div>
-          <div className="w-full bg-[#ECF5E9] flex justify-center items-center py-4 px-4 md:px-6 rounded-2xl">
+          {isExtension && (
+            <div className="fade-left">
+              <ButtonLink content={{ text: content.reserva, href: "/" }} />
+            </div>
+          )}
+          <div className="w-full bg-[#ECF5E9] flex justify-center items-center py-4 px-4 md:px-6 rounded-2xl fade-left">
             <p className="text-[14px] font-medium leading-[150%] tracking-[3px] uppercase text-primary text-center">
               {content.recomendation}
             </p>
           </div>
-          <ul className="ml-2">
+          <ul className="ml-2 fade-left">
             {contentProduct.descripcionArray.map((item, index) => (
               <li
                 key={index}
@@ -246,8 +282,8 @@ export default function MainInfo({
             ))}
           </ul>
           <div className="w-full h-[1px] bg-[#D9D9D9]"></div>
-          <p className="title-h6 text-primary">{content.also}</p>
-          <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <p className="title-h6 text-primary fade-left">{content.also}</p>
+          <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-left">
             <div className="flex justify-center items-center">
               <Image
                 src={content.related.image}
@@ -281,7 +317,11 @@ export default function MainInfo({
               onClick={handleRelatedAddToCart}
             />
           </div>
-          <AccordeonProduct content={contentFixed ?? []} />
+          <AccordeonProduct
+            content={content.accordeon}
+            comoUsar={comoUsar}
+            ingredientsArray={ingredientsArray}
+          />
         </div>
       </div>
     </section>

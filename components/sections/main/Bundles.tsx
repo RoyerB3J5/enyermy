@@ -33,17 +33,17 @@ export default function Bundles({
         className={`container-full flex flex-col justify-center items-center md:items-start gap-6 z-10 py-12 md:py-0 ${changeColor ? "bg-white" : "bg-rosado"} md:bg-transparent`}
       >
         <div className="flex flex-col justify-center items-center md:items-start gap-4 md:gap-2 ">
-          <p className="paragraph-x-large tracking-[-0.5px] text-primary text-center">
+          <p className="paragraph-x-large tracking-[-0.5px] text-primary text-center fade-right">
             {content.tag}
           </p>
           <h2
-            className={`title-h2 text-center md:text-start ${textWhite ? "text-primary md:text-white" : "text-primary"}`}
+            className={`title-h2 text-center fade-right md:text-start ${textWhite ? "text-primary md:text-white" : "text-primary"}`}
             dangerouslySetInnerHTML={{ __html: content.title }}
           />
           {content.descriptions.map((description, index) => (
             <p
               key={index}
-              className="paragraph font-normal text-primary text-center md:text-start"
+              className="paragraph font-normal text-primary text-center md:text-start fade-right"
               dangerouslySetInnerHTML={{ __html: description }}
             ></p>
           ))}
@@ -53,7 +53,7 @@ export default function Bundles({
           label={content.button.text}
           href={content.button.link}
           styleButton="black"
-          paddingX="px-6"
+          paddingX="px-6 fade-right"
         />
       </div>
     </section>

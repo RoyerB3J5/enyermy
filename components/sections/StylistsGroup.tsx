@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import StylistsItem from "./StylistsItem";
 
@@ -24,7 +25,6 @@ interface StylistItem {
 
 interface StylistsGroupProps {
   content: StylistItem[];
-  contentFixed?: StylistItem[]; // Añadimos contentFixed como prop opcional
 }
 
 const locations = [
@@ -46,10 +46,7 @@ const locations = [
   },
 ];
 
-export default function StylistsGroup({
-  content,
-  contentFixed = [],
-}: StylistsGroupProps) {
+export default function StylistsGroup({ content }: StylistsGroupProps) {
   const [currentLocation, setCurrentLocation] = useState("ocoee");
 
   // 1. Filtramos los estilistas que dependen de la ubicación
@@ -57,7 +54,8 @@ export default function StylistsGroup({
     (item) => !item.location || item.location === currentLocation,
   );
 
-  const filteredStylists = [ ...localStylists, ...contentFixed ];
+  // 2. Combinamos los estilistas locales con los fijos (si existen)
+  const filteredStylists = [...localStylists];
 
   return (
     <section className="flex flex-col justify-center items-center w-full gap-8 md:gap-12">

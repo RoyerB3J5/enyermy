@@ -8,8 +8,8 @@
   --color-primary-rgb: 0, 37, 108;
   --color-secondary: #b8b8b8;
   --color-thirdary: #e7e7e7;
-  --color-rosado: #ffecda;
-  --color-accent: #ffecda;
+  --color-rosado: #FAEBD7;
+  --color-accent: #FAEBD7;
   --breakpoint-xs: 400px;
   --breakpoint-3xl: 106rem;
 }
@@ -212,4 +212,64 @@ html {
 
 .image-scale:hover {
   transform: scale(1.05);
+}
+
+.fade-up,
+.fade-down,
+.fade-right,
+.fade-left {
+  opacity: 0;
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-up {
+  transform: translateY(2rem);
+}
+
+.fade-down {
+  transform: translateY(-2rem);
+}
+
+.fade-right {
+  transform: translateX(-2rem);
+}
+
+.fade-left {
+  transform: translateX(2rem);
+}
+
+.fade-up.active,
+.fade-down.active,
+.fade-right.active,
+.fade-left.active {
+  opacity: 1;
+  transform: translate(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .fade-up,
+  .fade-down,
+  .fade-right,
+  .fade-left {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+.hero-fade-right {
+  animation: fadeInRight 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

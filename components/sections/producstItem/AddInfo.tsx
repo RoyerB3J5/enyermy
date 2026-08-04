@@ -16,11 +16,11 @@ export default function AddInfo({
         alt={contentProduct.nombre}
         width={720}
         height={589}
-        className="w-full h-auto object-cover"
+        className="w-full h-auto object-cover "
       />
       <div className="bg-accent w-full h-full flex flex-col justify-center items-center gap-8 md:gap-2 xl:gap-8 py-20 md:py-10 xl:py-20 text-primary">
         <div className="flex flex-col justify-center items-center gap-4">
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2 fade-up">
             <div className="flex justify-center items-center gap-0.5">
               {Array.from({ length: 5 }).map((_, index) => (
                 <Image
@@ -34,20 +34,20 @@ export default function AddInfo({
             </div>
             <p className="paragraph-x-small ">{content.customer}</p>
           </div>
-          <h2 className="title-h4">{contentProduct.nombre}</h2>
-          <p className="paragraph font-normal w-[70%] text-center">
+          <h2 className="title-h4 fade-up">{contentProduct.nombre}</h2>
+          <p className="paragraph font-normal w-[70%] text-center fade-up">
             {contentProduct["Description-2"]}
           </p>
         </div>
         <div className="px-4 md:px-0 w-full md:w-[95%] xl:w-[85%] 3xl:w-[70%]">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse fade-up">
             <tbody>
               {contentProduct.table.map((item, index) => (
                 <tr
                   key={index}
                   style={{
                     backgroundColor:
-                      index % 2 === 0 ? "#F5D5B7" : "transparent",
+                      index % 2 === 0 ? "#EEDDC7" : "transparent",
                   }}
                 >
                   <td className="w-[40%] p-2 align-center">{item.nombre}</td>
