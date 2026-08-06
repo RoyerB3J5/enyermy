@@ -1,36 +1,50 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useTransition } from "react";
 import Button from "@/components/ui/Button";
+import { BlogCardDTO } from "@/types/ghl-dto";
+import { fetchPostsPageAction } from "@/lib/ghl/actions";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useParams } from "next/navigation";
 
 interface GridPostProps {
   categories: {
     id: string;
     label: string;
   }[];
-  posts: {
-    image: string;
-    categories: {
-      id: string;
-      label: string;
-    }[];
-    date: string;
-    autor: string;
-    title: string;
-    description: string;
-    buttonHref: string;
-  }[];
+  initialPosts: BlogCardDTO[];
+  totalPosts: number;
+  totalPages: number;
 }
 
-export default function GridPost({ categories, posts }: GridPostProps) {
+export default function GridPost({
+  categories,
+  initialPosts,
+  totalPages,
+  totalPosts,
+}: GridPostProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     categories[0]?.id || "all",
   );
+  const params = useParams();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [posts, setPosts] = useState<BlogCardDTO[]>(initialPosts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isPending, startTransition] = useTransition();
+
+  function goToPage(page: number) {
+    if (page === currentPage || page < 1 || page > totalPages) return;
+
+    startTransition(async () => {
+      const result = await fetchPostsPageAction(page);
+      setPosts(result.items);
+      setCurrentPage(page);
+    });
+  }
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -68,6 +82,8 @@ export default function GridPost({ categories, posts }: GridPostProps) {
     : posts.filter((post) =>
         post.categories?.some((cat) => cat.id === selectedCategory),
       );
+
+  const locale = (params.locale as string) || "en";
 
   return (
     <section className="container-full flex flex-col justify-center items-center pt-6 pb-14 gap-14">
@@ -133,12 +149,12 @@ export default function GridPost({ categories, posts }: GridPostProps) {
                 {post.title}
               </h3>
               <p className="paragraph font-normal text-primary tracking-[-0.5px]">
-                {post.description}
+                {post.descriptionShort}
               </p>
               <Button
                 styleButton="white"
                 label="Read more"
-                href={post.buttonHref}
+                href={`/${locale}/blog/${post.buttonHref}?author=${post.autor}`}
                 paddingX="px-6"
               />
             </div>
@@ -149,6 +165,32 @@ export default function GridPost({ categories, posts }: GridPostProps) {
           </div>
         )}
       </div>
+      <nav className="mt-8 flex gap-6">
+        <button
+          disabled={currentPage === 1 || isPending}
+          onClick={() => goToPage(currentPage - 1)}
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            disabled={isPending}
+            onClick={() => goToPage(p)}
+            className={p === currentPage ? "font-bold" : ""}
+          >
+            {p}
+          </button>
+        ))}
+
+        <button
+          disabled={currentPage === totalPages || isPending}
+          onClick={() => goToPage(currentPage + 1)}
+        >
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </nav>
     </section>
   );
 }

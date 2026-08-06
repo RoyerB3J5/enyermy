@@ -51,12 +51,14 @@ export default function Hero({ content }: HeroProps) {
             href={content.button.link}
             styleButton={normalized === "/" ? "black" : "white"}
             paddingX="px-6 hidden md:block hero-fade-right"
+            openInNewTab={true}
           />
           <Button
             label={content.button.text}
             href={content.button.link}
             styleButton={"black"}
             paddingX="px-6 md:hidden block hero-fade-right"
+            openInNewTab={true}
           />
         </div>
       </div>

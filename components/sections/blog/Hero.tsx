@@ -14,7 +14,7 @@ interface HeroProps {
     date: string;
     autor: string;
     title: string;
-    description: string;
+    descriptionShort: string;
     buttonHref: string;
   };
 }
@@ -52,7 +52,7 @@ export default function Hero({ hero, post }: HeroProps) {
                 <p>{post.autor}</p>
               </div>
               <p className="paragraph font-normal text-primary fade-left">
-                {post.description}
+                {post.descriptionShort}
               </p>
               <Button
                 styleButton="black"

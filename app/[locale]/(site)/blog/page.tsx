@@ -3,6 +3,7 @@ import Hero from "@/components/sections/blog/Hero";
 import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
 import Mail from "@/components/sections/Mail";
+import { getCategories, getPostsPage } from "@/lib/ghl/blog-services";
 import React from "react";
 const content = {
   hero: {
@@ -66,7 +67,7 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
@@ -86,7 +87,7 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
@@ -105,7 +106,7 @@ const posts = [
     date: "November 21, 2025",
     autor: "Luisa E Dominguez",
     title: "Por Qué Enyermy es el Mejor Salón de Belleza en Orlando",
-    description:
+    descriptionShort:
       "Si estás buscando el mejor salón de belleza en Orlando, aquí descubrirás por qué Enyermy Hair Studio y Enyermy Studio Pro se han convertido en la opción preferida por miles de mujeres.",
     buttonHref: "#",
   },
@@ -125,7 +126,7 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
@@ -145,7 +146,7 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
@@ -165,7 +166,7 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
@@ -185,17 +186,26 @@ const posts = [
     autor: "Luisa E DOminguez",
     title:
       "Mujeres de negocios. Encontrar el Equilibrio Perfecto: Negocios y Familia",
-    description:
+    descriptionShort:
       "Este artículo está dirigido a mujeres de negocios que buscan inspiración y estrategias para equilibrar sus responsabilidades profesionales con su vida familiar.",
     buttonHref: "#",
   },
 ];
-export default function Blog() {
+export default async function Blog() {
+  const [{ items: posts, total, totalPages }, categories] = await Promise.all([
+    getPostsPage(1),
+    getCategories(),
+  ]);
   return (
     <main className="flex flex-col justify-center items-center pt-(--header-height) w-full">
       <Hero hero={content.hero} post={posts[2]} />
-      <GridPost categories={categories} posts={posts} />
-      <CallEmail/>
+      <GridPost
+        categories={categories}
+        initialPosts={posts}
+        totalPages={totalPages}
+        totalPosts={total}
+      />
+      <CallEmail />
       <CarouselReview />
     </main>
   );

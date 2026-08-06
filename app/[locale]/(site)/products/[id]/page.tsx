@@ -85,13 +85,8 @@ export default async function ProductsItem({ params }: Props) {
   const content = {
     id: "RWWOD63LXUCDONR3E3M7KS6G",
     nombre: "Bonding Mask",
-    descripcionArray: [
-      "Repairs Severely Damaged Hair",
-      "Infused With Amino Keratin",
-      "Strengthens Hair Bonds",
-      "Restores Shine & Luminosity",
-      "Revitalizes Hair Health",
-    ],
+    descripcion:
+      "Repairs Severely Damaged Hair. Infused With Amino Keratin. Strengthens Hair Bonds. Restores Shine & Luminosity. Revitalizes Hair Health.",
     imagenes: [
       "/images/argan-oil-1.webp",
       "/images/argan-oil-2.webp",
@@ -146,6 +141,11 @@ export default async function ProductsItem({ params }: Props) {
       "Amino Keratin",
       "Strengthening Proteins",
       "Botanical Extracts",
+    ],
+    bulletsArray: [
+      "Repairs Severely Damaged Hair",
+      "Infused With Amino Keratin",
+      "Strengthens Hair Bonds",
     ],
   };
   const contentRecomendations = {

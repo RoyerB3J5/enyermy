@@ -26,7 +26,7 @@ export interface getAllProductsType {
 export interface FrontendProductDetail {
   id: string;
   nombre: string;
-  descripcionArray: string[];
+  descripcion: string;
   imagenes: string[];
   variaciones: {
     id: string;
@@ -38,6 +38,8 @@ export interface FrontendProductDetail {
     valor: string;
   }[];
   ingredientsArray?: string[];
+  ingredientesArray?: string[];
+  bulletsArray?: string[];
   [key: string]: any;
 }
 

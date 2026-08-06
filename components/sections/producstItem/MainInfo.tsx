@@ -188,6 +188,9 @@ export default function MainInfo({
               <p className="paragraph-x-large text-primary">
                 $ {contentProduct.variaciones[variationIndex].precio}
               </p>
+              <p className="paragraph font-normal text-primary fade-left">
+                {contentProduct.descripcion}
+              </p>
             </div>
           </div>
           <div className="w-full flex justify-start items-center gap-4 fade-left">
@@ -271,19 +274,23 @@ export default function MainInfo({
               {content.recomendation}
             </p>
           </div>
-          <ul className="ml-2 fade-left">
-            {contentProduct.descripcionArray.map((item, index) => (
-              <li
-                key={index}
-                className="paragraph font-normal text-primary list-disc list-inside"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+
+          {contentProduct.bulletsArray &&
+            contentProduct.bulletsArray.length > 0 && (
+              <ul className="list-disc list-inside flex flex-col justify-start items-start gap-2 fade-left">
+                {contentProduct.bulletsArray.map((bullet, index) => (
+                  <li
+                    key={index}
+                    className="paragraph font-medium text-primary"
+                  >
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            )}
           <div className="w-full h-[1px] bg-[#D9D9D9]"></div>
           <p className="title-h6 text-primary fade-left">{content.also}</p>
-          <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-left">
+          {/* <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-left">
             <div className="flex justify-center items-center">
               <Image
                 src={content.related.image}
@@ -316,7 +323,8 @@ export default function MainInfo({
               paddingX="md:px-[50px] hidden md:block"
               onClick={handleRelatedAddToCart}
             />
-          </div>
+          </div>*/}
+
           <AccordeonProduct
             content={content.accordeon}
             comoUsar={comoUsar}

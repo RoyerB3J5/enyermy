@@ -40,10 +40,7 @@ export async function getProcessedProductById(
     // Este helper combina ambos niveles (mismo criterio usado en getAllProducts).
     const customAttrRaw = getMergedCustomAttributes(product);
 
-    const descripcionRaw = itemData.description;
-    const descripcionArray = descripcionRaw
-      ? descripcionRaw.split(",").map((texto) => texto.trim())
-      : [];
+    const descripcion = itemData.description || "";
 
     // B. Mapear todas las imágenes cruzando con 'relatedObjects'
     const imageIds = itemData.imageIds || [];
@@ -150,6 +147,19 @@ export async function getProcessedProductById(
           .filter((texto: string) => texto !== "")
       : [];
 
+    // Procesar atributo "Bullets" si existe -> lo convertimos en array separando por puntos
+    const bulletsAttr = Object.values(customAttrRaw).find(
+      (attr) => attr.name?.toLowerCase().trim() === "bullets",
+    );
+    const bulletsRaw = bulletsAttr?.stringValue || "";
+
+    const bulletsArray = bulletsRaw
+      ? bulletsRaw
+          .split(".")
+          .map((texto: string) => texto.trim())
+          .filter((texto: string) => texto !== "")
+      : [];
+
     // Mapear el resto de los atributos
     Object.values(customAttrRaw).forEach((attr) => {
       const name = attr.name || "";
@@ -167,7 +177,8 @@ export async function getProcessedProductById(
         normalizedName === "table2" ||
         normalizedName === "como usar" ||
         normalizedName === "banner" ||
-        normalizedName === "ingredientes"
+        normalizedName === "ingredientes" ||
+        normalizedName === "bullets"
       ) {
         return;
       }
@@ -180,8 +191,9 @@ export async function getProcessedProductById(
     return {
       id: product.id,
       nombre: itemData.name || "Producto sin nombre",
-      descripcionArray,
+      descripcion,
       ingredientesArray,
+      bulletsArray,
       imagenes,
       variaciones,
       table,
