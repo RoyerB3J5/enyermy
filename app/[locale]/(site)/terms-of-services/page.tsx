@@ -8,7 +8,7 @@ export default async function page({ params }: PageProps<"/[locale]">) {
   if (!hasLocale(locale)) {
     notFound();
   }
-  const { terms: content } = await getContent<{ terms: TermsContent }>(locale);
+  const { term: content } = await getContent<{ term: TermsContent }>(locale);
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height) ">
       <section className="container-full flex flex-col justify-center items-center gap-8 py-12 md:py-20 text-primary">

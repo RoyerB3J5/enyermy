@@ -30,7 +30,7 @@ export async function getPostsPage(
       offset,
       status: "PUBLISHED",
     },
-    revalidate: 300,
+    revalidate: 60,
     tags: [BLOG_CACHE_TAGS.posts],
   });
 
@@ -52,7 +52,7 @@ export async function getPostById(
       `/blogs/posts/${postId}`,
       {
         params: { locationId: LOCATION_ID },
-        revalidate: 300,
+        revalidate: 60,
         tags: [BLOG_CACHE_TAGS.post(postId)],
       },
     );
@@ -67,7 +67,7 @@ export async function getPostById(
 export async function getCategories(): Promise<CategoryDTO[]> {
   const data = await ghlFetch<GHLCategoriesResponseRaw>("/blogs/categories", {
     params: { locationId: LOCATION_ID, limit: CATEGORIES_LIMIT, offset: 0 },
-    revalidate: 3600,
+    revalidate: 60,
     tags: [BLOG_CACHE_TAGS.categories],
   });
 
