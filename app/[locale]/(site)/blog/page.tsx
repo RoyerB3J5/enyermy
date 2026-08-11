@@ -5,6 +5,15 @@ import CarouselReview from "@/components/sections/CarouselReview";
 import Mail from "@/components/sections/Mail";
 import { getCategories, getPostsPage } from "@/lib/ghl/blog-services";
 import React from "react";
+import { hasLocale } from "@/i18n/config";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog | Enyermy Studio Pro",
+  description: "Latest news and updates from Enyermy Studio Pro",
+};
+
 const content = {
   hero: {
     tag: "Insights, Trends, Hair Education",
@@ -191,7 +200,12 @@ const posts = [
     buttonHref: "#",
   },
 ];
-export default async function Blog() {
+export default async function Blog({ params }: PageProps<"/[locale]">) {
+  const { locale } = await params;
+
+  if (!hasLocale(locale)) {
+    notFound();
+  }
   const [{ items: posts, total, totalPages }, categories] = await Promise.all([
     getPostsPage(1),
     getCategories(),
