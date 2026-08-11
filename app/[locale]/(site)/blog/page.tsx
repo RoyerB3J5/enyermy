@@ -7,6 +7,10 @@ import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
+// GHL is an external runtime dependency. Rendering this route dynamically
+// prevents a transient GHL response from failing the entire production build.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog | Enyermy Studio Pro",
   description: "Latest news and updates from Enyermy Studio Pro",

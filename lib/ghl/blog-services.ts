@@ -1,5 +1,4 @@
 import { BlogCardDTO, BlogPostDetailDTO, CategoryDTO, PaginatedResult } from "@/types/ghl-dto";
-import { unstable_cache } from "next/cache";
 import { ghlFetch } from "./client";
 import { GHLCategoriesResponseRaw, GHLPostDetailResponseRaw, GHLPostListResponseRaw } from "@/types/ghl-raw";
 import { ALL_CATEGORY, mapCategoryToDTO, mapPostDetailToDTO, mapPostListItemToCard } from "./mapper";
@@ -19,7 +18,7 @@ export const BLOG_CACHE_TAGS = {
 } as const;
 
 /** Listado de posts para la grilla del blog, paginado (9 por página) */
-async function getPostsPageUncached(
+export async function getPostsPage(
   page: number = 1,
 ): Promise<PaginatedResult<BlogCardDTO>> {
   const offset = (page - 1) * POSTS_PAGE_SIZE;
@@ -45,15 +44,6 @@ async function getPostsPageUncached(
   };
 }
 
-export const getPostsPage = unstable_cache(
-  getPostsPageUncached,
-  ["ghl-blog", "posts-page", LOCATION_ID, BLOG_ID],
-  {
-    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
-    tags: [BLOG_CACHE_TAGS.posts],
-  },
-);
-
 /** Detalle completo de un post por su ID (para la página individual) */
 export async function getPostById(
   postId: string,
@@ -75,7 +65,7 @@ export async function getPostById(
 }
 
 /** Categorías para el filtro, con "All" agregado al inicio */
-async function getCategoriesUncached(): Promise<CategoryDTO[]> {
+export async function getCategories(): Promise<CategoryDTO[]> {
   const data = await ghlFetch<GHLCategoriesResponseRaw>("/blogs/categories", {
     params: { locationId: LOCATION_ID, limit: CATEGORIES_LIMIT, offset: 0 },
     revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
@@ -84,12 +74,3 @@ async function getCategoriesUncached(): Promise<CategoryDTO[]> {
 
   return [ALL_CATEGORY, ...data.categories.map(mapCategoryToDTO)];
 }
-
-export const getCategories = unstable_cache(
-  getCategoriesUncached,
-  ["ghl-blog", "categories", LOCATION_ID, BLOG_ID],
-  {
-    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
-    tags: [BLOG_CACHE_TAGS.categories],
-  },
-);
