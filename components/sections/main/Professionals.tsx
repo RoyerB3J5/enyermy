@@ -15,6 +15,7 @@ interface ProfessionalsProps {
     tag: string;
     title: string;
     price: string;
+    href: string;
   }[];
 }
 export default function Professionals({

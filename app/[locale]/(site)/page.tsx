@@ -84,30 +84,33 @@ const contentProfessionals = [
     tag: "ENYERMY STUDIO PRO",
     title: "Cream Developer",
     price: "33.00",
+    href: "/en/products/cream-developer-ARFVMRGULBUXICTFCFR7543S",
   },
   {
     image: "/images/main/item-product-2.webp",
     tag: "ENYERMY STUDIO PRO",
     title: "Bleach Ligtening PLEX-tech Violet Powder",
     price: "42.00",
+    href: "/en/products/bleach-ligtening-plextech-violet-YCNRG5PKETN47ULPB5SLI7X6",
   },
   {
     image: "/images/main/item-product-3.webp",
     tag: "ENYERMY STUDIO PRO CURLYME MASK",
     title: "Curls Definer Cream",
     price: "42.00",
+    href: "/en/products/curls-definer-cream-2ZLAXZC3DLBWCNCEJV3VDVZ2",
   },
   {
     image: "/images/main/item-product-4.webp",
     tag: "ENYERMY STUDIO PRO velvety sleek",
     title: "Volume Reducer The Keratin Alternative Treatment.",
     price: "180.00",
+    href: "/en/products/volume-reducer-the-keratin-2WU65JT7S5VNIBEONMB5EMGO",
   },
 ];
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
-  //const bestSellersProducts = await getBestSellerProductCardProps();
-  //const products = await getAllProductsTest();
+  const bestSellersProducts = await getBestSellerProductCardProps();
   if (!hasLocale(locale)) {
     notFound();
   }
@@ -126,7 +129,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           )}
         </code>
       </pre>*/}
-      
       <Recomendations
         content={content.bestSellers}
         buttonLabel={content.button}

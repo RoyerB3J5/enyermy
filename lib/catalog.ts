@@ -10,6 +10,12 @@ import type {
 import type { Square as SquareTypes } from "square";
 import { getCategoryIdByName } from "./categoryCache";
 import { getMergedCustomAttributes } from "./helper";
+import {
+  SQUARE_CATALOG_CACHE_KEY,
+  SQUARE_CATALOG_CACHE_OPTIONS,
+  shouldCacheSquareCatalog,
+} from "./square-cache";
+import { unstable_cache } from "next/cache";
 
 interface ProductCardPropsWithImage extends LightProduct {
   image2: string;
@@ -29,7 +35,7 @@ function getCustomAttributeMap(product: {
 /**
  * Fetches products from the Square Catalog API and maps them to a simplified ProductCardPropsWithImage format.
  */
-export async function getProductCardPropsWithImages(): Promise<
+async function getProductCardPropsWithImagesUncached(): Promise<
   ProductCardPropsWithImage[]
 > {
   const response = await square.catalog.search({
@@ -90,7 +96,15 @@ export async function getProductCardPropsWithImages(): Promise<
     .filter((prod): prod is NonNullable<typeof prod> => prod !== null);
 }
 
-export async function getAllProducts(): Promise<getAllProductsType[]> {
+export const getProductCardPropsWithImages = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getProductCardPropsWithImagesUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "product-card-props"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getProductCardPropsWithImagesUncached;
+
+async function getAllProductsUncached(): Promise<getAllProductsType[]> {
   const response = await square.catalog.searchItems({
     productTypes: ["REGULAR"],
   });
@@ -240,6 +254,14 @@ export async function getAllProducts(): Promise<getAllProductsType[]> {
     .filter((prod): prod is NonNullable<typeof prod> => prod !== null);
 }
 
+export const getAllProducts = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getAllProductsUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "all-products"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getAllProductsUncached;
+
 export async function getAllProductsTest(): Promise<{ products: any[] }> {
   const response = await square.catalog.searchItems({
     productTypes: ["REGULAR"],
@@ -247,7 +269,7 @@ export async function getAllProductsTest(): Promise<{ products: any[] }> {
   return { products: response.items || [] };
 }
 
-export async function getRecommendedProducts(
+async function getRecommendedProductsUncached(
   nameCategory: string,
 ): Promise<ProductCardPropsWithImage[]> {
   try {
@@ -296,6 +318,14 @@ export async function getRecommendedProducts(
     return [];
   }
 }
+
+export const getRecommendedProducts = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getRecommendedProductsUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "recommended-products"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getRecommendedProductsUncached;
 
 function mapToProductCardPropsWithImage(
   product: any,
@@ -353,7 +383,7 @@ function mapToProductCardPropsWithImage(
 }
 
 // llamada a los bundles de productos, para mostrar en la pagina de bundles
-export async function getBundleProducts(
+async function getBundleProductsUncached(
   categoryName: string,
 ): Promise<CategoryProduct[]> {
   const categoryId = await getCategoryIdByName(categoryName);
@@ -458,6 +488,14 @@ export async function getBundleProducts(
     })
     .filter((p): p is CategoryProduct => p !== null);
 }
+
+export const getBundleProducts = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getBundleProductsUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "bundle-products"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getBundleProductsUncached;
 
 //Para sacar el id de bundle
 export async function getBundleProductsTest(

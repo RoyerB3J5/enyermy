@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/ui/Button";
+import ProductImage from "@/components/ui/ProductImage";
 import { useCart } from "@/hooks/useCart";
 import { useParams } from "next/navigation";
 
@@ -44,14 +45,13 @@ export default function BundleSection({ itemsBundles }: BundleSectionProps) {
             <div
               className={`w-auto max-w-none md:max-w-full xl:max-w-none xl:w-full h-full xl:h-auto aspect-720/660 relative ${isPar ? "md:order-1" : "md:order-2"} overflow-hidden`}
             >
-              <img
+              <ProductImage
                 className={`w-full h-full object-cover object-center absolute inset-0 hover:scale-105 transition-transform duration-300 ease-in-out`}
                 src={bundle.image}
-                decoding="async"
-                loading="lazy"
                 alt={bundle.title}
                 width={720}
                 height={660}
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
 

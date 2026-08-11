@@ -1,8 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  env: {
+    // This value is not sensitive. It lets client-side product images use the
+    // same Square environment selection as server-side Square requests.
+    NEXT_PUBLIC_SQUARE_ENVIRONMENT: process.env.SQUARE_ENVIRONMENT,
+  },
   images: {
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.weserv.nl",
+      },
       {
         protocol: "https",
         hostname: "items-images-sandbox.s3.us-west-2.amazonaws.com",
@@ -20,6 +29,7 @@ const nextConfig: NextConfig = {
         hostname: "*storage.googleapis.com",
       },
     ],
+    formats: ["image/avif", "image/webp"],
   },
   experimental: {
     optimizePackageImports: ["lucide-react"], // Optimiza los iconos automáticamente

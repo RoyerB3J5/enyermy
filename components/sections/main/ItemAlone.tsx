@@ -32,7 +32,7 @@ export default function ItemAlone({ content }: ItemAloneProps) {
             {content.title}
           </h2>
         </div>
-        <Button label={content.button} styleButton="black" paddingX="px-6 fade-right" />
+        <Button label={content.button} styleButton="black" paddingX="px-6 fade-right" href='/en/products/10-minutes-express-permanent-FG4AMWWBO2MWEEQJF24QO4VW'/>
       </div>
       <div className="overflow-hidden hidden md:block">
         <img

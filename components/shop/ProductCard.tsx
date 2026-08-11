@@ -1,6 +1,6 @@
 "use client";
 import { LightProduct } from "@/types/square";
-import Image from "next/image";
+import ProductImage from "@/components/ui/ProductImage";
 import Link from "next/link";
 import Button from "../ui/Button";
 import { useCart } from "@/hooks/useCart";
@@ -46,28 +46,26 @@ export default function ProductCard({
       {/* 1. CONTENEDOR DE IMÁGENES (Aquí ocurre toda la magia del hover) */}
       <div className="relative w-full aspect-square overflow-hidden rounded-2xl ">
         {/* Imagen Principal (Por defecto) */}
-        <img
+        <ProductImage
           src={product.imagen as string}
           alt={product.nombre}
-          width="300"
-          height="300"
+          width={300}
+          height={300}
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-          decoding="async"
-          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
         />
 
         {/* Segunda Imagen + Botón (Capa que sube) */}
         {image2 && (
           <div className="absolute inset-0 w-full h-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 overflow-hidden">
             {/* Imagen 2 */}
-            <img
+            <ProductImage
               src={image2}
               alt={product.nombre}
-              width="300"
-              height="300"
+              width={300}
+              height={300}
               className="w-full h-full object-cover rounded-2xl"
-              decoding="async"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
             />
 
             {/* BOTÓN ENCIMA */}

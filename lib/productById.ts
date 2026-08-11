@@ -4,6 +4,12 @@ import { square } from "@/lib/square";
 import type { FrontendProductDetail } from "@/types/square";
 import type { Square as SquareTypes } from "square";
 import { getMergedCustomAttributes } from "./helper";
+import {
+  SQUARE_CATALOG_CACHE_KEY,
+  SQUARE_CATALOG_CACHE_OPTIONS,
+  shouldCacheSquareCatalog,
+} from "./square-cache";
+import { unstable_cache } from "next/cache";
 
 type SquareCustomAttributeMap = Record<
   string,
@@ -16,7 +22,7 @@ function getCustomAttributeMap(product: {
   return (product.customAttributeValues ?? {}) as SquareCustomAttributeMap;
 }
 
-export async function getProcessedProductById(
+async function getProcessedProductByIdUncached(
   id: string,
 ): Promise<FrontendProductDetail | null> {
   try {
@@ -90,9 +96,14 @@ export async function getProcessedProductById(
       "rich in",
     ];
 
+    // Normaliza el nombre del atributo quitando espacios en blanco para
+    // soportar variantes como "Table 2" o "table2".
+    const normalizedName = (name?: string) =>
+      name?.toLowerCase().trim().replace(/\s+/g, "") || "";
+
     // Procesar atributo "Table" (primeros 3 valores) si existe
     const tableAttr = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "table",
+      (attr) => normalizedName(attr.name) === "table",
     );
     const tableAttrValue = tableAttr?.stringValue || "";
 
@@ -107,9 +118,9 @@ export async function getProcessedProductById(
       });
     }
 
-    // Procesar atributo "Table2" (últimos 3 valores) si existe
+    // Procesar atributo "Table 2" (últimos 3 valores) si existe
     const table2Attr = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "table2",
+      (attr) => normalizedName(attr.name) === "table2",
     );
     const table2AttrValue = table2Attr?.stringValue || "";
 
@@ -126,7 +137,7 @@ export async function getProcessedProductById(
 
     // Procesar atributo "Como usar" si existe
     const comoUsar = Object.values(customAttrRaw).find(
-      (attr) => attr.name?.toLowerCase().trim() === "como usar",
+      (attr) => normalizedName(attr.name) === "comousar",
     );
     const comoUsarValue = comoUsar?.stringValue || "";
 
@@ -168,17 +179,17 @@ export async function getProcessedProductById(
       // Si no tiene valor real, lo ignoramos
       if (!valor) return;
 
-      const normalizedName = name.toLowerCase().trim();
+      const normalized = normalizedName(name);
 
       // Ignoramos los atributos especiales que ya procesamos de forma separada
       if (
-        normalizedName === "description" ||
-        normalizedName === "table" ||
-        normalizedName === "table2" ||
-        normalizedName === "como usar" ||
-        normalizedName === "banner" ||
-        normalizedName === "ingredientes" ||
-        normalizedName === "bullets"
+        normalized === "description" ||
+        normalized === "table" ||
+        normalized === "table2" ||
+        normalized === "comousar" ||
+        normalized === "banner" ||
+        normalized === "ingredientes" ||
+        normalized === "bullets"
       ) {
         return;
       }
@@ -204,6 +215,14 @@ export async function getProcessedProductById(
     return null;
   }
 }
+
+export const getProcessedProductById = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getProcessedProductByIdUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "product-by-id"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getProcessedProductByIdUncached;
 
 export async function getProductTest(
   id: string,

@@ -76,12 +76,15 @@ const bestSellersProducts = [
 
 export default async function ProductsItem({ params }: Props) {
   const { id } = await params;
-  //const idTrue = id.split("-").pop() || id
-  const idTrue = "RWWOD63LXUCDONR3E3M7KS6G";
-  //const [content, bestSellersProducts] = await Promise.all([ getProcessedProductById(idTrue), getRecommendedProducts("Recomendados"),]);
+  const idTrue = id.split("-").pop() || id
+  //const idTrue = "ARFVMRGULBUXICTFCFR7543S";
+  const [contentProduct, bestSellersProducts] = await Promise.all([ getProcessedProductById(idTrue), getRecommendedProducts("Recomendados"),]);
   //const content = await getProcessedProductById(idTrue);
-  //const product = await getProcessedProductById("RWWOD63LXUCDONR3E3M7KS6G");
+  //const productTest = await getProcessedProductById("ARFVMRGULBUXICTFCFR7543S");
   //const recommendedProducts = await getRecommendedProducts("Recomendados");
+  if (!contentProduct) {
+    return <div>Product not found</div>;
+  }
   const content = {
     id: "RWWOD63LXUCDONR3E3M7KS6G",
     nombre: "Bonding Mask",
@@ -137,7 +140,7 @@ export default async function ProductsItem({ params }: Props) {
     "Banner Description": "Natural Care, Professional Performance",
     ComoUsar:
       "Apply to damp hair after shampooing. Leave on for 2-3 minutes then rinse thoroughly.",
-    ingredientsArray: [
+    ingredientesArray: [
       "Amino Keratin",
       "Strengthening Proteins",
       "Botanical Extracts",
@@ -158,9 +161,9 @@ export default async function ProductsItem({ params }: Props) {
   return (
     <main className="w-full flex flex-col justify-center items-center">
       <MainInfo
-        contentProduct={content}
-        comoUsar={content.ComoUsar}
-        ingredientsArray={content.ingredientsArray}
+        contentProduct={contentProduct}
+        comoUsar={contentProduct.ComoUsar}
+        ingredientsArray={contentProduct.ingredientesArray}
       />
       {/*<pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-w-full block">
         <code>
@@ -172,13 +175,13 @@ export default async function ProductsItem({ params }: Props) {
           )}
         </code>
       </pre> */}
-      <AddInfo contentProduct={content} />
+      <AddInfo contentProduct={contentProduct} />
       <Recomendations
         content={contentRecomendations}
         buttonLabel="Add to cart"
         bestSellers={bestSellersProducts}
       />
-      <Banner contentProduct={content} />
+      <Banner contentProduct={contentProduct} />
       <CallEmail />
       <CarouselReview />
     </main>

@@ -25,7 +25,7 @@ const cards = [
 const socialMedia = [
   {
     icon: "facebook",
-    href: "#",
+    href: "https://www.facebook.com/enyermystudiopro",
   },
   {
     icon: "instagram",

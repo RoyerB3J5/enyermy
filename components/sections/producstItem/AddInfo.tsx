@@ -16,6 +16,7 @@ export default function AddInfo({
         alt={contentProduct.nombre}
         width={720}
         height={589}
+        sizes="(max-width: 768px) 720px, 720px "
         className="w-full h-auto object-cover "
       />
       <div className="bg-accent w-full h-full flex flex-col justify-center items-center gap-8 md:gap-2 xl:gap-8 py-20 md:py-10 xl:py-20 text-primary">

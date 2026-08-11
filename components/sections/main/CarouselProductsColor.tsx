@@ -1,6 +1,7 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 interface CarouselProductsColorProps {
@@ -15,6 +16,7 @@ interface CarouselProductsColorProps {
     tag: string;
     title: string;
     price: string;
+    href: string;
   }[];
 }
 
@@ -148,7 +150,8 @@ export default function CarouselProductsColor({
           onTransitionEnd={handleTransitionEnd}
         >
           {expandedProducts.map((product, index) => (
-            <div
+            <Link
+              href={product.href}
               className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full shrink-0"
               key={index}
             >
@@ -188,7 +191,7 @@ export default function CarouselProductsColor({
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

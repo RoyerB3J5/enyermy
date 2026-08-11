@@ -66,11 +66,16 @@ interface GridProductsProps {
   }[];
 }
 
-function labelFor(option: SortOption | FilterOption, items?: { id: string; label: string }[]) {
+function labelFor(
+  option: SortOption | FilterOption,
+  items?: { id: string; label: string }[],
+) {
   return items?.find((i) => i.id === option.id)?.label ?? option.label;
 }
 
-function buildFilterOptions(items: { id: string; label: string }[]): FilterOption[] {
+function buildFilterOptions(
+  items: { id: string; label: string }[],
+): FilterOption[] {
   return items.map((item) => {
     if (item.id === "todos") {
       return { id: "todos", label: item.label, filterFn: (p) => p };
@@ -86,15 +91,32 @@ function buildFilterOptions(items: { id: string; label: string }[]): FilterOptio
     return {
       id: item.id,
       label: item.label,
-      filterFn: (p) => p.filter((product) => product.categoriaNombre === item.id),
+      filterFn: (p) =>
+        p.filter((product) => product.categoriaNombre === item.id),
     };
   });
 }
+
+function hasFirstImageSource(product: getAllProductsType) {
+  const firstImage: unknown = product.imagenes?.[0];
+
+  // The catalog currently maps image URLs to strings. Keep those valid while
+  // also supporting image objects returned by other product sources.
+  if (typeof firstImage === "string") return firstImage.trim().length > 0;
+  if (!firstImage || typeof firstImage !== "object") return false;
+
+  const { src, url } = firstImage as { src?: unknown; url?: unknown };
+  return (
+    (typeof src === "string" && src.trim().length > 0) ||
+    (typeof url === "string" && url.trim().length > 0)
+  );
+}
+
 export default function GridProducts({
   content,
   contentFixed,
   buttonLabel,
-  productContent
+  productContent,
 }: GridProductsProps) {
   const [idSortFilter, setIdSortFilter] = useState("1");
   const [idFilter, setIdFilter] = useState("todos");
@@ -110,9 +132,8 @@ export default function GridProducts({
     (item) => item.id === idSortFilter,
   )!;
 
-  const selectedFilterOption = filterOptions.find(
-    (item) => item.id === idFilter,
-  ) ?? filterOptions[0];
+  const selectedFilterOption =
+    filterOptions.find((item) => item.id === idFilter) ?? filterOptions[0];
 
   // Apply filter first, then sort
   const filteredProducts = selectedSortOption.sortFn(
@@ -121,7 +142,7 @@ export default function GridProducts({
 
   return (
     <section className="container-full flex flex-col justify-center items-center gap-8 py-12 md:py-14">
-      <div className="w-full flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-0 fade-up">
+      <div className="w-full flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-0 fade-up z-5">
         <p className="text-primary text-[17px] font-medium leading-[150%]">
           {filteredProducts.length} {contentFixed.products}
         </p>
@@ -173,10 +194,7 @@ export default function GridProducts({
               className="text-primary text-[17px] font-medium leading-[150%] gap-[7px] flex justify-center items-center cursor-pointer"
               onClick={() => setSortDropdownOpen((prev) => !prev)}
             >
-              {labelFor(
-                selectedSortOption,
-                contentFixed.items,
-              )}
+              {labelFor(selectedSortOption, contentFixed.items)}
               <ChevronDown className="text-primary w-6 h-6" />
             </button>
             {sortDropdownOpen && (
@@ -209,25 +227,54 @@ export default function GridProducts({
         </div>
       </div>
       <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredProducts.slice(0, 3).map((product, index) => (
-          <ProductCardGrid
-            key={product.id}
-            product={product}
-            buttonLabel={buttonLabel}
-            index={index}
-          />
-        ))}
+        {filteredProducts.slice(0, 3).map((product, index) => {
+          if (!hasFirstImageSource(product)) return null;
+          return (
+            <ProductCardGrid
+              key={product.id}
+              product={product}
+              buttonLabel={buttonLabel}
+              index={index}
+            />
+          );
+        })}
         <InfoProductCard information={productContent[0]} />
-        {filteredProducts.slice(3, 6).map((product,index) => (
-          <ProductCardGrid
-            key={product.id}
-            product={product}
-            buttonLabel={buttonLabel}
-            index={index}
-          />
-        ))}
         <InfoProductCard information={productContent[1]} />
+        {filteredProducts.slice(3, 6).map((product, index) => {
+          if (!hasFirstImageSource(product)) return null;
+          return (
+            <ProductCardGrid
+              key={product.id}
+              product={product}
+              buttonLabel={buttonLabel}
+              index={index}
+            />
+          );
+        })}
+
+        {filteredProducts.slice(6, 9).map((product, index) => {
+          if (!hasFirstImageSource(product)) return null;
+          return (
+            <ProductCardGrid
+              key={product.id}
+              product={product}
+              buttonLabel={buttonLabel}
+              index={index}
+            />
+          );
+        })}
         <InfoProductCard information={productContent[2]} />
+        {filteredProducts.slice(9).map((product, index) => {
+          if (!hasFirstImageSource(product)) return null;
+          return (
+            <ProductCardGrid
+              key={product.id}
+              product={product}
+              buttonLabel={buttonLabel}
+              index={index}
+            />
+          );
+        })}
       </div>
     </section>
   );

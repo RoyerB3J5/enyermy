@@ -1,7 +1,6 @@
 "use client";
 //informacion de square productos recomendados
 import { LightProduct } from "@/types/square";
-import CarouselProducts from "../CarouselProducst";
 import ButtonLink from "@/components/ui/ButtonLink";
 import ProductCard from "@/components/shop/ProductCard";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -167,9 +166,6 @@ export default function Recomendations({
           />
         </div>
       </div>
-
-      {/*<CarouselProducts content={content.products} /> */}
-
       <ButtonLink content={content.button} />
     </section>
   );

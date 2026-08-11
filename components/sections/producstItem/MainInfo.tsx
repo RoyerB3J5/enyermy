@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import ProductImage from "@/components/ui/ProductImage";
 import Link from "next/link";
 import { useState } from "react";
 import type { FrontendProductDetail } from "@/types/square";
@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import { generarSlug } from "@/lib/slug";
 
 interface MainInfoProps {
-  contentProduct: FrontendProductDetail;
+  contentProduct: FrontendProductDetail ;
   comoUsar: string;
   ingredientsArray?: string[];
 }
@@ -141,7 +141,7 @@ export default function MainInfo({
         })}
       </div>
       <div className="w-full flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
-        <div className="w-full md:w-1/2 flex justify-center items-start gap-4 fade-right">
+        <div className="w-full md:w-1/2 flex justify-center items-start gap-4 md:sticky md:top-[var(--header-height)] md:self-start fade-right">
           <div className="flex-none md:grid grid-cols-1 gap-4 hidden ">
             {contentProduct.imagenes.slice(0, -1).map((image, index) => (
               <button
@@ -149,11 +149,12 @@ export default function MainInfo({
                 onClick={() => setImageIndex(index)}
                 className="focus:outline-none cursor-pointer"
               >
-                <Image
+                <ProductImage
                   src={`${image}`}
                   alt={`Imagen del producto ${index + 1}`}
                   width={80}
                   height={80}
+                  sizes="(max-width: 768px) 80px, 80px "
                   className={`w-20 h-20 rounded-xl border-2 object-cover transition-all ${
                     imageIndex === index ? "border-primary" : "border-[#717171]"
                   }`}
@@ -163,11 +164,12 @@ export default function MainInfo({
           </div>
 
           <div className="flex-1 min-w-0">
-            <Image
+            <ProductImage
               src={`${contentProduct.imagenes[imageIndex]}`}
               alt={contentProduct.imagenes[imageIndex]}
               width={600}
               height={600}
+              sizes="(max-width: 768px) 600px, 600px "
               // aspect-square asegura que sea perfectamente simétrica si lo requieres
               className="w-full h-auto object-cover"
               priority
@@ -288,11 +290,11 @@ export default function MainInfo({
                 ))}
               </ul>
             )}
-          <div className="w-full h-[1px] bg-[#D9D9D9]"></div>
-          <p className="title-h6 text-primary fade-left">{content.also}</p>
-          {/* <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-left">
+
+          {/* <div className="w-full h-[1px] bg-[#D9D9D9]"></div>
+          <p className="title-h6 text-primary fade-left">{content.also}</p><div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-left">
             <div className="flex justify-center items-center">
-              <Image
+              <ProductImage
                 src={content.related.image}
                 alt={content.related.title}
                 width={600}

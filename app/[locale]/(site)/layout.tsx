@@ -8,6 +8,9 @@ import ScrollAnimations from "@/components/ui/ScrollAnimations";
 import { hasLocale, locales } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
 import { notFound } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
+import { getAllProducts } from "@/lib/catalog";
+import { Suspense } from "react";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -24,13 +27,16 @@ export const metadata: Metadata = {
 
   title: "Enyermy Studio Pro",
   description:
-    "Enyermy Studio Pro is a leading provider of tree services, offering a comprehensive growth system and marketing automation solutions to help tree companies generate better leads and grow their business.",
+    "Enyermy Studio Pro offers professional hair care, salon services, and curated bundles designed to strengthen, hydrate, repair, and enhance every hair type.",
 
   keywords: [
-    "Tree Services",
-    "Lead Generation",
-    "Growth System",
-    "Marketing Automation",
+    "Professional Hair Care",
+    "Salon Services",
+    "Hair Bundles",
+    "Hair Repair",
+    "Hair Hydration",
+    "Curl Care",
+    "Hair Color Solutions",
   ],
 
   authors: [{ name: "Enyermy Studio Pro" }],
@@ -89,6 +95,10 @@ export default async function RootLayout({
   }
 
   const content = await getContent(locale);
+  const searchProducts =
+    process.env.SQUARE_ENVIRONMENT === "production"
+      ? await getAllProducts()
+      : undefined;
 
   return (
     <html
@@ -101,11 +111,19 @@ export default async function RootLayout({
       </head>
 
       <body className="w-full font-family antialiased overflow-x-clip bg-white flex flex-col justify-center items-center ">
-        <ScrollAnimations />
-        <Header locale={locale} content={content.header} />
-        {children}
-        <Footer locale={locale} content={content.footer} />
-        <CartDrawer />
+        <SessionProvider>
+          <ScrollAnimations />
+          <Header
+            locale={locale}
+            content={content.header}
+            searchProducts={searchProducts}
+          />
+          {children}
+          <Footer locale={locale} content={content.footer} />
+          <Suspense fallback={null}>
+            <CartDrawer />
+          </Suspense>
+        </SessionProvider>
       </body>
     </html>
   );

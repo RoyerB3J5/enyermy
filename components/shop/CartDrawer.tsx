@@ -4,7 +4,9 @@ import { Minus, Plus, Trash, X } from "lucide-react";
 import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession, signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 const content = {
   cart: "Your cart",
   empty: "Your cart is empty",
@@ -16,10 +18,35 @@ const content = {
 export default function CartDrawer() {
   const cartStore = useCart();
   const [loading, setLoading] = useState(false);
+  const { status } = useSession();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // NUEVO: si vuelve del login con la bandera, dispara el pago solo
+  useEffect(() => {
+    if (
+      cartStore &&
+      status === "authenticated" &&
+      searchParams.get("autopagar") === "1"
+    ) {
+      handleCheckout();
+      router.replace(window.location.pathname); // limpia el ?autopagar=1 de la URL
+    }
+  }, [status]);
+
   if (!cartStore) return null;
-  const { cart, isOpen, closeCart, updateQuantity, removeItem, getTotalPrice } =
-    cartStore;
-  async function handleClick() {
+
+  const {
+    cart,
+    isOpen,
+    closeCart,
+    clearCart,
+    updateQuantity,
+    removeItem,
+    getTotalPrice,
+  } = cartStore;
+
+  async function handleCheckout() {
     setLoading(true);
     try {
       const res = await fetch("/api/checkout", {
@@ -30,14 +57,30 @@ export default function CartDrawer() {
       const data = await res.json();
 
       if (data.url) {
+        clearCart();
+        closeCart();
         window.location.href = data.url;
       } else {
         console.error(data.error);
         alert("No se pudo generar el link de pago");
       }
+    } catch (err) {
+      console.error("[checkout] Error inesperado:", err);
+      alert("Ocurrió un error inesperado. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }
+  }
+
+  // NUEVO: intercepta el clic si no hay sesión
+  async function handlePagarClick() {
+    //if (status === "unauthenticated") {
+    //await signIn("google", {
+    //callbackUrl: `${window.location.pathname}?autopagar=1`,
+    //});
+    //return;
+    //}
+    await handleCheckout();
   }
   return (
     <section
@@ -52,7 +95,7 @@ export default function CartDrawer() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full flex-1 min-h-0 flex flex-col items-center">
           <div className="flex justify-between items-center w-full px-6 py-4 border-b border-[#E7E7E7]">
             <h2 className="text-[21.3px] leading-[129.71%] text-primary font-normal font-title tracking-[-0.5px]">
               {content.cart} ({cart.length})
@@ -62,7 +105,7 @@ export default function CartDrawer() {
               className="cursor-pointer w-7 h-7 text-primary"
             />
           </div>
-          <div className="w-full flex flex-col justify-center items-center px-6 ">
+          <div className="w-full flex-1 min-h-0 overflow-y-auto flex flex-col justify-start items-center px-6">
             {cart.length === 0 ? (
               <div className="flex justify-center items-center pt-6">
                 <p className="text-[21.3px] leading-[129.71%] text-primary font-normal font-title tracking-[-0.5px]">
@@ -153,7 +196,7 @@ export default function CartDrawer() {
               {content.shipping}
             </p>
             <Button
-              onClick={handleClick}
+              onClick={handlePagarClick}
               disabled={loading}
               label={content.checkout}
               styleButton="black"

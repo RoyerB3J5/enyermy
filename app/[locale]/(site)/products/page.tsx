@@ -17,9 +17,9 @@ type AllProductsContent =
   (typeof import("@/content/en"))["default"]["productsAll"];
 
 export default async function ProductsPage({ params }: PageProps<"/[locale]">) {
-  //const allProducts = await getAllProducts();
+  const allProducts = await getAllProducts();
   //
-  // const allProductsTest = await getAllProductsTest();
+  //const allProductsTest = await getAllProductsTest();
   //const categoriasTodas = await getCategoryIdByName();
   const { locale } = await params;
 
@@ -100,7 +100,7 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]">) {
         </code>
       </pre>*/}
       <GridProducts
-        content={productos}
+        content={allProducts}
         contentFixed={content.products}
         buttonLabel={content.button}
         productContent={content.productContent}

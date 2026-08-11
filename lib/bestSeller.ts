@@ -4,6 +4,12 @@ import { square } from "@/lib/square";
 import type { Square as SquareTypes } from "square";
 import { LightProduct } from "@/types/square";
 import { getMergedCustomAttributes } from "./helper";
+import {
+  SQUARE_CATALOG_CACHE_KEY,
+  SQUARE_CATALOG_CACHE_OPTIONS,
+  shouldCacheSquareCatalog,
+} from "./square-cache";
+import { unstable_cache } from "next/cache";
 interface ProductCardPropsWithImage extends LightProduct {
   image2: string;
 }
@@ -16,7 +22,7 @@ function normalizeText(value: string) {
     .trim();
 }
 
-export async function getBestSellerProductCardProps(): Promise<
+async function getBestSellerProductCardPropsUncached(): Promise<
   ProductCardPropsWithImage[]
 > {
   // 1. Resolver el customAttributeDefinitionId de "Best-Seller"
@@ -138,3 +144,11 @@ export async function getBestSellerProductCardProps(): Promise<
     })
     .filter((prod): prod is NonNullable<typeof prod> => prod !== null);
 }
+
+export const getBestSellerProductCardProps = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getBestSellerProductCardPropsUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "best-sellers"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getBestSellerProductCardPropsUncached;

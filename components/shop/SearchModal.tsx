@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { generarSlug } from "@/lib/slug";
 import type { getAllProductsType } from "@/types/square";
 import type { Locale } from "@/i18n/config";
+import ProductImage from "@/components/ui/ProductImage";
 
 // Simulated mock data adhering strictly to getAllProductsType schema
 const mockProducts: getAllProductsType[] = [
@@ -67,31 +68,29 @@ interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
   locale: Locale;
+  searchProducts?: getAllProductsType[];
 }
 
 export default function SearchModal({
   isOpen,
   onClose,
   locale,
+  searchProducts,
 }: SearchModalProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, setProducts] = useState<getAllProductsType[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const products = searchProducts ?? mockProducts;
 
-  // Load products once on component mount or modal open
+  const handleClose = () => {
+    setSearchTerm("");
+    onClose();
+  };
+
   useEffect(() => {
-    if (isOpen) {
-      // Test Mode: Set mock products directly
-      const content = mockProducts;
-      setProducts(content);
+    if (!isOpen) return;
 
-      // Auto focus search input when opened
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
-    } else {
-      setSearchTerm("");
-    }
+    const focusTimer = window.setTimeout(() => inputRef.current?.focus(), 100);
+    return () => window.clearTimeout(focusTimer);
   }, [isOpen]);
 
   // Lock body scroll when search modal is active
@@ -132,7 +131,7 @@ export default function SearchModal({
   return (
     <div
       className="fixed inset-0 z-[100] flex flex-col justify-start items-center bg-black/60 backdrop-blur-sm transition-opacity duration-300 ease-in-out"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="transition-transform duration-300 ease-out max-h-[95vh] flex flex-col md:max-w-[700px] w-full"
@@ -163,7 +162,7 @@ export default function SearchModal({
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close search"
             className="p-2 rounded-full hover:bg-gray-100 transition-colors text-primary cursor-pointer shrink-0"
           >
@@ -203,14 +202,17 @@ export default function SearchModal({
                     <Link
                       key={product.id}
                       href={href}
-                      onClick={onClose}
+                      onClick={handleClose}
                       className="group flex justify-start items-center gap-6 p-4 rounded-2xl border border-[#E7E7E7] hover:border-primary/40 hover:shadow-md transition-all duration-300 bg-white"
                     >
                       {/* Image Container */}
                       <div className="w-[15%] aspect-square relative rounded-xl overflow-hidden bg-[#F8F8F8]">
-                        <img
+                        <ProductImage
                           src={imageSrc}
                           alt={product.nombre}
+                          width={120}
+                          height={120}
+                          sizes="120px"
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       </div>

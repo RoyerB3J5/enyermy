@@ -9,7 +9,7 @@ if (!process.env.SQUARE_ACCESS_TOKEN) {
 export const square = new SquareClient({
   token: process.env.SQUARE_ACCESS_TOKEN,
   environment:
-    process.env.NODE_ENV === "production"
+    process.env.SQUARE_ENVIRONMENT === "production"
       ? SquareEnvironment.Production
       : SquareEnvironment.Sandbox,
 });

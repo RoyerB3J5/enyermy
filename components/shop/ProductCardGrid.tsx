@@ -1,5 +1,6 @@
 "use client";
 import { getAllProductsType } from "@/types/square";
+import ProductImage from "@/components/ui/ProductImage";
 import Link from "next/link";
 import Button from "../ui/Button";
 import { generarSlug } from "@/lib/slug";
@@ -15,7 +16,7 @@ interface ProductCardProps {
 export default function ProductCardGrid({
   product,
   buttonLabel,
-  index
+  index,
 }: ProductCardProps) {
   const cartStore = useCart();
   const params = useParams();
@@ -44,27 +45,25 @@ export default function ProductCardGrid({
       className="group flex flex-col justify-start gap-3 w-full fade-up"
       style={{ transitionDelay: `${index ? index * 100 : 0}ms` }}
     >
-      <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-gray-100">
-        <img
+      <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-white">
+        <ProductImage
           src={product.imagenes[0] as string}
           alt={product.nombre}
-          width="300"
-          height="300"
-          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-          decoding="async"
-          loading="lazy"
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
         {product.imagenes[1] && (
           <div className="absolute inset-0 w-full h-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 overflow-hidden">
-            <img
+            <ProductImage
               src={product.imagenes[1] as string}
               alt={product.nombre}
-              width="300"
-              height="300"
+              width={300}
+              height={300}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
               className="w-full h-full object-cover rounded-2xl"
-              decoding="async"
-              loading="lazy"
             />
 
             {buttonLabel && !hasVariants && (

@@ -6,22 +6,25 @@ import logoWhite from "@/public/images/logo-white.svg";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Button from "@/components/ui/Button";
 import ChangeLanguage from "@/components/ui/ChangeLanguage";
 import CartIconHeader from "../ui/CartIconHeader";
 import { ChevronRight, MapPin, Menu, Search, User, X } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { getLocalizedPath } from "@/i18n/navigation";
 import type { HeaderContent } from "@/i18n/types";
+import type { getAllProductsType } from "@/types/square";
 
 import SearchModal from "@/components/shop/SearchModal";
+import { useSession } from "next-auth/react";
 
 export default function Header({
   locale,
   content,
+  searchProducts,
 }: {
   locale: Locale;
   content?: HeaderContent;
+  searchProducts?: getAllProductsType[];
 }) {
   const pathname = usePathname() || "/";
   const headerRef = useRef<HTMLElement>(null);
@@ -50,6 +53,9 @@ export default function Header({
   const isSalonExperience = normalized.startsWith("/salon-experience");
   const currentNav = isSalonExperience ? content?.navBundles : content?.nav;
   const localizedPath = (href: string) => getLocalizedPath(locale, href);
+  const { status } = useSession();
+  const dashboardHref =
+    status === "authenticated" ? `/dashboard` : `/dashboard/login`;
 
   useEffect(() => {
     const header = headerRef.current;
@@ -308,7 +314,7 @@ export default function Header({
                 />
               </button>
               <Link
-                href="#"
+                href={dashboardHref}
                 className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center "
               >
                 <User
@@ -424,8 +430,8 @@ export default function Header({
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         locale={locale}
+        searchProducts={searchProducts}
       />
     </>
   );
 }
-
