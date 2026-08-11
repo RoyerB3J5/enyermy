@@ -1,4 +1,5 @@
 import { BlogCardDTO, BlogPostDetailDTO, CategoryDTO, PaginatedResult } from "@/types/ghl-dto";
+import { unstable_cache } from "next/cache";
 import { ghlFetch } from "./client";
 import { GHLCategoriesResponseRaw, GHLPostDetailResponseRaw, GHLPostListResponseRaw } from "@/types/ghl-raw";
 import { ALL_CATEGORY, mapCategoryToDTO, mapPostDetailToDTO, mapPostListItemToCard } from "./mapper";
@@ -9,6 +10,7 @@ const BLOG_ID = process.env.GHL_BLOG_ID!;
 
 const POSTS_PAGE_SIZE = 9;
 const CATEGORIES_LIMIT = 8;
+const BLOG_CACHE_REVALIDATE_SECONDS = 300;
 
 export const BLOG_CACHE_TAGS = {
   posts: "ghl-blog-posts",
@@ -17,7 +19,7 @@ export const BLOG_CACHE_TAGS = {
 } as const;
 
 /** Listado de posts para la grilla del blog, paginado (9 por página) */
-export async function getPostsPage(
+async function getPostsPageUncached(
   page: number = 1,
 ): Promise<PaginatedResult<BlogCardDTO>> {
   const offset = (page - 1) * POSTS_PAGE_SIZE;
@@ -30,7 +32,7 @@ export async function getPostsPage(
       offset,
       status: "PUBLISHED",
     },
-    revalidate: 60,
+    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
     tags: [BLOG_CACHE_TAGS.posts],
   });
 
@@ -42,6 +44,15 @@ export async function getPostsPage(
     totalPages: Math.ceil(data.count / POSTS_PAGE_SIZE),
   };
 }
+
+export const getPostsPage = unstable_cache(
+  getPostsPageUncached,
+  ["ghl-blog", "posts-page", LOCATION_ID, BLOG_ID],
+  {
+    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
+    tags: [BLOG_CACHE_TAGS.posts],
+  },
+);
 
 /** Detalle completo de un post por su ID (para la página individual) */
 export async function getPostById(
@@ -64,12 +75,21 @@ export async function getPostById(
 }
 
 /** Categorías para el filtro, con "All" agregado al inicio */
-export async function getCategories(): Promise<CategoryDTO[]> {
+async function getCategoriesUncached(): Promise<CategoryDTO[]> {
   const data = await ghlFetch<GHLCategoriesResponseRaw>("/blogs/categories", {
     params: { locationId: LOCATION_ID, limit: CATEGORIES_LIMIT, offset: 0 },
-    revalidate: 60,
+    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
     tags: [BLOG_CACHE_TAGS.categories],
   });
 
   return [ALL_CATEGORY, ...data.categories.map(mapCategoryToDTO)];
 }
+
+export const getCategories = unstable_cache(
+  getCategoriesUncached,
+  ["ghl-blog", "categories", LOCATION_ID, BLOG_ID],
+  {
+    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
+    tags: [BLOG_CACHE_TAGS.categories],
+  },
+);
