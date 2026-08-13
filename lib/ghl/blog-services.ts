@@ -1,5 +1,5 @@
 import { BlogCardDTO, BlogPostDetailDTO, CategoryDTO, PaginatedResult } from "@/types/ghl-dto";
-import { ghlFetch } from "./client";
+import { GHLApiError, ghlFetch } from "./client";
 import { GHLCategoriesResponseRaw, GHLPostDetailResponseRaw, GHLPostListResponseRaw } from "@/types/ghl-raw";
 import { ALL_CATEGORY, mapCategoryToDTO, mapPostDetailToDTO, mapPostListItemToCard } from "./mapper";
 
@@ -59,8 +59,14 @@ export async function getPostById(
     );
 
     return mapPostDetailToDTO(data.blogPost);
-  } catch {
-    return null; // 404 u otro error -> el caller decide (ej: notFound())
+  } catch (error) {
+    // A missing post is a 404; auth, configuration, and API failures must not
+    // be incorrectly rendered as a page that does not exist.
+    if (error instanceof GHLApiError && error.status === 404) {
+      return null;
+    }
+
+    throw error;
   }
 }
 
