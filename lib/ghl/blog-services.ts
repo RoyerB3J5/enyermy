@@ -1,37 +1,14 @@
 import { BlogCardDTO, BlogPostDetailDTO, CategoryDTO, PaginatedResult } from "@/types/ghl-dto";
-import { GHLApiError, ghlFetch } from "./client";
+import { ghlFetch } from "./client";
 import { GHLCategoriesResponseRaw, GHLPostDetailResponseRaw, GHLPostListResponseRaw } from "@/types/ghl-raw";
 import { ALL_CATEGORY, mapCategoryToDTO, mapPostDetailToDTO, mapPostListItemToCard } from "./mapper";
 
 
-const LOCATION_ID = requiredGhlId("GHL_LOCATION_ID");
-const BLOG_ID = requiredGhlId("GHL_BLOG_ID");
+const LOCATION_ID = process.env.GHL_LOCATION_ID!;
+const BLOG_ID = process.env.GHL_BLOG_ID!;
 
 const POSTS_PAGE_SIZE = 9;
 const CATEGORIES_LIMIT = 8;
-const BLOG_CACHE_REVALIDATE_SECONDS = 300;
-
-function requiredEnv(name: string) {
-  const value = process.env[name]?.trim();
-
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-
-  return value;
-}
-
-function requiredGhlId(name: string) {
-  // dotenv treats an inline `# ...` as a comment, while a value pasted into
-  // Vercel does not. Strip that accidental suffix so both deployments match.
-  const value = requiredEnv(name).replace(/\s+#.*$/, "");
-
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-
-  return value;
-}
 
 export const BLOG_CACHE_TAGS = {
   posts: "ghl-blog-posts",
@@ -53,7 +30,7 @@ export async function getPostsPage(
       offset,
       status: "PUBLISHED",
     },
-    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
+    revalidate: 60,
     tags: [BLOG_CACHE_TAGS.posts],
   });
 
@@ -81,14 +58,8 @@ export async function getPostById(
     );
 
     return mapPostDetailToDTO(data.blogPost);
-  } catch (error) {
-    // A missing post is a 404; auth, configuration, and API failures must not
-    // be incorrectly rendered as a page that does not exist.
-    if (error instanceof GHLApiError && error.status === 404) {
-      return null;
-    }
-
-    throw error;
+  } catch {
+    return null; // 404 u otro error -> el caller decide (ej: notFound())
   }
 }
 
@@ -96,7 +67,7 @@ export async function getPostById(
 export async function getCategories(): Promise<CategoryDTO[]> {
   const data = await ghlFetch<GHLCategoriesResponseRaw>("/blogs/categories", {
     params: { locationId: LOCATION_ID, limit: CATEGORIES_LIMIT, offset: 0 },
-    revalidate: BLOG_CACHE_REVALIDATE_SECONDS,
+    revalidate: 60,
     tags: [BLOG_CACHE_TAGS.categories],
   });
 

@@ -3,19 +3,7 @@ import Hero from "@/components/sections/blog/Hero";
 import CallEmail from "@/components/sections/CallEmail";
 import CarouselReview from "@/components/sections/CarouselReview";
 import { getCategories, getPostsPage } from "@/lib/ghl/blog-services";
-import { hasLocale } from "@/i18n/config";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
-
-// GHL is an external runtime dependency. Rendering this route dynamically
-// prevents a transient GHL response from failing the entire production build.
-export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "Blog | Enyermy Studio Pro",
-  description: "Latest news and updates from Enyermy Studio Pro",
-};
-
+import React from "react";
 const content = {
   hero: {
     tag: "Insights, Trends, Hair Education",
@@ -202,12 +190,7 @@ const posts = [
     buttonHref: "#",
   },
 ];
-export default async function Blog({ params }: PageProps<"/[locale]">) {
-  const { locale } = await params;
-
-  if (!hasLocale(locale)) {
-    notFound();
-  }
+export default async function Blog() {
   const [{ items: posts, total, totalPages }, categories] = await Promise.all([
     getPostsPage(1),
     getCategories(),
