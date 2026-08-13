@@ -12,6 +12,10 @@ const BASE_URL = requiredEnv("GHL_API_BASE_URL");
 const API_VERSION = requiredEnv("GHL_API_VERSION");
 const TOKEN = requiredEnv("GHL_API_TOKEN");
 
+function fingerprint(value: string) {
+  return createHash("sha256").update(value).digest("hex").slice(0, 12);
+}
+
 interface FetchOptions {
   params?: Record<string, string | number | undefined>;
   revalidate?: number; // segundos de cache (ISR)
@@ -59,10 +63,11 @@ export async function ghlFetch<T>(
     const body = await res.text().catch(() => "");
     throw new GHLApiError(
       res.status,
-      `GHL API ${res.status} for ${new URL(res.url).pathname}: ${body}`,
+      `GHL API ${res.status} for ${new URL(res.url).pathname} (version=${API_VERSION}, token=${fingerprint(TOKEN)}): ${body}`,
       res.url,
     );
   }
 
   return res.json() as Promise<T>;
 }
+import { createHash } from "node:crypto";
