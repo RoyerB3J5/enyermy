@@ -21,6 +21,7 @@ export default async function SingleBlog({ params, searchParams }: Props) {
           className="w-full h-full object-cover absolute inset-0 object-center"
           width={1200}
           height={420}
+          loading="eager"
         />
       </div>
       <div className="flex flex-col justify-center items-start gap-6 w-full max-w-[824px]">

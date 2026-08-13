@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*storage.googleapis.com",
       },
+      {
+        protocol: "https",
+        hostname: "assets.cdn.filesafe.space",
+      },
     ],
     formats: ["image/avif", "image/webp"],
   },
