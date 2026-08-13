@@ -1,6 +1,16 @@
-const BASE_URL = process.env.GHL_API_BASE_URL!;
-const API_VERSION = process.env.GHL_API_VERSION!;
-const TOKEN = process.env.GHL_API_TOKEN!;
+function requiredEnv(name: string) {
+  const value = process.env[name]?.trim();
+
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+
+  return value;
+}
+
+const BASE_URL = requiredEnv("GHL_API_BASE_URL");
+const API_VERSION = requiredEnv("GHL_API_VERSION");
+const TOKEN = requiredEnv("GHL_API_TOKEN");
 
 interface FetchOptions {
   params?: Record<string, string | number | undefined>;
@@ -12,6 +22,7 @@ export class GHLApiError extends Error {
   constructor(
     public status: number,
     message: string,
+    public url: string,
   ) {
     super(message);
     this.name = "GHLApiError";
@@ -46,7 +57,11 @@ export async function ghlFetch<T>(
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new GHLApiError(res.status, `GHL API ${res.status}: ${body}`);
+    throw new GHLApiError(
+      res.status,
+      `GHL API ${res.status} for ${new URL(res.url).pathname}: ${body}`,
+      res.url,
+    );
   }
 
   return res.json() as Promise<T>;

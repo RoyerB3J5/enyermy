@@ -4,12 +4,34 @@ import { GHLCategoriesResponseRaw, GHLPostDetailResponseRaw, GHLPostListResponse
 import { ALL_CATEGORY, mapCategoryToDTO, mapPostDetailToDTO, mapPostListItemToCard } from "./mapper";
 
 
-const LOCATION_ID = process.env.GHL_LOCATION_ID!;
-const BLOG_ID = process.env.GHL_BLOG_ID!;
+const LOCATION_ID = requiredGhlId("GHL_LOCATION_ID");
+const BLOG_ID = requiredGhlId("GHL_BLOG_ID");
 
 const POSTS_PAGE_SIZE = 9;
 const CATEGORIES_LIMIT = 8;
 const BLOG_CACHE_REVALIDATE_SECONDS = 300;
+
+function requiredEnv(name: string) {
+  const value = process.env[name]?.trim();
+
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+
+  return value;
+}
+
+function requiredGhlId(name: string) {
+  // dotenv treats an inline `# ...` as a comment, while a value pasted into
+  // Vercel does not. Strip that accidental suffix so both deployments match.
+  const value = requiredEnv(name).replace(/\s+#.*$/, "");
+
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+
+  return value;
+}
 
 export const BLOG_CACHE_TAGS = {
   posts: "ghl-blog-posts",
