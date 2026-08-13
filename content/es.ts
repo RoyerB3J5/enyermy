@@ -249,7 +249,7 @@ const content = {
             "Instalación profesional de extensiones para un cabello más lleno, largo y de aspecto natural.",
           price: "Desde $280.00",
           time: "+ 50 min",
-          link: "#",
+          link: "https://book.squareup.com/appointments/wmf7r8fcik8zye/location/HT6A7Q5H5E2QW/services/FMXP7763AUWMZ5HEGDA5UWGD",
         },
         {
           image: "services-3",
@@ -267,7 +267,7 @@ const content = {
             "Logra un cabello suave y voluminoso con un brushing impecable de calidad de salón.",
           price: "Desde $55.00",
           time: "+45 min",
-          link: "#",
+          link: "https://book.squareup.com/appointments/wmf7r8fcik8zye/location/HT6A7Q5H5E2QW/services/6LJMH2BTBL5SUBBTIVCD423F",
         },
         {
           image: "services-5",
@@ -1254,6 +1254,12 @@ const content = {
     title: "Términos del servicio",
     description:
       "Las condiciones meteorológicas extremas pueden causar retrasos en el envío. Lamentamos no poder garantizar la entrega exprés en caso de mal tiempo. Actualmente solo aceptamos pedidos que se envíen a los 48 Estados Unidos contiguos. No podemos realizar envíos a Hawái, Alaska, territorios de EE. UU., casilleros postales (PO boxes) o direcciones APO/FPO. Actualmente no ofrecemos envíos a direcciones internacionales.",
+  },
+  popup: {
+    title: "Gana 15% off en tu primera compra",
+    description:
+      "Inscríbete a nuestros correos o SMS para recibir un 15% de descuento. Entérate primero de lanzamientos, ofertas y mucho más.",
+    button: "¡Únete!",
   },
 } satisfies ContentDictionary;
 

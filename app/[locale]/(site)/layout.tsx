@@ -11,6 +11,8 @@ import { notFound } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import { getAllProducts } from "@/lib/catalog";
 import { Suspense } from "react";
+import ChatbotWidget from "@/components/layout/Chatbot";
+import Popup from "@/components/sections/Popup";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -123,6 +125,8 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <CartDrawer />
           </Suspense>
+          <ChatbotWidget />
+          <Popup content={content.popup} />
         </SessionProvider>
       </body>
     </html>

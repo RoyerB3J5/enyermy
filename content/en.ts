@@ -246,7 +246,7 @@ const content = {
             "Professional extension installation for fuller, longer, natural-looking hair.",
           price: "From $280.00",
           time: "+ 50 min",
-          link: "#",
+          link: "https://book.squareup.com/appointments/wmf7r8fcik8zye/location/HT6A7Q5H5E2QW/services/FMXP7763AUWMZ5HEGDA5UWGD",
         },
         {
           image: "services-3",
@@ -264,7 +264,7 @@ const content = {
             "Achieve smooth, voluminous hair with a flawless salon-quality blowout.",
           price: "From $55.00",
           time: "+45 min",
-          link: "#",
+          link: "https://book.squareup.com/appointments/wmf7r8fcik8zye/location/HT6A7Q5H5E2QW/services/6LJMH2BTBL5SUBBTIVCD423F",
         },
         {
           image: "services-5",
@@ -1251,6 +1251,12 @@ const content = {
     title: "Terms of service",
     description:
       "Severe weather may cause shipping delays. We regret that we are not able to guarantee express delivery in the event of severe weather. We currently only accept orders being sent to the 48 contiguous United States. We are not able to ship to Hawaii, Alaska, U.S. territories, PO boxes, or APO/FPO addresses. We do not offer shipping to international addresses currently.",
+  },
+  popup: {
+    title: "Enjoy 15% off your first purchase",
+    description:
+      "Sign up for our emails or texts to receive 15% off. Plus, be the first to hear about new launches, special offers and more.",
+    button: "Sign Up",
   },
 } satisfies ContentDictionary;
 

@@ -78,7 +78,10 @@ export default async function ProductsItem({ params }: Props) {
   const { id } = await params;
   const idTrue = id.split("-").pop() || id
   //const idTrue = "ARFVMRGULBUXICTFCFR7543S";
-  const [contentProduct, bestSellersProducts] = await Promise.all([ getProcessedProductById(idTrue), getRecommendedProducts("Recomendados"),]);
+  const [contentProduct, bestSellersProducts] = await Promise.all([
+    getProcessedProductById(idTrue),
+    getRecommendedProducts("Recomendados"),
+  ]);
   //const content = await getProcessedProductById(idTrue);
   //const productTest = await getProcessedProductById("ARFVMRGULBUXICTFCFR7543S");
   //const recommendedProducts = await getRecommendedProducts("Recomendados");

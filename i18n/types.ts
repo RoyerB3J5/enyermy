@@ -34,5 +34,10 @@ export type FooterContent = {
 export type ContentDictionary = {
   header?: HeaderContent;
   footer?: FooterContent;
+  popup?: {
+    title: string;
+    description: string;
+    button: string;
+  }
   [section: string]: unknown;
 };
