@@ -83,7 +83,7 @@ const contentProfessionals = [
     image: "/images/main/item-product-1.webp",
     tag: "ENYERMY STUDIO PRO",
     title: "Cream Developer",
-    price: "33.00",
+    price: "48.00",
     href: "/en/products/cream-developer-ARFVMRGULBUXICTFCFR7543S",
   },
   {

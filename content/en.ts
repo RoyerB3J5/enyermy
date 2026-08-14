@@ -108,22 +108,22 @@ const content = {
         {
           color: "bg-rojo",
           slogan: "Enhances Hair Beauty!",
-          image: "color-1",
+          image: "color-5",
         },
         {
           color: "bg-morado",
           slogan: "Deeply Hydrates Hair!",
-          image: "color-2",
+          image: "color-1",
         },
         {
           color: "bg-verde",
           slogan: "Nourishes Every Strand!",
-          image: "color-3",
+          image: "color-2",
         },
         {
           color: "bg-azul",
           slogan: "Revitalizes the Hair!",
-          image: "color-4",
+          image: "color-3",
         },
       ],
     },
@@ -229,6 +229,8 @@ const content = {
     },
     services: {
       title: "Expert Care. Exceptional Results. ",
+      description:
+        "Once redirected to our booking page, please select your preferred location in the top-right corner before scheduling your appointment.",
       items: [
         {
           image: "services-1",
@@ -718,33 +720,6 @@ const content = {
       },
       {
         location: "waterford",
-        image: "lourdes",
-        tag: "WATERFORD LAKES TEAM LEADER / MANAGER",
-        name: "Lourdes Escabrisas",
-        description:
-          "As Team Leader and Educator at our Waterford Lakes location, she combines technical expertise with a passion for education and personalized care. Through thoughtful consultations and precision techniques, she creates customized results while helping the salon team grow through continuous learning and professional development.",
-        list: [
-          "Balayage & Dimensional Color",
-          "Blonding Techniques",
-          "Customized Hair Color",
-          "Hair Transformations",
-          "Technical Education",
-          "Stylist Training & Mentorship",
-        ],
-        media: true,
-        button: {
-          label: "bOOK WITH lourdes",
-          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
-        },
-        bgColor: "bg-accent",
-        imageFirst: false,
-        linkContent: {
-          text: "@escabrisabeautystudio →",
-          href: "https://www.instagram.com/escabrisabeautystudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-        },
-      },
-      {
-        location: "waterford",
         image: "mariana",
         tag: "WATERFORD LAKES MANAGER",
         name: "Mariana Soucre",
@@ -771,6 +746,34 @@ const content = {
           href: "https://www.instagram.com/marianasoucre?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         },
       },
+      {
+        location: "waterford",
+        image: "lourdes",
+        tag: "WATERFORD LAKES TEAM LEADER / MANAGER",
+        name: "Lourdes Escabrisas",
+        description:
+          "As Team Leader and Educator at our Waterford Lakes location, she combines technical expertise with a passion for education and personalized care. Through thoughtful consultations and precision techniques, she creates customized results while helping the salon team grow through continuous learning and professional development.",
+        list: [
+          "Balayage & Dimensional Color",
+          "Blonding Techniques",
+          "Customized Hair Color",
+          "Hair Transformations",
+          "Technical Education",
+          "Stylist Training & Mentorship",
+        ],
+        media: true,
+        button: {
+          label: "bOOK WITH lourdes",
+          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
+        },
+        bgColor: "bg-accent",
+        imageFirst: false,
+        linkContent: {
+          text: "@escabrisabeautystudio →",
+          href: "https://www.instagram.com/escabrisabeautystudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+        },
+      },
+
       {
         location: "waterford",
         image: "analynn",

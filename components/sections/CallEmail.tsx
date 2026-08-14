@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import enContent from "@/content/en";
 import esContent from "@/content/es";
+import FormEmail from "./FormEmail";
 
 const contentMap = { en: enContent.email, es: esContent.email };
 
@@ -26,27 +27,7 @@ export default function CallEmail() {
       <p className="paragraph font-normal text-center fade-up">
         {content.description}
       </p>
-
-      {/* Formulario cápsula */}
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md md:max-w-lg flex items-center bg-white rounded-full border border-[#D6D6D6] fade-up "
-      >
-        <input
-          type="email"
-          required
-          placeholder={"Email"}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full bg-transparent py-3 px-4 text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
-        />
-        <button
-          type="submit"
-          className="bg-[#121212] text-white text-[14px] font-medium tracking-[3px] uppercase p-3 rounded-r-full hover:bg-black transition-colors shrink-0 h-full cursor-pointer"
-        >
-          {"SUBSCRIBE"}
-        </button>
-      </form>
+      <FormEmail />
     </section>
   );
 }

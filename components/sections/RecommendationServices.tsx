@@ -6,6 +6,7 @@ import Link from "next/link";
 interface RecomendationsProps {
   content: {
     title: string;
+    description: string;
     buttonLabel?: string;
     button: { text: string; href: string };
     items: {
@@ -120,7 +121,11 @@ export default function Recomendations({ content }: RecomendationsProps) {
   };
   return (
     <section className="container-full flex flex-col justify-center items-center gap-4 md:gap-6 py-12 md:py-14">
-      <h2 className="title-h4 text-primary fade-up">{content.title}</h2>
+      <div className ='flex flex-col justify-center items-center '>
+        <h2 className="title-h4 text-primary fade-up">{content.title}</h2>
+        <p className='paragraph font-normal text-primary tracking-[-0.5px]'>{content.description}</p>
+      </div>
+
       <div className="w-full flex flex-col gap-4 md:gap-6 fade-up">
         <div className="w-full overflow-hidden select-none ">
           <div
@@ -222,10 +227,9 @@ export default function Recomendations({ content }: RecomendationsProps) {
       </div>
 
       {/*<CarouselProducts content={content.products} /> */}
-      <div className='fade-up'>
+      <div className="fade-up">
         <ButtonLink content={content.button} />
       </div>
-      
     </section>
   );
 }

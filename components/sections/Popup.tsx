@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FormPopup from "./FormPopup";
 
 const DISMISSAL_KEY = "enyermy-popup-dismissed";
 
@@ -65,7 +66,7 @@ export default function Popup({ content }: PopupProps) {
       aria-labelledby="popup-title"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full max-w-[832px]">
-        <div className="w-full h-auto relative overflow-hidden aspect-square">
+        <div className="w-full h-full relative overflow-hidden">
           <img
             src="/images/popup.webp"
             alt="Popup"
@@ -103,19 +104,7 @@ export default function Popup({ content }: PopupProps) {
           <p className="text-[17px] font-normal leading-[150%] tracking-[-0.5px] text-left">
             {content.description}
           </p>
-          <div className="w-full flex flex-col justify-center items-center gap-4">
-            <input
-              placeholder="Email Address"
-              className="w-full p-2.5 rounded-lg border border-[#E7E7E7] focus:outline-none text-[17px] font-normal leading-[150%] text-[#717171] focus:border-primary"
-            />
-            <input
-              placeholder="Mobile Number"
-              className="w-full p-2.5 rounded-lg border border-[#E7E7E7] focus:outline-none text-[17px] font-normal leading-[150%] text-[#717171] focus:border-primary"
-            />
-            <button className="bg-primary w-full py-4 flex justify-center items-center hover:bg-[#2D2D2D] transition-colors text-white text-[14px] font-medium leading-[150%] tracking-[3px] rounded-full uppercase">
-              {content.button}
-            </button>
-          </div>
+          <FormPopup />
         </div>
       </div>
     </section>

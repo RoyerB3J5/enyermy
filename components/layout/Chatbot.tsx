@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
+import { useCart } from "@/hooks/useCart";
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ const RES_URL = "https://widgets.leadconnectorhq.com/chat-widget/loader.js";
 const SRC = "https://widgets.leadconnectorhq.com/loader.js";
 
 export default function ChatbotWidget() {
+  const cartStore = useCart();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const loadedRef = useRef(false);
@@ -140,7 +142,11 @@ export default function ChatbotWidget() {
         />
       )}
 
-      <div className="chatbot-wrapper" ref={wrapperRef} aria-hidden="false">
+      <div
+        className={`chatbot-wrapper ${cartStore?.isOpen ? "hidden-by-cart" : ""}`}
+        ref={wrapperRef}
+        aria-hidden={cartStore?.isOpen}
+      >
         <button
           id="chatbot-toggle"
           ref={buttonRef}
@@ -164,6 +170,14 @@ export default function ChatbotWidget() {
         .lc_chat-widget,
         div[id*="chat-widget"] {
           z-index: 40 !important;
+        }
+
+        .chatbot-wrapper.hidden-by-cart,
+        body:has(.chatbot-wrapper.hidden-by-cart) #chat-widget-container,
+        body:has(.chatbot-wrapper.hidden-by-cart) .lc_chat-widget,
+        body:has(.chatbot-wrapper.hidden-by-cart) div[id*="chat-widget"],
+        body:has(.chatbot-wrapper.hidden-by-cart) iframe[src*="leadconnectorhq.com"] {
+          display: none !important;
         }
 
         @keyframes slideInUp {

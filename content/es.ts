@@ -108,22 +108,22 @@ const content = {
         {
           color: "bg-rojo",
           slogan: "\u00a1Mejora Belleza del Pelo!",
-          image: "color-1",
+          image: "color-5",
         },
         {
           color: "bg-morado",
           slogan: "\u00a1Hidrata Pelo a Fondo!",
-          image: "color-2",
+          image: "color-1",
         },
         {
           color: "bg-verde",
           slogan: "\u00a1Nutre Cada Hebra Hoy!",
-          image: "color-3",
+          image: "color-2",
         },
         {
           color: "bg-azul",
           slogan: "\u00a1Revitaliza todo Cabello!",
-          image: "color-4",
+          image: "color-3",
         },
       ],
     },
@@ -232,6 +232,8 @@ const content = {
     },
     services: {
       title: "Cuidado Experto. Resultados Excepcionales. ",
+      description:
+        "Una vez que sea redirigido a nuestra página de reservas, seleccione su ubicación preferida en la esquina superior derecha antes de programar su cita.",
       items: [
         {
           image: "services-1",
@@ -723,33 +725,6 @@ const content = {
       },
       {
         location: "waterford",
-        image: "lourdes",
-        tag: "LÍDER DE EQUIPO / GERENTE DE WATERFORD LAKES",
-        name: "Lourdes Escabrisas",
-        description:
-          "Como Líder de Equipo y Educadora en nuestra ubicación de Waterford Lakes, combina experiencia técnica con pasión por la enseñanza y el cuidado personalizado. A través de consultas cuidadosas y técnicas de precisión, crea resultados a medida mientras ayuda al equipo del salón a crecer con aprendizaje continuo y desarrollo profesional.",
-        list: [
-          "Balayage y Color Dimensional",
-          "Técnicas de Decoloración",
-          "Color de Cabello Personalizado",
-          "Transformaciones Capilares",
-          "Educación Técnica",
-          "Formación y Mentoría para Estilistas",
-        ],
-        media: true,
-        button: {
-          label: "rESERVA CON lourdes",
-          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
-        },
-        bgColor: "bg-accent",
-        imageFirst: false,
-        linkContent: {
-          text: "@escabrisabeautystudio →",
-          href: "https://www.instagram.com/escabrisabeautystudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-        },
-      },
-      {
-        location: "waterford",
         image: "mariana",
         tag: "GERENTE DE WATERFORD LAKES",
         name: "Mariana Soucre",
@@ -776,6 +751,34 @@ const content = {
           href: "https://www.instagram.com/marianasoucre?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         },
       },
+      {
+        location: "waterford",
+        image: "lourdes",
+        tag: "LÍDER DE EQUIPO / GERENTE DE WATERFORD LAKES",
+        name: "Lourdes Escabrisas",
+        description:
+          "Como Líder de Equipo y Educadora en nuestra ubicación de Waterford Lakes, combina experiencia técnica con pasión por la enseñanza y el cuidado personalizado. A través de consultas cuidadosas y técnicas de precisión, crea resultados a medida mientras ayuda al equipo del salón a crecer con aprendizaje continuo y desarrollo profesional.",
+        list: [
+          "Balayage y Color Dimensional",
+          "Técnicas de Decoloración",
+          "Color de Cabello Personalizado",
+          "Transformaciones Capilares",
+          "Educación Técnica",
+          "Formación y Mentoría para Estilistas",
+        ],
+        media: true,
+        button: {
+          label: "rESERVA CON lourdes",
+          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
+        },
+        bgColor: "bg-accent",
+        imageFirst: false,
+        linkContent: {
+          text: "@escabrisabeautystudio →",
+          href: "https://www.instagram.com/escabrisabeautystudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+        },
+      },
+
       {
         location: "waterford",
         image: "analynn",
@@ -971,7 +974,7 @@ const content = {
     ],
   },
   storeLocations: {
-    tag: "Atención Experta, Resultados Excepc.",
+    tag: "Atención Experta, Resultados Excepcionales.",
     title: "Nuestras Ubicaciones",
     button: "Reservar Ya",
     locations: [
