@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   env: {
     // This value is not sensitive. It lets client-side product images use the
     // same Square environment selection as server-side Square requests.
