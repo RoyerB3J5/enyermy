@@ -1167,36 +1167,50 @@ const content = {
     description: "Join our VIP list for exclusive offers and the latest news.",
   },
   reviewCarousel: {
-    rated: "Rated 5 stars by ou customers",
+    rated: "Rated 5 stars by our customers",
     title: "Real Results, Real Reviews",
     reviews: [
       {
         title: "Love it!",
         description:
-          "I received a sample at a women's conference.. and it totally changed me! My hair is so much more managable, I had to purchase it!",
-        name: "Liz P.",
+          "Salon was very clean. Stylists were all polite. Both my boys got hair cuts that came out amazing!",
+        name: "Jaime A.",
         color: "bg-[#E33E7A]",
       },
       {
-        title: "Very good",
+        title: "Loved",
         description:
-          "The best product ever I’ve used. It is amazing to detangle. The first time that my hair looked so gorgeous! SO in love!!!",
-        name: "Perla P.",
+          "Loved the service from the start, 100% recommended, loved my balayage process. Lorena did a good job.",
+        name: "Arisleydi P.",
         color: "bg-[#FBBC05]",
       },
       {
         title: "Great",
         description:
-          "Excellent There’s is nothing better than this for my hair 🙌",
-        name: "Lourdes G.",
+          "Just got hair done by Ruth truly the most gentle hands that delivered such an amazing experience cant wait to come back",
+        name: "Kerwin D.",
         color: "bg-[#2F89D4]",
       },
       {
         title: "Great",
         description:
-          "Tried it today for the first time for my bleached and damaged hair. Felt so soft and smooth afterwards. Definitely a fan!",
-        name: "Mahvesh O.",
+          "Excellent service and kindness. 100% recommended. Also got my boys' hair cut. At Waterford lake,Orlando",
+        name: "Yanelys N.",
         color: "bg-[#435260]",
+      },
+      {
+        title: "Great",
+        description:
+          "This girl is very professional. Excellent products. She does extreme makeovers. Thank you so very much",
+        name: "Luz Q.",
+        color: "bg-[#FBBC05]",
+      },
+      {
+        title: "Great",
+        description:
+          "Letty did awesome job so happy I have a salon near my home that know how to blow dry hair",
+        name: "Alexa F.",
+        color: "bg-[#FBBC05]",
       },
     ],
   },

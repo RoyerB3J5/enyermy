@@ -121,9 +121,9 @@ export default function Recomendations({ content }: RecomendationsProps) {
   };
   return (
     <section className="container-full flex flex-col justify-center items-center gap-4 md:gap-6 py-12 md:py-14">
-      <div className ='flex flex-col justify-center items-center '>
+      <div className ='flex flex-col justify-center items-center gap-1'>
         <h2 className="title-h4 text-primary fade-up">{content.title}</h2>
-        <p className='paragraph font-normal text-primary tracking-[-0.5px]'>{content.description}</p>
+        <p className='paragraph font-normal text-primary tracking-[-0.5px] fade-up'>{content.description}</p>
       </div>
 
       <div className="w-full flex flex-col gap-4 md:gap-6 fade-up">

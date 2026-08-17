@@ -10,66 +10,9 @@ import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getBestSellerProductCardProps } from "@/lib/bestSeller";
-import { getAllProducts, getAllProductsTest } from "@/lib/catalog";
 
 type MainContent = (typeof import("@/content/en"))["default"]["main"];
 
-const bestSellersProducts = [
-  {
-    id: "1",
-    nombre: "Bonding Mask",
-    precio: "45.00",
-    imagen: "/images/argan-oil-1.webp",
-    image2: "/images/argan-oil-2.webp",
-    marca: "ENYERMY STUDIO PRO",
-    tieneAtributos: true,
-  },
-  {
-    id: "2",
-    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-    precio: "50.00",
-    imagen: "/images/argan-oil-2.webp",
-    image2: "/images/argan-oil-1.webp",
-    marca: "ENYERMY STUDIO PRO VELVETY SILK",
-    tieneAtributos: false,
-  },
-  {
-    id: "3",
-    nombre: "Bonding Mask",
-    precio: "45.00",
-    imagen: "/images/argan-oil-1.webp",
-    image2: "/images/argan-oil-2.webp",
-    marca: "ENYERMY STUDIO PRO",
-    tieneAtributos: true,
-  },
-  {
-    id: "4",
-    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-    precio: "50.00",
-    imagen: "/images/argan-oil-2.webp",
-    image2: "/images/argan-oil-1.webp",
-    marca: "ENYERMY STUDIO PRO VELVETY SILK",
-    tieneAtributos: false,
-  },
-  {
-    id: "5",
-    nombre: "Bonding Mask",
-    precio: "45.00",
-    imagen: "/images/argan-oil-1.webp",
-    image2: "/images/argan-oil-2.webp",
-    marca: "ENYERMY STUDIO PRO",
-    tieneAtributos: true,
-  },
-  {
-    id: "6",
-    nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-    precio: "50.00",
-    imagen: "/images/argan-oil-2.webp",
-    image2: "/images/argan-oil-1.webp",
-    marca: "ENYERMY STUDIO PRO VELVETY SILK",
-    tieneAtributos: false,
-  },
-];
 const contentAloneProduct = {
   imageProduct: "/images/main/long-lasting.webp",
   tag: "ENYERMY STUDIO PRO",

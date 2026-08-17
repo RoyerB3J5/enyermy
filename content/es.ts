@@ -1171,35 +1171,49 @@ const content = {
   },
   reviewCarousel: {
     rated: "Calificado con 5 estrellas por nuestros clientes",
-    title: "Resultados Reales, Rese\u00f1as Reales",
+    title: "Resultados reales, opiniones reales",
     reviews: [
       {
-        title: "\u00a1Me encanta!",
+        title: "¡Me encanta!",
         description:
-          "Recib\u00ed una muestra en una conferencia de mujeres.. \u00a1y me cambi\u00f3 por completo! Mi cabello es mucho m\u00e1s manejable, \u00a1tuve que comprarlo!",
-        name: "Liz P.",
+          "El salón estaba muy limpio. Todos los estilistas fueron amables. ¡A mis dos hijos les encantó el corte!",
+        name: "Jaime A.",
         color: "bg-[#E33E7A]",
       },
       {
-        title: "Muy bueno",
+        title: "Encantada",
         description:
-          "El mejor producto que he usado. Es incre\u00edble para desenredar. \u00a1La primera vez que mi cabello se ve\u00eda tan hermoso! \u00a1ENAMORADA!!!",
-        name: "Perla P.",
+          "Amé el trato desde que entré, súper recomendado al 100% amé mi proceso de balayage. Lorena hizo un buen trabajo.",
+        name: "Arisleydi P.",
         color: "bg-[#FBBC05]",
       },
       {
-        title: "Excelente",
+        title: "Genial",
         description:
-          "Excelente. No hay nada mejor que esto para mi cabello \ud83d\ude4c",
-        name: "Lourdes G.",
+          "Me acabo de arreglar el cabello con Ruth, las manos más delicadas y una experiencia increíble, volveré pronto.",
+        name: "Kerwin D.",
         color: "bg-[#2F89D4]",
       },
       {
-        title: "Excelente",
+        title: "Genial",
         description:
-          "Lo prob\u00e9 hoy por primera vez en mi cabello decolorado y da\u00f1ado. Se sinti\u00f3 tan suave y terso despu\u00e9s. Definitivamente soy fan.",
-        name: "Mahvesh O.",
+          "Excelente trato y amabilidad. Recomendadas al 100%. También hice corte a mis varones en Waterford Lake, Orlando.",
+        name: "Yanelys N.",
         color: "bg-[#435260]",
+      },
+      {
+        title: "Genial",
+        description:
+          "Esta chica es muy profesional, excelentes productos, realiza cambios extremos. Muchas gracias por todo.",
+        name: "Luz Q.",
+        color: "bg-[#FBBC05]",
+      },
+      {
+        title: "Genial",
+        description:
+          "Letty hizo un trabajo genial, feliz de tener un salón cerca que sabe cómo secar bien el cabello.",
+        name: "Alexa F.",
+        color: "bg-[#FBBC05]",
       },
     ],
   },

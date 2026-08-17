@@ -102,7 +102,7 @@ export default function GridPost({
               type="button"
               key={`${category.id}-${index}`}
               onClick={() => handleCategoryClick(category.id)}
-              className={`px-7 py-1 rounded-full border text-[14px] font-medium leading-[150%] transition-colors duration-300 ease-in-out cursor-pointer shrink-0 whitespace-nowrap ${
+              className={`px-7 py-1 rounded-full border text-[14px] font-medium leading-[150%] transition-colors duration-300 ease-in-out cursor-pointer shrink-0 whitespace-nowrap capitalize ${
                 isActive
                   ? "bg-primary text-white border-primary"
                   : "border-[#E6E6E6] text-primary hover:bg-primary hover:text-white"
@@ -118,7 +118,7 @@ export default function GridPost({
           filteredPosts.map((post, index) => (
             <div
               key={index}
-              className="w-full flex flex-col justify-center items-start gap-4 fade-up"
+              className="w-full h-full flex flex-col items-start gap-4 fade-up"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="w-full h-auto aspect-343/197 md:aspect-438/251 relative rounded-2xl overflow-hidden group">
@@ -130,27 +130,32 @@ export default function GridPost({
                   height={251}
                 />
               </div>
+
               <div className="w-full flex justify-start items-center gap-2 flex-wrap">
                 {post.categories.map((category, catIndex) => (
                   <p
                     key={catIndex}
-                    className="px-7 py-1 rounded-full border border-[#E6E6E6] text-primary flex justify-center items-center text-[14px] font-medium leading-[150%]"
+                    className="px-7 py-1 rounded-full border border-[#E6E6E6] text-primary flex justify-center items-center text-[14px] font-medium leading-[150%] lowercase first-letter:uppercase"
                   >
                     {category.label}
                   </p>
                 ))}
               </div>
+
               <div className="flex justify-start items-center gap-1 paragraph-xx-small uppercase tracking-[-0.5px] text-[#717171]">
                 <p>{post.date}</p>
                 <p>.</p>
                 <p>{post.autor}</p>
               </div>
-              <h3 className="text-primary text-[20px] md:text-[27px] font-medium leading-[130%] font-title tracking-[-0.5px]">
+
+              <h3 className="text-primary text-[20px] md:text-[27px] font-medium leading-[130%] font-title tracking-[-0.5px] lowercase first-letter:uppercase">
                 {post.title}
               </h3>
-              <p className="paragraph font-normal text-primary tracking-[-0.5px]">
+
+              <p className="paragraph font-normal text-primary tracking-[-0.5px] flex-1">
                 {post.descriptionShort}
               </p>
+
               <Button
                 styleButton="white"
                 label="Read more"

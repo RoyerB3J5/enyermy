@@ -135,64 +135,81 @@ export default function CarouselProductsColor({
 
   return (
     <div className="w-full relative overflow-hidden flex justify-center items-center flex-col">
-      <div
-        ref={containerRef}
-        className="w-full overflow-hidden select-none relative"
-        style={{ touchAction: "pan-y" }}
-        onDragStart={(e) => e.preventDefault()}
-      >
+      <div className="w-full grid grid-cols-1 md:grid-cols-2">
+        {/* Content carousel */}
         <div
-          className="flex items-stretch"
-          style={{
-            transform: `translate3d(${translateX}px, 0, 0)`,
-            transition: isTransitioning ? "transform 300ms ease-out" : "none",
-          }}
-          onTransitionEnd={handleTransitionEnd}
+          ref={containerRef}
+          className="w-full overflow-hidden select-none relative order-2 md:order-1"
+          style={{ touchAction: "pan-y" }}
+          onDragStart={(e) => e.preventDefault()}
         >
-          {expandedProducts.map((product, index) => (
-            <Link
-              href={product.href}
-              className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full shrink-0"
-              key={index}
-            >
+          <div
+            className="flex items-stretch"
+            style={{
+              transform: `translate3d(${translateX}px, 0, 0)`,
+              transition: isTransitioning ? "transform 300ms ease-out" : "none",
+            }}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            {expandedProducts.map((product, index) => (
+              <Link href={product.href} key={index} className="w-full shrink-0">
+                <div className="w-full h-auto aspect-auto md:aspect-720/651 bg-accent flex flex-col items-center justify-center gap-4 pt-6 pb-14 md:py-0">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    width={420}
+                    height={420}
+                    className="w-[70%] md:w-[50%] h-auto aspect-square object-cover"
+                  />
+                  <div className="flex flex-col items-center justify-center w-full">
+                    <p className="paragraph-x-small text-primary-light">
+                      {product.tag}
+                    </p>
+                    <h3 className="paragraph text-primary font-normal text-center">
+                      {product.title}
+                    </h3>
+                    <p className="paragraph text-primary font-medium text-center">
+                      {atributo} ${product.price}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Image carousel */}
+        <div
+          className="w-full overflow-hidden select-none relative order-1 md:order-2"
+          style={{ touchAction: "pan-y" }}
+          onDragStart={(e) => e.preventDefault()}
+        >
+          <div
+            className="flex items-stretch"
+            style={{
+              transform: `translate3d(${translateX}px, 0, 0)`,
+              transition: isTransitioning ? "transform 300ms ease-out" : "none",
+            }}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            {expandedItems.map((item, index) => (
               <div
-                className={`w-full h-auto aspect-auto md:aspect-720/651 bg-accent flex flex-col items-center justify-center gap-4 order-2 md:order-1 pt-6 pb-14 md:py-0`}
+                key={index}
+                className="w-full h-auto aspect-720/651 relative flex items-center justify-center overflow-hidden shrink-0"
               >
                 <Image
-                  src={product.image}
-                  alt={product.title}
-                  width={420}
-                  height={420}
-                  className="w-[70%] md:w-[50%] h-auto aspect-square object-cover"
-                />
-                <div className="flex flex-col items-center justify-center w-full">
-                  <p className="paragraph-x-small text-primary-light">
-                    {product.tag}
-                  </p>
-                  <h3 className="paragraph text-primary font-normal text-center">
-                    {product.title}
-                  </h3>
-                  <p className="paragraph text-primary font-medium text-center">
-                    {atributo} ${product.price}
-                  </p>
-                </div>
-              </div>
-              <div className="w-full h-auto aspect-720/651 relative flex items-center justify-center overflow-hidden order-1 md:order-2">
-                <Image
-                  src={`/images/main/${expandedItems[index]?.image}.webp`}
-                  alt={expandedItems[index]?.slogan}
+                  src={`/images/main/${item?.image}.webp`}
+                  alt={item?.slogan}
                   width={720}
                   height={651}
                   className="object-cover w-full h-full object-center absolute inset-0 z-0"
                 />
                 <div className="w-full h-full flex justify-center items-center md:items-end pb-10 px-4 z-10">
-                  <p className="slogan-text text-center">
-                    {expandedItems[index]?.slogan}
-                  </p>
+                  <p className="slogan-text text-center">{item?.slogan}</p>
                 </div>
               </div>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

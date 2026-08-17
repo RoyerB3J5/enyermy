@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import { generarSlug } from "@/lib/slug";
 
 interface MainInfoProps {
-  contentProduct: FrontendProductDetail ;
+  contentProduct: FrontendProductDetail;
   comoUsar: string;
   ingredientsArray?: string[];
 }
@@ -196,8 +196,10 @@ export default function MainInfo({
             </div>
           </div>
           <div className="w-full flex justify-start items-center gap-4 fade-left">
-            <p className="paragraph font-medium text-primary">Size:</p>
-            <div className="flex justify-start items-center gap-4">
+            <p className="paragraph font-medium text-primary">
+              {productName.includes("10 minutes") ? ":" : "Size:"}
+            </p>
+            <div className="flex justify-start items-center gap-4 flex-wrap">
               {contentProduct.variaciones.map((variation, index) => (
                 <button
                   key={index}

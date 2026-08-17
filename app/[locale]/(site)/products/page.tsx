@@ -31,61 +31,6 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]">) {
     productsAll: AllProductsContent;
   }>(locale);
 
-  const productos: getAllProductsType[] = [
-    {
-      id: "1",
-      nombre: "Bonding Mask",
-      precio: "45.00",
-      imagenes: ["/images/argan-oil-1.webp", "/images/argan-oil-2.webp"],
-      marca: "ENYERMY STUDIO PRO",
-      tieneAtributos: true,
-      bestSeller: "Si",
-      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
-      categoriaNombre: "Pro",
-      cabelloTipo: "rizado",
-      createdAt: "2026-06-20T06:10:25.534Z",
-    },
-    {
-      id: "2",
-      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-      precio: "50.00",
-      imagenes: ["/images/argan-oil-2.webp", "/images/argan-oil-1.webp"],
-      marca: "ENYERMY STUDIO PRO VELVETY SILK",
-      tieneAtributos: false,
-      bestSeller: "No",
-      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
-      categoriaNombre: "Velvety Silk",
-      createdAt: "2026-06-22T06:10:25.534Z",
-      cabelloTipo: "teñido",
-    },
-    {
-      id: "3",
-      nombre: "Bonding Mask",
-      precio: "45.00",
-      imagenes: ["/images/argan-oil-1.webp", "/images/argan-oil-2.webp"],
-      marca: "ENYERMY STUDIO PRO",
-      tieneAtributos: true,
-      bestSeller: "Si",
-      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
-      categoriaNombre: "Curlyme",
-      createdAt: "2026-06-20T06:10:25.534Z",
-      cabelloTipo: "seco",
-    },
-    {
-      id: "4",
-      nombre: " Leave-in conditioner Versatile Cream for Deep Hydration",
-      precio: "50.00",
-      imagenes: ["/images/argan-oil-2.webp", "/images/argan-oil-1.webp"],
-      marca: "ENYERMY STUDIO PRO VELVETY SILK",
-      tieneAtributos: false,
-      bestSeller: "No",
-      categoriaId: "P5CSXYZJ475IWVPNURLJCFYE",
-      categoriaNombre: "Vivify",
-      createdAt: "2026-06-22T06:10:25.534Z",
-      cabelloTipo: "seco",
-    },
-  ];
-
   return (
     <main className="w-full flex flex-col justify-center items-center pt-(--header-height)">
       <Hero content={content} />

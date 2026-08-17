@@ -4,6 +4,5 @@ PENDIENTE:
 - Precio de Bundle
 - Foto de Extensiones
 - Regresar funcion de verificacion de usuario en el carrito
-- Widget de mail y del popup del hero
 - Pedir que se desvincule el dominio de square
-- Producto 10 minutes express tiene muchas variantes innecesarias, arreglar eso
+- Desplegar

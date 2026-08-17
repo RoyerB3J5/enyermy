@@ -43,7 +43,7 @@ export default function ProductCard({
       href={href}
       className="group flex flex-col justify-start gap-3 w-full "
     >
-      {/* 1. CONTENEDOR DE IMÁGENES (Aquí ocurre toda la magia del hover) */}
+      {/* 1. CONTENEDOR DE IMÁGENES */}
       <div className="relative w-full aspect-square overflow-hidden rounded-2xl ">
         {/* Imagen Principal (Por defecto) */}
         <ProductImage
@@ -55,9 +55,9 @@ export default function ProductCard({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
         />
 
-        {/* Segunda Imagen + Botón (Capa que sube) */}
+        {/* Segunda Imagen + Botón */}
         {image2 && (
-          <div className="absolute inset-0 w-full h-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 overflow-hidden">
+          <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out z-10 overflow-hidden">
             {/* Imagen 2 */}
             <ProductImage
               src={image2}
@@ -70,7 +70,7 @@ export default function ProductCard({
 
             {/* BOTÓN ENCIMA */}
             {buttonLabel && !product.tieneAtributos && (
-              <div className="absolute inset-0 flex items-end justify-center p-4">
+              <div className="absolute inset-0 flex items-end justify-center p-4 transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
                 <Button
                   label={buttonLabel}
                   styleButton="white"
@@ -83,7 +83,7 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* 2. CONTENEDOR DE TEXTO (A salvo de la animación) */}
+      {/* 2. CONTENEDOR DE TEXTO */}
       <div className="flex flex-col justify-center items-center">
         <p className="paragraph-x-small uppercase text-primary-light text-center">
           {product.marca}

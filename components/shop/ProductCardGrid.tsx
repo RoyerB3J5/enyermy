@@ -56,7 +56,7 @@ export default function ProductCardGrid({
         />
 
         {product.imagenes[1] && (
-          <div className="absolute inset-0 w-full h-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-10 overflow-hidden">
+          <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out z-10 overflow-hidden">
             <ProductImage
               src={product.imagenes[1] as string}
               alt={product.nombre}
@@ -67,7 +67,7 @@ export default function ProductCardGrid({
             />
 
             {buttonLabel && !hasVariants && (
-              <div className="absolute inset-0 flex items-end justify-center p-4">
+              <div className="absolute inset-0 flex items-end justify-center p-4 transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
                 <Button
                   label={buttonLabel}
                   styleButton="white"
