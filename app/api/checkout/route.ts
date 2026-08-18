@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         },
       },
       checkout_options: {
-        redirect_url: "/en/thanks",
+        redirect_url: "https://enyermyhairstudio.com/en/thanks",
 
         // Pide dirección de envío (incluye First name / Last name automáticamente)
         ask_for_shipping_address: true,
