@@ -21,9 +21,10 @@ export default async function Blog() {
     getPostsPage(1),
     getCategories(),
   ]);
+  const featuredPost = posts[0] ?? posts[1] ?? posts[2];
   return (
     <main className="flex flex-col justify-center items-center pt-(--header-height) w-full">
-      <Hero hero={content.hero} post={posts[2]} />
+      {featuredPost && <Hero hero={content.hero} post={featuredPost} />}
       <GridPost
         categories={categories}
         initialPosts={posts}

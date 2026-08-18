@@ -6,7 +6,7 @@ import {
 } from "@/types/ghl-raw";
 
 const FALLBACK_IMAGE = "/images/blog-placeholder.jpg";
-const FALLBACK_AUTHOR = "Equipo editorial";
+const DEFAULT_AUTHOR = "Enyermy";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "";
@@ -23,7 +23,7 @@ export function mapPostListItemToCard(raw: GHLPostListItemRaw): BlogCardDTO {
     image: raw.imageUrl ?? FALLBACK_IMAGE,
     categories: raw.categories.map((c) => ({ id: c._id, label: c.label })),
     date: formatDate(raw.publishedAt ?? raw.updatedAt),
-    autor: raw.updatedBy ?? FALLBACK_AUTHOR,
+    autor: DEFAULT_AUTHOR,
     title: raw.title,
     descriptionShort: raw.description,
     buttonHref: `${raw._id}`,
@@ -35,7 +35,7 @@ export function mapPostDetailToDTO(raw: GHLPostDetailRaw): BlogPostDetailDTO {
     id: raw._id,
     image: raw.imageUrl ?? FALLBACK_IMAGE,
     date: formatDate(raw.publishedAt ?? raw.updatedAt),
-    autor: FALLBACK_AUTHOR, // el detalle no trae updatedBy, no hay dato real acá
+    autor: DEFAULT_AUTHOR,
     title: raw.title,
     content: raw.rawHTML,
   };

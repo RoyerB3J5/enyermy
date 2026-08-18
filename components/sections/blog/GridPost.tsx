@@ -159,7 +159,7 @@ export default function GridPost({
               <Button
                 styleButton="white"
                 label="Read more"
-                href={`/${locale}/blog/${post.buttonHref}?author=${post.autor}`}
+                href={`/${locale}/blog/${post.buttonHref}`}
                 paddingX="px-6"
               />
             </div>

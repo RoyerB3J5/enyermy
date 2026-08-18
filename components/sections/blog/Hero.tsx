@@ -56,7 +56,11 @@ export default function Hero({ hero, post }: HeroProps) {
               </p>
               <Button
                 styleButton="black"
-                href={post.buttonHref}
+                href={
+                  post.buttonHref.startsWith("/")
+                    ? post.buttonHref
+                    : `blog/${post.buttonHref}`
+                }
                 paddingX="px-4 fade-left"
                 label="Read more"
               />
