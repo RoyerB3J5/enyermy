@@ -25,7 +25,7 @@ export default function Button({
 }: ButtonProps) {
   const baseClasses = `relative overflow-hidden cursor-pointer flex justify-center items-center ${paddingX} md:py-3 rounded-full focus:outline-none transition-colors duration-300 ease-in-out text-[14px] font-medium leading-[150%] uppercase tracking-[3px] text-center z-1 w-full ${
     wFull ? "md:w-full" : "md:w-auto"
-  } before:absolute before:inset-0 before:w-full before:h-full before:translate-y-full hover:before:translate-y-0 before:transition-transform before:duration-300 before:ease-in-out`;
+  } before:absolute before:inset-0 before:w-full before:h-full before:translate-y-[100px] hover:before:translate-y-0 before:transition-transform before:duration-300 before:ease-in-out`;
 
   const styleClasses =
     styleButton === "white"

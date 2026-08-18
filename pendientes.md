@@ -5,4 +5,3 @@ PENDIENTE:
 - Foto de Extensiones
 - Regresar funcion de verificacion de usuario en el carrito
 - Pedir que se desvincule el dominio de square
-- Desplegar
