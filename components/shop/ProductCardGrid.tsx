@@ -49,9 +49,9 @@ export default function ProductCardGrid({
         <ProductImage
           src={product.imagenes[0] as string}
           alt={product.nombre}
-          width={300}
-          height={300}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+          width={800}
+          height={800}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
@@ -60,9 +60,9 @@ export default function ProductCardGrid({
             <ProductImage
               src={product.imagenes[1] as string}
               alt={product.nombre}
-              width={300}
-              height={300}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+              width={800}
+              height={800}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
               className="w-full h-full object-cover rounded-2xl"
             />
 

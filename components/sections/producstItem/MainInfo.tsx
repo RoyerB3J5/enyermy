@@ -96,24 +96,6 @@ export default function MainInfo({
     cartStore.openCart();
   };
 
-  const handleRelatedAddToCart = () => {
-    if (!cartStore) return;
-    const relatedSlug = generarSlug(content.related.title);
-    const relatedHref = `/${locale}/products/${relatedSlug}`;
-
-    cartStore.addItem(
-      {
-        id: "related-shampoo",
-        name: content.related.title,
-        price: content.related.price,
-        image: content.related.image,
-        href: relatedHref,
-      },
-      1,
-    );
-    cartStore.openCart();
-  };
-
   const productName = (contentProduct.nombre || "").toLowerCase();
   const isExtension = productName.includes("extension");
 

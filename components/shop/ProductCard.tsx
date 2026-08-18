@@ -49,10 +49,10 @@ export default function ProductCard({
         <ProductImage
           src={product.imagen as string}
           alt={product.nombre}
-          width={300}
-          height={300}
+          width={800}
+          height={800}
           className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
         />
 
         {/* Segunda Imagen + Botón */}
@@ -62,10 +62,10 @@ export default function ProductCard({
             <ProductImage
               src={image2}
               alt={product.nombre}
-              width={300}
-              height={300}
+              width={800}
+              height={800}
               className="w-full h-full object-cover rounded-2xl"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
             />
 
             {/* BOTÓN ENCIMA */}

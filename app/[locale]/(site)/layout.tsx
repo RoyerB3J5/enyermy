@@ -25,7 +25,7 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://enyermystudio.com"),
+  metadataBase: new URL("https://enyermyhairstudio.com"),
 
   title: "Enyermy Studio Pro",
   description:
@@ -57,25 +57,37 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    type: "website",
+    title: "Enyermy Studio Pro",
+    description:
+      "Enyermy Studio Pro offers professional hair care, salon services, and curated bundles designed to strengthen, hydrate, repair, and enhance every hair type.",
+    url: "https://enyermyhairstudio.com",
+    siteName: "Enyermy Studio Pro",
     images: [
       {
-        url: "/images/fondo.png",
+        url: "/images/portada.jpg", // Asegúrate de que esta ruta exista en /public
+        width: 1200,
+        height: 630,
+        alt: "Enyermy Studio Pro Preview",
       },
     ],
     locale: "en_US",
+    type: "website",
   },
 
   twitter: {
     card: "summary_large_image",
+    title: "Enyermy Studio Pro",
+    description:
+      "Enyermy Studio Pro offers professional hair care, salon services, and curated bundles designed to strengthen, hydrate, repair, and enhance every hair type.",
     site: "@EnyermyStudioPro",
-    images: ["/images/fondo.png"],
+    images: ["/images/portada.jpg"],
   },
+
   other: {
     "geo.region": "US-FL",
-    "geo.placename": "Orlando",
-    "geo.position": "28.5383;-81.3792",
-    ICBM: "28.5383, -81.3792",
+    "geo.placename": "Ocoee",
+    "geo.position": "28.5695;-81.5441",
+    ICBM: "28.5695, -81.5441",
   },
 };
 
