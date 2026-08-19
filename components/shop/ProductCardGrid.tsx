@@ -30,7 +30,7 @@ export default function ProductCardGrid({
     e.stopPropagation();
     if (!cartStore) return;
     cartStore.addItem({
-      id: product.id,
+      id: product.idVariant || product.id,
       name: product.nombre,
       price: product.precio,
       image: product.imagenes[0] || "",
