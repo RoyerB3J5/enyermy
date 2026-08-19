@@ -125,7 +125,7 @@ export default function MainInfo({
       <div className="w-full flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
         <div className="w-full md:w-1/2 flex justify-center items-start gap-4 md:sticky md:top-[var(--header-height)] md:self-start fade-right">
           <div className="flex-none md:grid grid-cols-1 gap-4 hidden ">
-            {contentProduct.imagenes.slice(0, -1).map((image, index) => (
+            {contentProduct.imagenes.slice(0,2).map((image, index) => (
               <button
                 key={index}
                 onClick={() => setImageIndex(index)}

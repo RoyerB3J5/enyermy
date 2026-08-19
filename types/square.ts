@@ -43,8 +43,9 @@ export interface FrontendProductDetail {
   [key: string]: any;
 }
 
-export interface CategoryProduct {
+export type CategoryProduct = {
   id: string;
+  idVariant: string;
   image: string;
   tag: string;
   title: string;
@@ -52,4 +53,4 @@ export interface CategoryProduct {
   perfectFor: string;
   results: string;
   precio: string;
-}
+};

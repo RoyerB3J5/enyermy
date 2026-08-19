@@ -123,10 +123,14 @@ async function getAllProductsUncached(): Promise<getAllProductsType[]> {
       .slice(0, 2)
       .forEach((id) => imageIdsSet.add(id));
 
-    const categoriaId =
-      product.itemData.reportingCategory?.id ||
-      product.itemData.categories?.[0]?.id;
-    if (categoriaId) categoryIdsSet.add(categoriaId);
+    // Recolectamos TODAS las categorías del producto (reportingCategory +
+    // todas las de categories[]), no solo la primera, ya que Square permite
+    // que un producto pertenezca a varias categorías a la vez.
+    const categoriaIds = [
+      product.itemData.reportingCategory?.id,
+      ...(product.itemData.categories?.map((c) => c.id) || []),
+    ].filter((id): id is string => !!id);
+    categoriaIds.forEach((id) => categoryIdsSet.add(id));
 
     // Combinamos atributos de ITEM y de la primera ITEM_VARIATION, ya que
     // Square puede guardarlos en cualquiera de los dos niveles.
@@ -224,14 +228,27 @@ async function getAllProductsUncached(): Promise<getAllProductsType[]> {
         .slice(0, 2)
         .map((id) => imageMap.get(id) || "/placeholder.jpg");
 
+      // Todas las categorías del producto (para el filtro de bundles)
+      const categoriaIds = [
+        itemData.reportingCategory?.id,
+        ...(itemData.categories?.map((c) => c.id) || []),
+      ].filter((id): id is string => !!id);
+
+      // Categoría "principal" que se sigue devolviendo en el objeto final,
+      // igual que antes (reportingCategory o la primera de categories)
       const categoriaId =
         itemData.reportingCategory?.id || itemData.categories?.[0]?.id || null;
       const categoriaNombre = categoriaId
         ? (categoryNameMap.get(categoriaId) ?? null)
         : null;
 
-      // Excluir productos de la categoría Bundles, sin llamada extra a Square
-      if (categoriaNombre?.toLowerCase().trim() === "bundles") return null;
+      // Excluir productos que pertenezcan a la categoría Bundles en
+      // CUALQUIERA de sus categorías (no solo la principal), sin llamada
+      // extra a Square.
+      const esBundle = categoriaIds.some(
+        (id) => categoryNameMap.get(id)?.toLowerCase().trim() === "bundles",
+      );
+      if (esBundle) return null;
 
       return {
         id: product.id,
@@ -424,13 +441,20 @@ async function getBundleProductsUncached(
       if (product.type !== "ITEM" || !product.itemData) return null;
       const itemData = product.itemData;
 
+      // Los custom attributes de estos bundles vienen a nivel de ITEM
+      // (product.customAttributeValues), NO dentro de itemData ni dentro
+      // de la variación. Si en algún caso también existieran a nivel de
+      // variación, los combinamos igual (la variación tendría prioridad
+      // solo si hubiera colisión de la misma key, lo cual no debería pasar).
       const primeraVariacion = itemData.variations?.[0] || null;
-
-      // Los custom attributes están en la variación, no en el item
-      const customAttrRaw =
+      const idVariant = primeraVariacion?.id;
+      const variationAttrs =
         (primeraVariacion?.type === "ITEM_VARIATION" &&
           primeraVariacion.customAttributeValues) ||
         {};
+      const itemAttrs = product.customAttributeValues || {};
+
+      const customAttrRaw = { ...variationAttrs, ...itemAttrs };
 
       const brandAttr = Object.values(customAttrRaw).find(
         (attr) => attr.name?.toLowerCase().trim() === "brand",
@@ -477,6 +501,7 @@ async function getBundleProductsUncached(
 
       return {
         id: product.id,
+        idVariant,
         image,
         tag,
         title: itemData.name || "Producto sin nombre",
@@ -489,20 +514,21 @@ async function getBundleProductsUncached(
     .filter((p): p is CategoryProduct => p !== null);
 }
 
-export const getBundleProducts = shouldCacheSquareCatalog
-  ? unstable_cache(
-      getBundleProductsUncached,
-      [...SQUARE_CATALOG_CACHE_KEY, "bundle-products"],
-      SQUARE_CATALOG_CACHE_OPTIONS,
-    )
-  : getBundleProductsUncached;
+export const getBundleProducts = getBundleProductsUncached;
 
 //Para sacar el id de bundle
 export async function getBundleProductsTest(
-  categoryId: string,
+  categoryName: string,
 ): Promise<{ objects: any[] }> {
+  const categoryName2 = await getCategoryIdByName(categoryName);
+  if (!categoryName2) {
+    // Puedes lanzar error, devolver [], o loguear que la categoría no existe
+    console.warn(`No se encontró la categoría "${categoryName}" en Square`);
+    const objects: any[] = [];
+    return { objects };
+  }
   const response = await square.catalog.searchItems({
-    categoryIds: [categoryId],
+    categoryIds: [categoryName2],
     productTypes: ["REGULAR"],
   });
 

@@ -228,16 +228,31 @@ export default function Header({
                   className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </button>
-              <button
-                type="button"
-                onClick={() => setIsSearchOpen(true)}
-                aria-label="Search products"
-                className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center cursor-pointer md:hidden "
+              <Link
+                className="lg:hidden block"
+                href={localizedPath(
+                  isSalonExperience ? "/salon-experience" : "/",
+                )}
+                aria-label={
+                  isSalonExperience
+                    ? "Ir a la página principal de Salon Experience"
+                    : "Ir a la página principal"
+                }
+                title={
+                  isSalonExperience
+                    ? "Enyermy Studio Pro - Salon Experience"
+                    : "Enyermy Studio Pro - Init"
+                }
               >
-                <Search
-                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
+                <Image
+                  src={logo}
+                  alt="Logo Enyermy Studio Pro"
+                  width={158}
+                  height={48}
+                  className="w-[89px] lg:w-[158px] h-auto block"
+                  priority
                 />
-              </button>
+              </Link>
             </div>
             <Link
               className="hidden lg:block xl:translate-x-[-50%]"
@@ -257,31 +272,6 @@ export default function Header({
             >
               <Image
                 src={headerClasses.includes("text-white") ? logoWhite : logo}
-                alt="Logo Enyermy Studio Pro"
-                width={158}
-                height={48}
-                className="w-[89px] lg:w-[158px] h-auto block"
-                priority
-              />
-            </Link>
-            <Link
-              className="lg:hidden block"
-              href={localizedPath(
-                isSalonExperience ? "/salon-experience" : "/",
-              )}
-              aria-label={
-                isSalonExperience
-                  ? "Ir a la página principal de Salon Experience"
-                  : "Ir a la página principal"
-              }
-              title={
-                isSalonExperience
-                  ? "Enyermy Studio Pro - Salon Experience"
-                  : "Enyermy Studio Pro - Init"
-              }
-            >
-              <Image
-                src={logo}
                 alt="Logo Enyermy Studio Pro"
                 width={158}
                 height={48}
@@ -313,6 +303,16 @@ export default function Header({
                   className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
                 />
               </button>
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Search products"
+                className="w-auto md:w-10.5 h-auto md:h-10.5 flex md:hidden justify-center items-center cursor-pointer"
+              >
+                <Search
+                  className={`w-5.5 md:w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
+                />
+              </button>
               <Link
                 href={dashboardHref}
                 className="w-auto md:w-10.5 h-auto md:h-10.5 flex justify-center items-center "
@@ -333,8 +333,8 @@ export default function Header({
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-white text-primary flex-col justify-center h-[85%] z-[60] py-6 gap-12 transition-transform duration-300 ease-out w-full ${
-          isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-white text-primary flex-col justify-center h-[90%] z-[60] py-2 gap-4 transition-transform duration-300 ease-out w-full ${
+          isMobileMenuOpen ? "translate-y-0" : "-translate-y-[200%]"
         }`}
         id="mobile-menu"
       >

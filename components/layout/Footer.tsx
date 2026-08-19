@@ -193,10 +193,10 @@ export default function Footer({
                   {content?.servicesArea.areas.map((item, index) => (
                     <li key={index}>
                       <Link
-                        href={localizedPath("/locations")}
+                        href={item.href}
                         className="paragraph text-white hover:text-secondary transition-all duration-300 ease-in-out font-normal"
                       >
-                        {item}
+                        {item.label}
                       </Link>
                     </li>
                   ))}

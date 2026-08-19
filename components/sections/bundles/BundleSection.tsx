@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 interface BundleSectionProps {
   itemsBundles: {
     id: string;
+    idVariant: string;
     image: string;
     tag: string;
     title: string;
@@ -21,10 +22,12 @@ export default function BundleSection({ itemsBundles }: BundleSectionProps) {
   const params = useParams();
   const locale = params.locale as string;
 
-  const handleAddToCart = (bundle: BundleSectionProps["itemsBundles"][number]) => {
+  const handleAddToCart = (
+    bundle: BundleSectionProps["itemsBundles"][number],
+  ) => {
     if (!cartStore) return;
     cartStore.addItem({
-      id: bundle.id,
+      id: bundle.idVariant,
       name: bundle.title,
       price: bundle.precio,
       image: bundle.image,

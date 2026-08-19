@@ -23,7 +23,10 @@ export type FooterContent = {
   };
   servicesArea: {
     title: string;
-    areas: string[];
+    areas: {
+      label: string;
+      href: string;
+    }[];
   };
   aboutUs: {
     title: string;
@@ -38,6 +41,6 @@ export type ContentDictionary = {
     title: string;
     description: string;
     button: string;
-  }
+  };
   [section: string]: unknown;
 };

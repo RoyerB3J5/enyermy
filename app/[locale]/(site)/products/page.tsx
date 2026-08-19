@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getAllProducts, getAllProductsTest } from "@/lib/catalog";
-import type { getAllProductsType } from "@/types/square";
 import Hero from "@/components/sections/products/Hero";
 import GridProducts from "@/components/sections/products/GridProducts";
 import CallEmail from "@/components/sections/CallEmail";

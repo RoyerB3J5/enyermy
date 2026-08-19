@@ -36,6 +36,7 @@ const content = {
         link: "/es/products",
       },
       image: "main/hero-main",
+      imageMobile: "main/hero-main-mobile",
     },
     bestSellers: {
       title: "Lo más vendido",
@@ -131,6 +132,7 @@ const content = {
   },
   productsAll: {
     image: "hero-products",
+    imageMobile: "main/hero-products-mobile",
     tag: "Cuidado Capilar Profesional Para Cada Necesidad",
     title: "Descubre Cada Soluci\u00f3n",
     description:
@@ -199,6 +201,7 @@ const content = {
         link: "https://book.squareup.com/appointments/8thjvgf0dvy73t/location/HT6A7Q5H5E2QW/services?buttonTextColor=000000&color=e9c277&locale=en&referrer=so",
       },
       image: "salon-experience/hero-main",
+      imageMobile: "salon-experience/hero-main-mobile",
     },
     location: {
       title: "Nuestras Ubicaciones",
@@ -350,6 +353,7 @@ const content = {
       title: "Creado Para Tu Belleza",
       description:
         "Descubre servicios de salón a medida para transformar, restaurar y realzar \n tu cabello con total confianza.",
+      imageMobile: "hero-locations-mobile",
     },
     location: {
       title: "Nuestras Ubicaciones",
@@ -358,25 +362,25 @@ const content = {
           image: "ocoee",
           name: "Ocoee",
           direction: "1099 S Clarke Rd  Ocoee",
-          href: "#",
+          href: "https://book.squareup.com/appointments/8thjvgf0dvy73t/location/HT6A7Q5H5E2QW/services?buttonTextColor=000000&color=e9c277&locale=en&referrer=so",
         },
         {
           image: "orlando",
           name: "Orlando",
           direction: "4526 Curry Ford Rd Orlando",
-          href: "#",
+          href: "https://app.squareup.com/appointments/buyer/widget/vj0fsnz60g8n1d/L1C7496RDCGTG",
         },
         {
           image: "waterford",
           name: "Waterford Lakes",
           direction: "12789 Waterford Lakes Pkwy Ste 11  Orlando",
-          href: "#",
+          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
         },
         {
           image: "petersburg",
           name: "St. Petersburg",
           direction: "6901 22nd Ave N Suite 6707, St.Petersburg",
-          href: "#",
+          href: "https://book.squareup.com/appointments/8thjvgf0dvy73t/location/LEJXW75XFC9Z2/services?color=e9c277",
         },
       ],
       mainPage: true,
@@ -1231,7 +1235,7 @@ const content = {
         { label: "Política Priv.", href: "/es/privacy-policy" },
         { label: "Pol. Reembolso", href: "/es/refund-policy" },
         { label: "Política Envíos", href: "/es/shipping-policy" },
-        { label: "Términos del Uso", href: "/es/terms-of-service" },
+        { label: "Términos del Uso", href: "/es/terms-of-services" },
       ],
     },
     products: {
@@ -1244,7 +1248,24 @@ const content = {
     },
     servicesArea: {
       title: "Ubicación",
-      areas: ["Ocoee", "Orlando", "Waterford Lakes", "St. Petersburg"],
+      areas: [
+        {
+          label: "Ocoee",
+          href: "https://book.squareup.com/appointments/8thjvgf0dvy73t/location/HT6A7Q5H5E2QW/services?buttonTextColor=000000&color=e9c277&locale=en&referrer=so",
+        },
+        {
+          label: "Orlando",
+          href: "https://app.squareup.com/appointments/buyer/widget/vj0fsnz60g8n1d/L1C7496RDCGTG",
+        },
+        {
+          label: "Waterford Lakes",
+          href: "https://app.squareup.com/appointments/book/8thjvgf0dvy73t/L57WNWAWEV0DT/start",
+        },
+        {
+          label: "St. Petersburg",
+          href: "https://book.squareup.com/appointments/8thjvgf0dvy73t/location/LEJXW75XFC9Z2/services?color=e9c277",
+        },
+      ],
     },
     aboutUs: {
       title: "Escríbenos",

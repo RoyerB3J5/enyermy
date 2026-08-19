@@ -27,7 +27,6 @@ export default function CarouselReview() {
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dimensions, setDimensions] = useState({ itemWidth: 0, gap: 0 });
-  const [visibleItems, setVisibleItems] = useState(3);
 
   const dragStart = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,21 +53,11 @@ export default function CarouselReview() {
     });
   }, []);
 
-  // Resize handler to measure container width and set responsive visibleItems
+  // Resize handler to re-measure item dimensions
   useEffect(() => {
     const handleResize = () => {
       // Temporarily disable transition during resize to avoid jarring adjustments
       setIsTransitioning(false);
-
-      const windowWidth = window.innerWidth;
-      if (windowWidth <= 620) {
-        setVisibleItems(1);
-      } else if (windowWidth <= 1024) {
-        setVisibleItems(2);
-      } else {
-        setVisibleItems(3);
-      }
-
       measureDimensions();
     };
 
@@ -107,7 +96,7 @@ export default function CarouselReview() {
   useEffect(() => {
     startAutoplay();
     return () => stopAutoplay();
-  }, [visibleItems, startAutoplay, stopAutoplay]);
+  }, [startAutoplay, stopAutoplay]);
 
   // Handle transition ends to perform seamless infinite loop jumps
   const handleTransitionEnd = () => {
@@ -200,135 +189,96 @@ export default function CarouselReview() {
   const currentLogicalIndex = (((currentIndex - N) % N) + N) % N;
 
   return (
-    <section className="container-full flex flex-col justify-center items-center py-20 lg:py-30 gap-8">
-      <div className="flex flex-col justify-center items-center gap-4 hidden md:block">
-        <div className="flex justify-center items-center gap-2 fade-up">
-          <div className="flex justify-center items-center gap-0.5">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Image
-                key={index}
-                src="/images/star-2.svg"
-                alt="star"
-                width={14}
-                height={14}
+    <section className="w-full bg-white py-10 md:py-20">
+      <div className="bg-[#F6F6F6] flex justify-center items-center w-full">
+        <div className="container-full flex flex-col justify-center items-center py-14 lg:py-20 gap-4">
+          <div className="flex flex-col justify-center items-center gap-4 block">
+            <div className="flex justify-center items-center gap-2 fade-up">
+              <div className="flex justify-center items-center gap-0.5">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Image
+                    key={index}
+                    src="/images/star-2.svg"
+                    alt="star"
+                    width={14}
+                    height={14}
+                  />
+                ))}
+              </div>
+              <p className="paragraph-x-small">{content.rated}</p>
+            </div>
+            <h2 className="text-[15px] md:text-[28px] font-normal leading-[120%] tracking-[-0.5px] text-center fade-up">
+              {content.title}
+            </h2>
+          </div>
+
+          <div
+            ref={containerRef}
+            className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none px-1 h-auto fade-up"
+            style={{ touchAction: "pan-y" }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onMouseLeave={handleMouseUpOrLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onDragStart={(e) => e.preventDefault()}
+          >
+            <div
+              className="flex items-stretch gap-6"
+              style={{
+                transform: `translate3d(${translateX}px, 0, 0)`,
+                transition: isTransitioning
+                  ? "transform 300ms ease-out"
+                  : "none",
+              }}
+              onTransitionEnd={handleTransitionEnd}
+            >
+              {expandedReviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="w-full shrink-0 flex flex-col justify-start items-center gap-4 p-0 md:p-6 text-primary"
+                >
+                  <h3 className="title-h4">{review.title}</h3>
+                  <p className="text-[15px] md:text-[28px] leading-[150%] font-normal text-center max-w-[894px]">
+                    {review.description}
+                  </p>
+                  <div className="flex flex-col justify-center items-start">
+                    <div className="flex justify-start items-center gap-1">
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <Image
+                          key={starIndex}
+                          src="/images/star-3.svg"
+                          alt="star"
+                          width={14}
+                          height={14}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-[15px] font-normal leading-[150%]">
+                    {review.name}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className=" pointer-events-auto flex items-center justify-center gap-4   ">
+            {content.reviews.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handleDotClick(i)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  i === currentLogicalIndex
+                    ? "bg-[#2D2D2D] scale-110"
+                    : "bg-[#2D2D2D]/20 hover:bg-[#2D2D2D]/50"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
               />
             ))}
           </div>
-          <p className="paragraph-x-small">{content.rated}</p>
         </div>
-        <h2 className="title-h4 fade-up">{content.title}</h2>
-      </div>
-
-      <div
-        ref={containerRef}
-        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none px-1 fade-up"
-        style={{ touchAction: "pan-y" }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUpOrLeave}
-        onMouseLeave={handleMouseUpOrLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onDragStart={(e) => e.preventDefault()}
-      >
-        <div
-          className="flex items-stretch gap-6"
-          style={{
-            transform: `translate3d(${translateX}px, 0, 0)`,
-            transition: isTransitioning ? "transform 300ms ease-out" : "none",
-          }}
-          onTransitionEnd={handleTransitionEnd}
-        >
-          {expandedReviews.map((review, index) => (
-            <div
-              key={index}
-              className="w-full min-[621px]:w-[calc((100%-24px)/2)] min-[1025px]:w-[calc((100%-48px)/3)] shrink-0 flex flex-col justify-start items-center md:items-start gap-4 p-0 md:p-6 border-0 md:border rounded-3xl border-[#E6E6E6] text-paragraph"
-            >
-              <div className="flex flex-col justify-center items-center gap-2 md:hidden">
-                <div
-                  className={`w-18 md:w-8 h-18 md:h-8 rounded-full flex justify-center items-center ${review.color}`}
-                >
-                  <p className="paragraph font-bold text-white">
-                    {review.name[0]}
-                  </p>
-                </div>
-                <div className="flex flex-col justify-center items-start">
-                  <div className="flex justify-start items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, starIndex) => (
-                      <Image
-                        key={starIndex}
-                        src="/images/star-3.svg"
-                        alt="star"
-                        width={14}
-                        height={14}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <h3 className="title-h5">{review.title}</h3>
-              <p className="paragraph font-normal grow w-full text-center md:text-start">
-                {review.description}
-              </p>
-              <p className="paragraph-x-small text-primary block md:hidden">
-                {review.name}
-              </p>
-              <div className="md:flex justify-start items-center gap-2 hidden">
-                <div
-                  className={`w-8 h-8 rounded-full flex justify-center items-center ${review.color}`}
-                >
-                  <p className="paragraph font-bold text-white">
-                    {review.name[0]}
-                  </p>
-                </div>
-                <div className="flex flex-col justify-center items-start">
-                  <div className="flex justify-start items-center gap-2">
-                    <p className="paragraph-x-small text-primary">
-                      {review.name}
-                    </p>
-                    <div className="flex justify-center items-center gap-0.5">
-                      <Image
-                        src="/images/shield.svg"
-                        alt="shield"
-                        width={16}
-                        height={16}
-                      />
-                      <p className="paragraph-small text-primary-light">
-                        Verified Customer
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-start items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, starIndex) => (
-                      <Image
-                        key={starIndex}
-                        src="/images/star-3.svg"
-                        alt="star"
-                        width={14}
-                        height={14}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className=" pointer-events-auto md:flex items-center justify-center gap-2 mt-6 md:mt-4 hidden ">
-        {content.reviews.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => handleDotClick(i)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              i === currentLogicalIndex
-                ? "bg-[#2D2D2D] scale-110"
-                : "bg-[#2D2D2D]/20 hover:bg-[#2D2D2D]/50"
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
       </div>
     </section>
   );

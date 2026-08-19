@@ -6,6 +6,7 @@ import FormPopup from "./FormPopup";
 
 const DISMISSAL_KEY = "enyermy-popup-dismissed";
 
+
 interface PopupProps {
   content?: {
     title: string;
@@ -17,7 +18,7 @@ export default function Popup({ content }: PopupProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem(DISMISSAL_KEY)) return;
+    if ( sessionStorage.getItem(DISMISSAL_KEY)) return;
 
     const openTimer = window.setTimeout(() => setIsOpen(true), 0);
     return () => window.clearTimeout(openTimer);
@@ -66,21 +67,23 @@ export default function Popup({ content }: PopupProps) {
       aria-labelledby="popup-title"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full max-w-[832px]">
-        <div className="w-full h-full relative overflow-hidden">
+        <div className="w-full h-auto md:h-full relative overflow-hidden order-2 md:order-1 aspect-343/257 md:aspect-auto">
           <img
             src="/images/popup.webp"
             alt="Popup"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover absolute md:relative object-center"
             decoding="async"
             loading="eager"
+            width={725}
+            height={414}
           />
         </div>
-        <div className="w-full h-auto bg-white p-6 flex flex-col gap-4 justify-center items-center relative ">
+        <div className="w-full h-full bg-white pt-6 px-6 pb-0 md:p-6 flex flex-col gap-2 md:gap-4 justify-center items-center relative order-1 md:order-2">
           <button
             type="button"
             onClick={handleClose}
             aria-label="Close popup"
-            className="absolute top-6 right-6 text-[#151515] hover:text-black transition-colors cursor-pointer"
+            className="absolute top-4 right-4 md:top-6 md:right-6 text-[#151515] hover:text-black transition-colors cursor-pointer text-[20px] font-medium z-10"
           >
             X
           </button>
@@ -90,18 +93,18 @@ export default function Popup({ content }: PopupProps) {
               alt="Enyermy Studio Pro"
               width={158}
               height={48}
-              className="w-[118px] h-auto"
+              className="w-[100px] md:w-[118px] md:h-auto"
               decoding="async"
               loading="eager"
             />
           </Link>
           <p
             id="popup-title"
-            className="text-[17px] font-medium leading-[150%] tracking-[-0.5px] uppercase text-start w-full"
+            className="text-[15px] md:text-[17px] font-medium leading-[150%] tracking-[-0.5px] uppercase text-start w-full"
           >
             {content.title}
           </p>
-          <p className="text-[17px] font-normal leading-[150%] tracking-[-0.5px] text-left">
+          <p className="text-[15px] md:text-[17px] font-normal leading-[150%] tracking-[-0.5px] text-left">
             {content.description}
           </p>
           <FormPopup />
