@@ -514,7 +514,13 @@ async function getBundleProductsUncached(
     .filter((p): p is CategoryProduct => p !== null);
 }
 
-export const getBundleProducts = getBundleProductsUncached;
+export const getBundleProducts = shouldCacheSquareCatalog
+  ? unstable_cache(
+      getBundleProductsUncached,
+      [...SQUARE_CATALOG_CACHE_KEY, "bundle-products"],
+      SQUARE_CATALOG_CACHE_OPTIONS,
+    )
+  : getBundleProductsUncached;
 
 //Para sacar el id de bundle
 export async function getBundleProductsTest(
