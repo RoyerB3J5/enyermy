@@ -24,6 +24,7 @@ const content = {
       { label: "Sobre Nosotros", href: "/about-us" },
       { label: "Blog", href: "/blog" },
     ],
+    return: "Regresar a Inicio",
     store: "Ubicaci\u00f3n Tienda",
   },
   main: {

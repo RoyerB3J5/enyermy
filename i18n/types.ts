@@ -8,6 +8,7 @@ export type HeaderContent = {
   nav: LocalizedLink[];
   navBundles: LocalizedLink[];
   store: string;
+  return: string;
 };
 
 export type FooterContent = {

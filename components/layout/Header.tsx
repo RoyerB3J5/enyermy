@@ -57,6 +57,10 @@ export default function Header({
   const dashboardHref =
     status === "authenticated" ? `/dashboard` : `/dashboard/login`;
 
+  const closeMobileMenu = () => {
+    setTimeout(() => setIsMobileMenuOpen(false), 300);
+  };
+
   useEffect(() => {
     const header = headerRef.current;
     const topBar = topBarRef.current;
@@ -333,30 +337,16 @@ export default function Header({
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-white text-primary flex-col justify-center h-[90%] z-[60] py-2 gap-4 transition-transform duration-300 ease-out w-full ${
-          isMobileMenuOpen ? "translate-y-0" : "-translate-y-[200%]"
+        className={`fixed top-0 right-0 bottom-0 lg:hidden flex items-start bg-white text-primary flex-col justify-start h-[100%] z-[60] py-6 gap-6 transition-transform duration-300 ease-out w-full ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-[200%]"
         }`}
         id="mobile-menu"
       >
-        <div className="w-full flex justify-between items-center relative px-4">
-          <Link
-            href={localizedPath("/")}
-            aria-label="Ir a la página principal"
-            title="Enerymy Studio Pro - Init"
-          >
-            <Image
-              src={logo}
-              alt="Logo Enyermy Studio Pro"
-              width={158}
-              height={48}
-              className="w-[158px] h-auto block"
-              priority
-            />
-          </Link>
+        <div className="w-full flex flex-col  justify-center items-start relative px-4 gap-6">
           <X
             width="24"
             height="24"
-            className="w-6 h-6 cursor-pointer text-primary"
+            className="w-6 h-6 cursor-pointer text-primary self-end"
             id="close-btn"
             aria-label="Cerrar menú de navegación"
             role="button"
@@ -368,46 +358,70 @@ export default function Header({
               }
             }}
           />
+          <Link
+            href={localizedPath("/")}
+            aria-label="Ir a la página principal"
+            title="Enerymy Studio Pro - Init"
+          >
+            <p className="text-[20px] text-primary leading-[127%] font-semibold tracking-[-0.5px]">
+              {isSalonExperience
+                ? "ENYERMY SALON EXPERIENCE"
+                : "ENYERMY HAIR CARE"}
+            </p>
+          </Link>
         </div>
 
-        <Link
-          href={localizedPath(isSalonExperience ? "/" : "/salon-experience")}
-          className="w-full flex justify-between items-center bg-primary px-4 py-5"
-        >
-          <p className="paragraph font-normal leading-[150%] text-white">
-            {isSalonExperience ? "Hair Care" : "Salon Experience"}
-          </p>
-          <div className="flex justify-center items-center bg-white rounded-full w-5 h-5">
-            <ChevronRight className="text-primary w-3.5 h-3.5" />
-          </div>
-        </Link>
-        <nav className="w-full px-4">
+        <nav className="w-full">
           <ul className="relative flex items-start flex-col justify-center w-full">
             {currentNav?.map((item, index) => {
               const itemPathWithoutHash = item.href.split("#")[0];
               const isActive = normalized === itemPathWithoutHash;
               return (
-                <li
+                <Link
                   key={index}
-                  className={`flex flex-col items-start justify-center group gap-3.5 px-0 w-full py-9 text-start border-t border-[#E7E7E7] text-primary ${isActive ? "bg-accent text-primary uppercase px-4" : ""}`}
+                  className={`flex flex-col items-start justify-center group gap-3.5 px-0 w-full py-6 text-start border-t border-[#E7E7E7] text-primary px-4 last:border-b ${isActive ? "bg-[#E7E7E7] text-primary uppercase " : ""}`}
+                  href={localizedPath(item.href)}
+                  onClick={closeMobileMenu}
                 >
                   <div className="w-full flex items-center justify-between">
-                    <Link
-                      href={localizedPath(item.href)}
-                      className="relative transition-colors duration-300 flex justify-center items-center"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <p className="font-paragraph font-semibold text-[15px] leading-[150%]">
+                    <div className="relative transition-colors duration-300 flex justify-center items-center">
+                      <p className="font-paragraph font-normal text-[17px] leading-[150%] tracking-[-0.5px]">
                         {item.label}
                       </p>
-                    </Link>
+                    </div>
                   </div>
-                </li>
+                </Link>
               );
             })}
           </ul>
         </nav>
-        <div className="flex justify-center items-center p-2 gap-2.5  ">
+        <a
+          className="flex w-full justify-between items-center px-4 pb-5"
+          href={localizedPath("/")}
+          onClick={closeMobileMenu}
+        >
+          <ChevronRight className="text-primary w-3.5 h-3.5 rotate-180" />
+          <p className="font-paragraph font-normal text-[16px] leading-[150%] tracking-[-0.5px]">
+            {content?.return}
+          </p>
+        </a>
+        <div className="w-full flex justify-center items-center px-4">
+          <Link
+            href={localizedPath(isSalonExperience ? "/" : "/salon-experience")}
+            onClick={closeMobileMenu}
+            className="w-full flex justify-between items-center bg-primary p-4 rounded-lg "
+          >
+            <p className="text-[16px] leading-[25.5px] font-normal text-white tracking-[-0.5px]">
+              {locale == "en" ? "Go to" : "Ir a"}{" "}
+              {isSalonExperience ? "Hair Care" : "Salon Experience"}
+            </p>
+            <div className="flex justify-center items-center bg-white rounded-full w-5 h-5">
+              <ChevronRight className="text-primary w-3.5 h-3.5" />
+            </div>
+          </Link>
+        </div>
+
+        <div className="flex justify-center items-center px-4 gap-2.5 pt-3">
           <MapPin
             className={`w-4 h-auto block ${headerClasses.includes("text-white") ? "text-primary lg:text-white" : "text-primary"}`}
           />
