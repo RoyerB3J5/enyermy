@@ -7,11 +7,26 @@ import CarouselReview from "@/components/sections/CarouselReview";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getContent } from "@/i18n/content";
+import { buildPageMetadata, toLocaleOrDefault } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Products | Enyermy Studio Pro",
-  description: "Complete catalog of products",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildPageMetadata({
+    locale: toLocaleOrDefault(locale),
+    path: "products",
+    title: {
+      en: "Professional Hair Products Catalog",
+      es: "Catálogo de Productos Capilares Profesionales",
+    },
+    description: {
+      en: "Browse Enyermy Studio Pro's complete catalog of professional hair care products: shampoos, treatments, masks, serums, and bundles for all hair types.",
+      es: "Explora el catálogo completo de productos capilares profesionales de Enyermy Studio Pro: champús, tratamientos, mascarillas, sérums y bundles para todo tipo de cabello.",
+    },
+  });
+}
 type AllProductsContent =
   (typeof import("@/content/en"))["default"]["productsAll"];
 

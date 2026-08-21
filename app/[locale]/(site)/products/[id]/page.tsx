@@ -8,16 +8,46 @@ import { getRecommendedProducts } from "@/lib/catalog";
 import { getProcessedProductById } from "@/lib/productById";
 
 import type { Metadata } from "next";
+import { buildPageMetadata, stripHtml } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export const metadata: Metadata = {
-  title: "Product | Enyermy Studio Pro",
-  description:
-    "Individual product page with detailed information and recommendations",
-};
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { id } = await params;
+  const idTrue = id.split("-").pop() || id;
+  const contentProduct = await getProcessedProductById(idTrue);
+
+  if (!contentProduct) {
+    return buildPageMetadata({
+      locale: "en",
+      path: `products/${id}`,
+      title: { en: "Product Not Found", es: "Producto No Encontrado" },
+      description: { en: "The requested product was not found.", es: "El producto solicitado no fue encontrado." },
+      noIndex: true,
+    });
+  }
+
+  const productTitle = contentProduct.nombre;
+  const productDescription = stripHtml(contentProduct.descripcion || contentProduct.description || "");
+
+  return buildPageMetadata({
+    locale: "en",
+    path: `products/${id}`,
+    title: {
+      en: `${productTitle} | Enyermy Studio Pro`,
+      es: `${productTitle} | Enyermy Studio Pro`,
+    },
+    description: {
+      en: productDescription.slice(0, 160) || `Discover ${productTitle} - professional hair care product from Enyermy Studio Pro.`,
+      es: productDescription.slice(0, 160) || `Descubre ${productTitle} - producto capilar profesional de Enyermy Studio Pro.`,
+    },
+    image: contentProduct.imagenes?.[0] || "/images/portada.jpg",
+  });
+}
 
 export default async function ProductsItem({ params }: Props) {
   const { id } = await params;

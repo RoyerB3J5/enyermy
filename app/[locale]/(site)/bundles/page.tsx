@@ -5,6 +5,8 @@ import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getBundleProducts, getBundleProductsTest } from "@/lib/catalog";
+import type { Metadata } from "next";
+import { buildPageMetadata, toLocaleOrDefault } from "@/lib/seo";
 
 type BundleContent = (typeof import("@/content/en"))["default"]["bundles"];
 const itemsBundles = [
@@ -54,6 +56,26 @@ const itemsBundles = [
     precio: "119.99",
   },
 ];
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildPageMetadata({
+    locale: toLocaleOrDefault(locale),
+    path: "bundles",
+    title: {
+      en: "Hair Care Bundles & Kits",
+      es: "Bundles y Kits de Cuidado Capilar",
+    },
+    description: {
+      en: "Curated hair care bundles for every need: blonde maintenance, damage repair, curl definition. Professional kits with shampoo, mask, serum, and more.",
+      es: "Bundles de cuidado capilar curados para cada necesidad: mantenimiento rubio, reparación de daños, definición de rizos. Kits profesionales con champú, mascarilla, sérum y más.",
+    },
+  });
+}
+
 export default async function Bundles({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
 

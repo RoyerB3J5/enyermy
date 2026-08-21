@@ -1,7 +1,30 @@
 import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { buildPageMetadata, toLocaleOrDefault } from "@/lib/seo";
+
 type PrivacyContent = (typeof import("@/content/en"))["default"]["privacy"];
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildPageMetadata({
+    locale: toLocaleOrDefault(locale),
+    path: "privacy-policy",
+    title: {
+      en: "Privacy Policy | Enyermy Studio Pro",
+      es: "Política de Privacidad | Enyermy Studio Pro",
+    },
+    description: {
+      en: "Enyermy Studio Pro privacy policy. Learn how we collect, use, and protect your personal information.",
+      es: "Política de privacidad de Enyermy Studio Pro. Aprende cómo recopilamos, usamos y protegemos tu información personal.",
+    },
+  });
+}
+
 export default async function page({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
 

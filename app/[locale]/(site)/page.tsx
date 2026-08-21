@@ -10,6 +10,8 @@ import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { getBestSellerProductCardProps } from "@/lib/bestSeller";
+import type { Metadata } from "next";
+import { buildPageMetadata, toLocaleOrDefault } from "@/lib/seo";
 
 type MainContent = (typeof import("@/content/en"))["default"]["main"];
 
@@ -51,6 +53,26 @@ const contentProfessionals = [
     href: "/en/products/volume-reducer-the-keratin-2WU65JT7S5VNIBEONMB5EMGO",
   },
 ];
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildPageMetadata({
+    locale: toLocaleOrDefault(locale),
+    path: "",
+    title: {
+      en: "Professional Hair Care & Salon Products",
+      es: "Cuidado Capilar Profesional y Productos de Salón",
+    },
+    description: {
+      en: "Discover premium haircare, salon services, and curated bundles from Enyermy Studio Pro.",
+      es: "Descubre cuidado capilar premium, servicios de salón y bundles curados de Enyermy Studio Pro.",
+    },
+  });
+}
+
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   const bestSellersProducts = await getBestSellerProductCardProps();

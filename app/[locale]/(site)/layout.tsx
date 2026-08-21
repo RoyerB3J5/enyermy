@@ -13,6 +13,7 @@ import { getAllProducts } from "@/lib/catalog";
 import { Suspense } from "react";
 import ChatbotWidget from "@/components/layout/Chatbot";
 import Popup from "@/components/sections/Popup";
+import { SITE_URL } from "@/lib/seo";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -25,9 +26,12 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://enyermyhairstudio.com"),
+  metadataBase: new URL(SITE_URL),
 
-  title: "Enyermy Studio Pro",
+  title: {
+    default: "Enyermy Studio Pro",
+    template: "%s | Enyermy Studio Pro",
+  },
   description:
     "Enyermy Studio Pro offers professional hair care, salon services, and curated bundles designed to strengthen, hydrate, repair, and enhance every hair type.",
 
@@ -48,19 +52,11 @@ export const metadata: Metadata = {
     follow: true,
   },
 
-  alternates: {
-    canonical: "/",
-    languages: {
-      en: "/en",
-      es: "/es",
-    },
-  },
-
   openGraph: {
     title: "Enyermy Studio Pro",
     description:
       "Enyermy Studio Pro offers professional hair care, salon services, and curated bundles designed to strengthen, hydrate, repair, and enhance every hair type.",
-    url: "https://enyermyhairstudio.com",
+    url: SITE_URL,
     siteName: "Enyermy Studio Pro",
     images: [
       {

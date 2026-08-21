@@ -8,9 +8,30 @@ import RecommendationServices from "@/components/sections/RecommendationServices
 import { getContent } from "@/i18n/content";
 import { hasLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { buildPageMetadata, toLocaleOrDefault } from "@/lib/seo";
 
 type SalonExperienceContent =
   (typeof import("@/content/en"))["default"]["salonExperience"];
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildPageMetadata({
+    locale: toLocaleOrDefault(locale),
+    path: "salon-experience",
+    title: {
+      en: "Salon Experience & Professional Services",
+      es: "Experiencia de Salón y Servicios Profesionales",
+    },
+    description: {
+      en: "Discover Enyermy Studio Pro's salon experience, professional hair services, transformations, and expert stylists in Ocoee, FL.",
+      es: "Descubre la experiencia de salón de Enyermy Studio Pro, servicios capilares profesionales, transformaciones y estilistas expertos en Ocoee, FL.",
+    },
+  });
+}
 
 export default async function SalonExperience({
   params,
