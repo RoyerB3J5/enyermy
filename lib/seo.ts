@@ -53,7 +53,10 @@ function languageAlternates(path: string): Record<string, string> {
 }
 
 export function stripHtml(text: string): string {
-  return text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return text
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function buildPageMetadata({
