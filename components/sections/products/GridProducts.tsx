@@ -252,7 +252,7 @@ export default function GridProducts({
           );
         })}
 
-        {filteredProducts.slice(6, 9).map((product, index) => {
+        {filteredProducts.slice(6, 10).map((product, index) => {
           if (!hasFirstImageSource(product)) return null;
           return (
             <ProductCardGrid
@@ -264,7 +264,7 @@ export default function GridProducts({
           );
         })}
         <InfoProductCard information={productContent[2]} />
-        {filteredProducts.slice(9).map((product, index) => {
+        {filteredProducts.slice(10).map((product, index) => {
           if (!hasFirstImageSource(product)) return null;
           return (
             <ProductCardGrid

@@ -58,6 +58,7 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]">) {
           )}
         </code>
       </pre>*/}
+
       <GridProducts
         content={allProducts}
         contentFixed={content.products}
