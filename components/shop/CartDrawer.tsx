@@ -74,12 +74,15 @@ export default function CartDrawer() {
 
   // NUEVO: intercepta el clic si no hay sesión
   async function handlePagarClick() {
-    if (status === "unauthenticated") {
+    {
+      /*if (status === "unauthenticated") {
       await signIn("google", {
         callbackUrl: `${window.location.pathname}?autopagar=1`,
       });
       return;
+    } */
     }
+
     await handleCheckout();
   }
   return (
